@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Menu Item Of SMS -->
+        <menuitem id="menu_tsms" name="SMS" sequence="1"/>
+        <!--    web_icon="school,static/description/ems.png"-->
+        <!-- TO DO: Customer Menu in Sports Management System-->
+        <menuitem id="sports_management_customer_registration_inher" name="PARENTS" action="base.action_partner_form"
+                  parent="techbot_sports_management_system.menu_tsms" sequence="2"/>
+<!--       Menu Item -->
+        <menuitem id="sports_management_student_info" name="Students" action="techbot_sports_management_system.action_student_student_form_1"
+                  parent="techbot_sports_management_system.menu_tsms" sequence="3"/>
+    </data>
+</odoo>
