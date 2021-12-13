@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- Action Of Form, Tree & Kanban Views Of SESSION -->
+    <record model="ir.actions.act_window" id="session_list_action">
+        <field name="name">Sessions</field>
+        <field name="res_model">sports.management.session</field>
+        <field name="view_mode">tree,form,calendar,gantt,graph,kanban</field>
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Session in your address book
+            </p>
+<!--            <p>-->
+<!--                Odoo helps you track all activities related to your contacts.-->
+<!--            </p>-->
+
+        </field>
+    </record>
+
+
+
+    <!-- Action Of Form, Tree & Kanban Views Of Student Details -->
+    <record id="action_student_student_form_1" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.details</field>
+        <field name="view_id" ref=""/>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Contact in your address book
+            </p>
+            <p>
+                Odoo helps you track all activities related to your contacts.
+            </p>
+
+        </field>
+    </record>
+
+
+    <!--        Action For Sports Activity Typ  model name sports.activity.type  -->
+    <record id="sports_activity_type_action" model="ir.actions.act_window">
+        <field name="name">Sports Activity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sports.activity.type</field>
+        <field name="view_mode">tree,form</field>
+        <!--         kanban  calendar,pivot,graph,gantt,activity,map-->
+        <!--            <field name="context">{}</field>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create A Sports Activity
+            </p>
+            <p>
+
+            </p>
+        </field>
+    </record>
+
+    <!--        Action For Location Type   -->
+    <record id="sports_location_type_action" model="ir.actions.act_window">
+        <field name="name">Activity Locations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sports.location</field>
+        <field name="view_mode">tree,form</field>
+        <!--           calendar,pivot,graph,gantt,activity,map-->
+        <!--            <field name="context">{}</field>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create A Sports Activity
+            </p>
+            <p>
+
+            </p>
+        </field>
+    </record>
+</odoo>
+ <!--    <record id="action_sports_management_inher" model="ir.actions.act_window">-->
+    <!--        <field name="name">Subscription</field>-->
+    <!--&lt;!&ndash;        <field name="domain">[('state', '=', 'done')]</field>&ndash;&gt;-->
+    <!--&lt;!&ndash;        <field name="context">{'search_default_done_student':1}</field>&ndash;&gt;-->
+    <!--        <field name="res_model">sports.management</field>-->
+    <!--         <field name="view_id" ref="" />-->
+    <!--&lt;!&ndash;        <field name="search_view_id" ref="view_student_student_search_1" />&ndash;&gt;-->
+    <!--        <field name="view_mode">kanban,tree,form</field>-->
+    <!--        <field name="help" type="html">-->
+    <!--                <p class="o_view_nocontent_smiling_face">-->
+    <!--                    Create a Contact in your address book-->
+    <!--              </p><p>-->
+    <!--                Odoo helps you track all activities related to your contacts.-->
+    <!--              </p>-->
+
+    <!--            </field>-->
+    <!--    </record>-->
