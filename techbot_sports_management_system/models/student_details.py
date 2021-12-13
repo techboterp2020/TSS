@@ -1,10 +1,25 @@
 # -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Author: TechbotErp(<https://techboterp.com/>)
+#    you can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE , Version v1.0
 
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
+#    If not, see <https://www.gnu.org/licenses/>.
+#
+##############################################################################
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 # import logging
-
+from random import randint
 from datetime import date, datetime, timedelta, time
 
 
@@ -34,6 +49,7 @@ class StudentDetails(models.Model):
     def _compute_student_age(self):
         """ Method to calculate student age """
         current_dt = fields.Date.today()
+        required_age = 4
         for rec in self:
             rec.age = 0
             if rec.dob and rec.dob <= current_dt:
@@ -42,31 +58,49 @@ class StudentDetails(models.Model):
                 # Age should be greater than 0
                 if age_calc > 0.0:
                     rec.age = age_calc
-            #
-            # else:
-            #     raise ValidationError(_('Please Enter the Proper Date of Birth.'))
+        #   Method to check age should be greater than 4
+                if age_calc < required_age:
+                    raise ValidationError(_(
+                        "Age of student should be greater than %s years!" % ( \
+                            required_age)))
 
-    # @api.onchange('dob')
+    # @api.constrains('date_of_birth')
+    # def check_age(self):
+    #     '''Method to check age should be greater than 6'''
+    #     current_dt = fields.Date.today()
+    #     if self.dob:
+    #         start = self.dob
+    #         age_calc = ((current_dt - start).days / 365)
+    #         # Check if age less than required age
+    #         if age_calc < self.school_id.required_age:
+    #             raise ValidationError(_(
+    #                 "Age of student should be greater than %s years!" % ( \self.school_id.required_age)))
+    # # @api.onchange('dob')
     # def _calculate_age(self):
     #     for rec in self:
     #         today = date.today()
     #         rec.age = int((today - rec.dob).days/365)
 
+    def _get_default_color(self):
+        return randint(1, 11)
+
     # student_id = fields.Char('ID')
+    color = fields.Integer(string='Color', default=_get_default_color)
     student_name = fields.Char(string='Student Name')
     parent_id = fields.Many2one('res.partner', string='Parent Name', index=True)
     # domain=[('active', '=', True)]
-    student_image = fields.Image('Image')
+    relationship = fields.Many2one('parent.relation')
+    student_image = fields.Image('Image', compute_sudo=True)
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], default='male',
                               help='Select student gender')
     # states={'done': [('readonly', True)]},
 
     dob = fields.Date("DOB")
     #
-    age = fields.Integer(compute='_compute_student_age', string='Age',
-                         readonly=True, help='Enter student age')
+    age = fields.Char(compute='_compute_student_age', string='Age',
+                      readonly=True, help='Enter student age')
     mob = fields.Char('Mobile', compute='onchange_parent_id')
-    mob1 = fields.Char('Mobile', compute='onchange_parent_id')
+    mob1 = fields.Char('Phone', compute='onchange_parent_id')
     email = fields.Char('Email', compute='onchange_parent_id')
 
     street = fields.Char('Street')
@@ -81,10 +115,61 @@ class StudentDetails(models.Model):
     contact_phone = fields.Char()
     contact_mobile = fields.Char()
 
-    blood_group = fields.Char('Blood Group', help='Enter student blood group')
+    blood_group = fields.Many2one('blood.group', help='Enter student blood group')
     student_height = fields.Float('Height', help="Height in C.M")
     student_weight = fields.Float('Weight', help="Weight in K.G")
-    eye = fields.Boolean('Eyes', help='Eye for medical info')
-    ear = fields.Boolean('Ears', help='Eye for medical info')
-    remark = fields.Text('Remark',  help='Remark can be entered if any')
+
+    remark = fields.Text('Remark', help='Remark can be entered if any')
     #  states={'done': [('readonly', True)]},
+    # employee_id = fields.Many2one('hr.employee')
+    trainer_id = fields.Many2many('hr.employee')
+
+    comments = fields.Char()
+
+    allergy = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        default='no', required=True,
+        help="Does the Student Have any Allergy or Sensitivity to the medication/foods..etc, Please mention it if any.")
+    cardiac_disease = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                       default='no', required=True,
+                                       help="Does the Student Suffer from any Cardiac Problem,Please mention it if any.")
+    diabetic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                default='no', required=True,
+                                help=" Is the Student Diabetic ,Please mention it if any")
+    hyper_tension = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                     default='no', required=True,
+                                     help=" Does the Student any Hypertension ,Please mention it if any")
+
+    asthmatic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                 default='no', required=True,
+                                 help=" Is the Student Asthmatic ,Please mention it if any")
+    renal_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                     default='no', required=True,
+                                     help=" Does the Student Suffer from any renal problem,Please mention it if any")
+    urinary_infection = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                         default='no', required=True,
+                                         help=" Did the Student Suffer previously from urinary tract infection")
+
+    epilepsy = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                default='no', required=True,
+                                help=" Does the Student Suffer from epilepsy/seizures ,Please mention it if any")
+    g6pd = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                            default='no', required=True,
+                            help=" Is the Student Suffering from G6PD deficiency,Please mention it if any")
+
+    chronic_blood = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                     default='no', required=True,
+                                     help=" Does the Student have any chronic blood disease (like Thalassemia,Anemia,Hemophilia..etc, Please mention it if any")
+
+    epistaxis = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                 default='no', required=True,
+                                 help=" Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding) ")
+    skin_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                    default='no', required=True,
+                                    help=" Does the Student have any skin problems, Please mention it if any")
+    eye = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                           default='no', required=True,
+                           help=" Does the Student have any eye(opthalmology)problems (Visual Disturbances), Please mention it if any")
+    previous_surgical = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                         default='no', required=True,
+                                         help=" Have any Surgical Procedure done, Please mention it if any")

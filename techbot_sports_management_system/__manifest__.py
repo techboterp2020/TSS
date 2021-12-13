@@ -14,6 +14,7 @@
     # 'static/description/EMS.jpg'
     'depends': ['base', 'hr', 'crm', 'account'],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         # 'report/fleet_report.xml',
         # 'report/fleet_report_templates.xml',
@@ -24,10 +25,11 @@
         'views/sports_management_views.xml',
         'views/student_details_view.xml',
         'views/res_partner_view.xml',
-
+        'views/faculty_details_views.xml',
         'views/sports_management_action_views.xml',
-
         'views/sports_management_menu_views.xml',
+        'views/sports_location_view.xml',
+        'views/sports_session_view.xml'
 
         # 'views/fleet_view.xml',
 

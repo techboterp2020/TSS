@@ -5,12 +5,16 @@
 
 
 
-    <!--  Inherit Fleet Form View to Modify its Super Button & Field Rearrangements -->
-<!--    <record model="ir.ui.view" id="sale_subscription_form_view_inherit">-->
-<!--        <field name="name">sale.subscription.form.view</field>-->
-<!--        <field name="model">sale.subscription</field>-->
-<!--        <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>-->
+<!--      Inherit CRM Form View to Modify its Super Button & Field Rearrangements -->
+<!--    <record model="ir.ui.view" id="sports_management_crm_form_view_inherit">-->
+<!--        <field name="name">sports.management.form.view</field>-->
+<!--        <field name="model">sports.management</field>-->
+<!--        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>-->
+
 <!--        <field name="arch" type="xml">-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>
 <!--            <button name="action_accept_driver_change"  position="before">-->
 <!--                <button name="action_email_send_button_fun" string="Send By mail"  type="object" groups="base.group_user" class="btn-primary"/>-->
 <!--            </button>-->
@@ -284,4 +288,4 @@
 
 <!--        </field>-->
 <!--    </record>-->
-</odoo>
+
