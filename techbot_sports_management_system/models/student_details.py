@@ -63,7 +63,6 @@ class StudentDetails(models.Model):
                     raise ValidationError(_(
                         "Age of student should be greater than %s years!" % ( \
                             required_age)))
-
     # @api.constrains('date_of_birth')
     # def check_age(self):
     #     '''Method to check age should be greater than 6'''
