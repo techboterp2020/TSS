@@ -55,14 +55,18 @@
                         <page string="General Info" name="general_info" autofocus="autofocus">
                             <group string="General Information">
                                 <group>
-                                    <field name="dob" widget="date" placeholder="Birthdate"/>
                                     <field name="gender" placeholder="Gender" required="1"/>
-                                    <field name="age"/>
+                                    <field name="nationality_id"/>
+                                    <field name="blood_group"/>
+
                                 </group>
                                 <group>
+                                    <field name="dob" widget="date" placeholder="Birthdate"/>
+
+                                    <field name="age"/>
                                     <field name="student_height"/>
                                     <field name="student_weight"/>
-                                    <field name="blood_group"/>
+
                                     <!-- <field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>-->
 
                                 </group>
@@ -86,16 +90,16 @@
                             <field name="trainer_id" mode="kanban"/>
                         </page>
 
-                        <page string="Certificates Info" name="Certificates">
+                        <page string="Class/Lesson" name="Class">
                             <group>
                                 <group>
-                                    <field name="dob" widget="date" placeholder="Birthdate"/>
-                                    <field name="gender" placeholder="Gender" required="1"/>
-                                    <field name="age"/>
+                                    <field name="class_id" />
+<!--                                    <field name="gender" placeholder="Gender" required="1"/>-->
+<!--                                    <field name="age"/>-->
                                 </group>
                                 <group>
-                                    <field name="student_height"/>
-                                    <field name="student_weight"/>
+<!--                                    <field name="student_height"/>-->
+<!--                                    <field name="student_weight"/>-->
 
                                     <!--<field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>-->
 

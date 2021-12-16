@@ -23,8 +23,8 @@ from datetime import datetime,date,timedelta
 
 # _logger = logging.getLogger(__name__)
 
-class CrmLead(models.Model):
-    _inherit = 'crm.lead'
+# class CrmLead(models.Model):
+#     _inherit = 'crm.lead'
 
 class SportManagement(models.Model):
     _name = 'sports.management'
@@ -79,13 +79,7 @@ class Session(models.Model):
             }
         if self.seats < len(self.attendee_ids):
             raise ValidationError(_("Too many attendees Please Increase seats or remove excess attendees"))
-    #         return {
-    #             'warning': {
-    #                 'title': "Too many attendees",
-    #                 'message': "Increase seats or remove excess attendees",
-    #             },
-    #         }
-    # #      raise ValidationError(_('The End Date cannot be earlier than the Start Date.'))
+
 
 
 

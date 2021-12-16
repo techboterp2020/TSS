@@ -52,7 +52,7 @@ class StudentDetails(models.Model):
         required_age = 4
         for rec in self:
             rec.age = 0
-            if rec.dob and rec.dob <= current_dt:
+            if rec.dob and rec.dob < current_dt:
                 start = rec.dob
                 age_calc = int((current_dt - start).days / 365)
                 # Age should be greater than 0
@@ -63,6 +63,14 @@ class StudentDetails(models.Model):
                     raise ValidationError(_(
                         "Age of student should be greater than %s years!" % ( \
                             required_age)))
+
+    @api.constrains('current_dt', 'dob')
+    def _check_ending_date(self):
+        """ Method to Restrict DOB should not be Greater than Current Date """
+        current_dt = fields.Date.today()
+        for rec in self:
+            if current_dt < rec.dob:
+                raise ValidationError(_('The DOB Date cannot be Greater than the Current Date.'))
 
     # @api.constrains('date_of_birth')
     # def check_age(self):
@@ -94,6 +102,8 @@ class StudentDetails(models.Model):
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], default='male',
                               help='Select student gender')
     # states={'done': [('readonly', True)]},
+    nationality_id = fields.Many2one('res.country')
+    class_id = fields.Many2one('student.class')
 
     dob = fields.Date("DOB")
     #

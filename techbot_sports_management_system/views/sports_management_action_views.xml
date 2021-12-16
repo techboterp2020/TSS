@@ -2,7 +2,7 @@
 <odoo>
 
 
-    <!-- Action Of Form, Tree & Kanban Views Of SESSION -->
+    <!-- Action for SESSION -->
     <record model="ir.actions.act_window" id="session_list_action">
         <field name="name">Sessions</field>
         <field name="res_model">sports.management.session</field>
@@ -18,6 +18,24 @@
 
         </field>
     </record>
+
+        <!-- Action for Student Class -->
+    <record model="ir.actions.act_window" id="student_class_list_action">
+        <field name="name">Class</field>
+        <field name="res_model">student.class</field>
+        <field name="view_mode">tree,form,kanban</field>
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Class in your address book
+            </p>
+<!--            <p>-->
+<!--                Odoo helps you track all activities related to your contacts.-->
+<!--            </p>-->
+
+        </field>
+    </record>
+
 
 
 
