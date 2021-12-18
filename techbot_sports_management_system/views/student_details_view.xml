@@ -6,10 +6,48 @@
         <field name="model">student.details</field>
         <field name="arch" type="xml">
             <form string="Student Information">
+
+                 <header>
+                     <button  string='Create Invoice' type="object" class="oe_highlight"  icon="fa-arrow-right" name="action_view_partner_invoices"
+                        context="{'default_partner_id': active_id}"/>
+<!--                     <button name="create_invoice_button_fun" string="Crate Invoice" type="object" -->
+<!--                               />-->
+<!--                    <button name="confirm" string="Confirm" states="draft" type="object"-->
+<!--                            class="oe_highlight"/>-->
+<!--             groups="hr.group_hr_user"       <button name="calculation_done" string="Calculate" states="draft" type="object"-->
+<!--                            attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight"-->
+<!--                            groups="hr.group_hr_user"/>-->
+<!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
+<!--                            groups="hr.group_hr_user"/>-->
+<!--                    <button name="waiting" string="Approve" states="confirm" type="object"-->
+<!--                            groups="hr.group_hr_user" class="oe_highlight"/>-->
+<!--                    <button name="approve" string="Approve" states="waiting" type="object"-->
+<!--                            groups="hr.group_hr_user" class="oe_highlight"/>-->
+<!--                    <button name="refuse_loan" string="Refuse" states="open,confirm" groups="hr.group_hr_user,account.group_account_manager"-->
+<!--                            type="object"/>-->
+<!--                    <button name="done" string="Done" states="approve" groups="hr.group_hr_user,account.group_account_manager" type="object"-->
+<!--                            class="oe_highlight"/>-->
+                    <button name="draft" string="Reset to Draft"  groups="base.group_user"
+                            type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <sheet name="student_info" string="Student Details">
-                    <div class="oe_button_box" name="button_box"/>
+
+                    <div name="button_box"  class="oe_button_box">
+
+                        <button class="oe_stat_button"  string="Invoiced" type="object" name="get_invoice_details" icon="fa-file-invoice">
+<!--                            <field string="Invoice" name="invoice_count" widget="statinfo"/>-->
+                        </button>
+                    </div>
+
                     <!--  <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
                     <field name="student_image" widget="image" class="oe_avatar"/>
+
+
+<!--                    <div class="oe_title">-->
+<!--                        <label for="name" class="oe_edit_only"/>-->
+<!--                        <h3><field name="name" class="oe_inline" readonly="1"/></h3>-->
+<!--                    </div>-->
 
                     <div class="oe_title mb24">
                         <h1>
@@ -55,14 +93,18 @@
                         <page string="General Info" name="general_info" autofocus="autofocus">
                             <group string="General Information">
                                 <group>
-                                    <field name="dob" widget="date" placeholder="Birthdate"/>
                                     <field name="gender" placeholder="Gender" required="1"/>
-                                    <field name="age"/>
+                                    <field name="nationality_id"/>
+                                    <field name="blood_group"/>
+
                                 </group>
                                 <group>
+                                    <field name="dob" widget="date" placeholder="Birthdate"/>
+
+                                    <field name="age"/>
                                     <field name="student_height"/>
                                     <field name="student_weight"/>
-                                    <field name="blood_group"/>
+
                                     <!-- <field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>-->
 
                                 </group>
@@ -84,18 +126,20 @@
 
                         <page string="Trainer Info" name="trainer">
                             <field name="trainer_id" mode="kanban"/>
+<!--                            <field name="trainer_id2" mode="kanban"/>-->
+
                         </page>
 
-                        <page string="Certificates Info" name="Certificates">
+                        <page string="Class/Lesson" name="Class">
                             <group>
                                 <group>
-                                    <field name="dob" widget="date" placeholder="Birthdate"/>
-                                    <field name="gender" placeholder="Gender" required="1"/>
-                                    <field name="age"/>
+                                    <field name="class_id" />
+<!--                                    <field name="gender" placeholder="Gender" required="1"/>-->
+<!--                                    <field name="age"/>-->
                                 </group>
                                 <group>
-                                    <field name="student_height"/>
-                                    <field name="student_weight"/>
+<!--                                    <field name="student_height"/>-->
+<!--                                    <field name="student_weight"/>-->
 
                                     <!--<field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>-->
 

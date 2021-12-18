@@ -19,3 +19,4 @@ from . import res_partner
 from . import student_details
 from . import sprots_management
 from . import faculty_details
+from . import student_class
