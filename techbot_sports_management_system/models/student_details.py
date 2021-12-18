@@ -32,6 +32,7 @@ class StudentDetails(models.Model):
 
     # invoice_count = fields.Integer(compute='_compute_invoice_count', string='Child qty')
 
+
     def _get_default_color(self):
         return randint(1, 11)
 
