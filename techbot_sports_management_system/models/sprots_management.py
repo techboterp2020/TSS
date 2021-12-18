@@ -59,7 +59,6 @@ class Session(models.Model):
 
     color = fields.Integer()
 
-
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
         for r in self:

@@ -30,11 +30,19 @@ class StudentClass(models.Model):
 
     name = fields.Char("Name", required=True,
                        help='Parent relation with student')
+    state = fields.Selection([('draft', 'Draft'),
+                              ('started', 'Started'),
+                              ('completed', 'Completed'),
+                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft', tracking=True)
     start_date = fields.Date('From Date', default=fields.Date.today())
-    from_to = fields.Date('To', required="1")
+    from_to = fields.Date('To')
     # trainer_id = fields.Many2one('hr.employee', string='Instructor')
-    trainer_id = fields.Many2many('hr.employee', string='Instructor')
+    activity_id = fields.Many2one('sports.activity.type', 'Activity')
+    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True)
+    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True)
     location_id = fields.Many2one('sports.location')
+    repeat = fields.Selection([('daily', 'Daily'), ('weekly', 'Weekly'), ('month', 'Month')], string='Repeats',
+                              required=True, default='month', tracking=True)
 
     available_seat = fields.Float(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats",  compute='_taken_seats')
@@ -43,6 +51,21 @@ class StudentClass(models.Model):
     # trainer_ids = fields.One2many('student.details',  'trainer_id', string='Instructor')
 
     # students_ids = fields.One2many('student.student', 'class_id')
+    def draft(self):
+        self.ensure_one()
+        self.state = 'draft'
+
+    def started(self):
+        self.ensure_one()
+        self.state = 'started'
+
+    def done(self):
+        self.ensure_one()
+        self.state = 'completed'
+
+    def cancel(self):
+        self.ensure_one()
+        self.state = 'cancel'
 
     @api.constrains('from_date', 'from_to')
     def _check_ending_date(self):
@@ -94,40 +117,7 @@ class StudentClass(models.Model):
             raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
 
 
-# class ResPartner(models.Model):
-#     _inherit = 'res.partner'
-#
-#     child_count = fields.Integer(compute='_compute_child_count', string='Child qty')
-#
-#     # Fetch Student Details model
-#     def get_child_details(self):
-#         """
-#         Return an action that display Student records related for the given partners.
-#         """
-#         child_obj = self.env['student.details']
-#         child_ids = child_obj.search([('parent_id', '=', self.id)]).mapped('id')
-#         return {
-#             'domain': [('id', 'in', child_ids)],
-#             'name': _('Children'),
-#             'view_type': 'kanban',
-#             'view_mode': 'kanban,tree,form',
-#             'res_model': 'student.details',
-#             'view_id': False,
-#             'context': {'default_parent_id': self.id},
-#             'type': 'ir.actions.act_window'
-#         }
-#
-#     # COUNT THE STUDENT/CHILD W.R.T PARENT
-#     def _compute_child_count(self):
-#         """
-#         Override original method to
-#         """
-#         child_obj = self.env['student.details']
-#         for partner in self:
-#             partner.child_count = child_obj.search_count([('parent_id', '=', partner.id)])
-#             _logger.info("partner.child_count %s", partner.child_count)
-#
-#
+
 
 
 

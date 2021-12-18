@@ -14,6 +14,7 @@
 #    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
 #    If not, see <https://www.gnu.org/licenses/>.
 #
+
 ##############################################################################
 
 from odoo import _, api, fields, models
@@ -30,8 +31,54 @@ class StudentDetails(models.Model):
     _description = "Children Details based on Parents"
     _rec_name = "student_name"
 
+    # invoice_count = fields.Integer(compute='_compute_invoice_count', string='Child qty')
+
+    def get_invoice_details(self):
+        print("**************************** hfhgg Paraent")
+
+    def make_invoices(self):
+        for rec in self:
+            invoice = self.env['account.move'].create({
+                # 'move_type': 'out_invoice',
+                'partner_id': rec.parent_id.id,
+                # 'payment_reference': 'invoice to client',
+                'invoice_line_ids': [(0, 0, {
+                    'product_id': self.env['product.product'].create({'name': 'Session'}),
+                #     'quantity': 1,
+                #     'price_unit': 42,
+                #     'name': 'something',
+                })],
+            })
+            invoice.action_post()
+            return invoice
+
+    # def make_invoices(self):
+    #     for rec in self:
+    #         invoice = self.env['account.move'].create({
+    #             'partner_id': rec.partner_a.id
+    #         })
+    #         rec.invoice_id = invoice and rec.invoice_id or False
+    #         print(invoice,'**************************************')
+    #         # rec.invoice_id = invoice and invoice_id or False
+
+
+
+    def action_view_partner_invoices(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
+        action['domain'] = [
+            ('move_type', 'in', ('out_invoice', 'out_refund')),
+            ('partner_id', 'child_of', self.id),
+        ]
+        action['context'] = {'default_move_type': 'out_invoice', 'move_type': 'out_invoice', 'journal_type': 'sale',
+                             'search_default_unpaid': 1}
+        return action
+
+
+    #  Automatically fetch student Address based on Father
     @api.onchange('parent_id')
     def onchange_parent_id(self):
+        """ Method to Fetch student address """
         for rec in self:
             rec.email = rec.mob = rec.mob1 = rec.street = rec.street2 = rec.city = rec.state_id = rec.zip = rec.country_id = False
             if rec.parent_id:
@@ -58,7 +105,7 @@ class StudentDetails(models.Model):
                 # Age should be greater than 0
                 if age_calc > 0.0:
                     rec.age = age_calc
-        #   Method to check age should be greater than 4
+                #   Method to check age should be greater than 4
                 if age_calc < required_age:
                     raise ValidationError(_(
                         "Age of student should be greater than %s years!" % ( \
@@ -89,11 +136,39 @@ class StudentDetails(models.Model):
     #         today = date.today()
     #         rec.age = int((today - rec.dob).days/365)
 
+    @api.onchange('class_id')
+    def onchange_class_seate(self):
+        """ Method to Restrict Add Students in A Class """
+        for rec in self:
+            if rec.class_id:
+                if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
+                    raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+
+    @api.onchange('class_id')
+    def onchange_trainers(self):
+        """ Method to Restrict Add Students in A Class """
+        for rec in self:
+            rec.trainer_id = False
+            if rec.class_id:
+                rec.trainer_id = rec.class_id.main_trainer_id
+                # rec.trainer_id2 = rec.class_id.assistant_trainer_id
+
     def _get_default_color(self):
         return randint(1, 11)
 
+    def draft(self):
+        self.ensure_one()
+        self.state = 'draft'
+
+    state = fields.Selection([('draft', 'Draft'),
+                              ('confirm', 'Confirm'),
+                              ('done', 'Done'),
+                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft', tracking=True)
+    invoice_id= fields.Many2one('account.move')
     # student_id = fields.Char('ID')
     color = fields.Integer(string='Color', default=_get_default_color)
+    # name = fields.Char('Student Number', size=64, required=True, default=_('New'))
+
     student_name = fields.Char(string='Student Name')
     parent_id = fields.Many2one('res.partner', string='Parent Name', index=True)
     # domain=[('active', '=', True)]
@@ -105,7 +180,7 @@ class StudentDetails(models.Model):
     nationality_id = fields.Many2one('res.country')
     class_id = fields.Many2one('student.class')
 
-    dob = fields.Date("DOB")
+    dob = fields.Date("DOB", default=datetime.today())
     #
     age = fields.Char(compute='_compute_student_age', string='Age',
                       readonly=True, help='Enter student age')
@@ -132,7 +207,8 @@ class StudentDetails(models.Model):
     remark = fields.Text('Remark', help='Remark can be entered if any')
     #  states={'done': [('readonly', True)]},
     # employee_id = fields.Many2one('hr.employee')
-    trainer_id = fields.Many2many('hr.employee')
+    trainer_id = fields.Many2many('hr.employee', readonly=True)
+    # trainer_id2 = fields.Many2one('hr.employee')
 
     comments = fields.Char()
 
@@ -183,3 +259,5 @@ class StudentDetails(models.Model):
     previous_surgical = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                          default='no', required=True,
                                          help=" Have any Surgical Procedure done, Please mention it if any")
+
+
