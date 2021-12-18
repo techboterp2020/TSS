@@ -119,7 +119,7 @@ class StudentDetails(models.Model):
             if current_dt < rec.dob:
                 raise ValidationError(_('The DOB Date cannot be Greater than the Current Date.'))
 
-    # @api.constrains('date_of_birth')
+                # @api.constrains('date_of_birth')
     # def check_age(self):
     #     '''Method to check age should be greater than 6'''
     #     current_dt = fields.Date.today()
