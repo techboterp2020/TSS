@@ -14,7 +14,6 @@
 #    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
 #    If not, see <https://www.gnu.org/licenses/>.
 #
-
 ##############################################################################
 
 from odoo import _, api, fields, models
@@ -33,126 +32,6 @@ class StudentDetails(models.Model):
 
     # invoice_count = fields.Integer(compute='_compute_invoice_count', string='Child qty')
 
-    def get_invoice_details(self):
-        print("**************************** hfhgg Paraent")
-
-    def make_invoices(self):
-        for rec in self:
-            invoice = self.env['account.move'].create({
-                # 'move_type': 'out_invoice',
-                'partner_id': rec.parent_id.id,
-                # 'payment_reference': 'invoice to client',
-                'invoice_line_ids': [(0, 0, {
-                    'product_id': self.env['product.product'].create({'name': 'Session'}),
-                #     'quantity': 1,
-                #     'price_unit': 42,
-                #     'name': 'something',
-                })],
-            })
-            invoice.action_post()
-            return invoice
-
-    # def make_invoices(self):
-    #     for rec in self:
-    #         invoice = self.env['account.move'].create({
-    #             'partner_id': rec.partner_a.id
-    #         })
-    #         rec.invoice_id = invoice and rec.invoice_id or False
-    #         print(invoice,'**************************************')
-    #         # rec.invoice_id = invoice and invoice_id or False
-
-
-
-    def action_view_partner_invoices(self):
-        self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
-        action['domain'] = [
-            ('move_type', 'in', ('out_invoice', 'out_refund')),
-            ('partner_id', 'child_of', self.id),
-        ]
-        action['context'] = {'default_move_type': 'out_invoice', 'move_type': 'out_invoice', 'journal_type': 'sale',
-                             'search_default_unpaid': 1}
-        return action
-
-
-    #  Automatically fetch student Address based on Father
-    @api.onchange('parent_id')
-    def onchange_parent_id(self):
-        """ Method to Fetch student address """
-        for rec in self:
-            rec.email = rec.mob = rec.mob1 = rec.street = rec.street2 = rec.city = rec.state_id = rec.zip = rec.country_id = False
-            if rec.parent_id:
-                rec.email = rec.parent_id.email
-                rec.mob = rec.parent_id.phone
-                rec.mob1 = rec.parent_id.mobile
-                rec.street = rec.parent_id.street
-                rec.street2 = rec.parent_id.street2
-                rec.city = rec.parent_id.city
-                rec.state_id = rec.parent_id.state_id
-                rec.zip = rec.parent_id.zip
-                rec.country_id = rec.parent_id.country_id
-
-    @api.depends('dob')
-    def _compute_student_age(self):
-        """ Method to calculate student age """
-        current_dt = fields.Date.today()
-        required_age = 4
-        for rec in self:
-            rec.age = 0
-            if rec.dob and rec.dob < current_dt:
-                start = rec.dob
-                age_calc = int((current_dt - start).days / 365)
-                # Age should be greater than 0
-                if age_calc > 0.0:
-                    rec.age = age_calc
-                #   Method to check age should be greater than 4
-                if age_calc < required_age:
-                    raise ValidationError(_(
-                        "Age of student should be greater than %s years!" % ( \
-                            required_age)))
-
-    @api.constrains('current_dt', 'dob')
-    def _check_ending_date(self):
-        """ Method to Restrict DOB should not be Greater than Current Date """
-        current_dt = fields.Date.today()
-        for rec in self:
-            if current_dt < rec.dob:
-                raise ValidationError(_('The DOB Date cannot be Greater than the Current Date.'))
-
-    # @api.constrains('date_of_birth')
-    # def check_age(self):
-    #     '''Method to check age should be greater than 6'''
-    #     current_dt = fields.Date.today()
-    #     if self.dob:
-    #         start = self.dob
-    #         age_calc = ((current_dt - start).days / 365)
-    #         # Check if age less than required age
-    #         if age_calc < self.school_id.required_age:
-    #             raise ValidationError(_(
-    #                 "Age of student should be greater than %s years!" % ( \self.school_id.required_age)))
-    # # @api.onchange('dob')
-    # def _calculate_age(self):
-    #     for rec in self:
-    #         today = date.today()
-    #         rec.age = int((today - rec.dob).days/365)
-
-    @api.onchange('class_id')
-    def onchange_class_seate(self):
-        """ Method to Restrict Add Students in A Class """
-        for rec in self:
-            if rec.class_id:
-                if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
-                    raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
-
-    @api.onchange('class_id')
-    def onchange_trainers(self):
-        """ Method to Restrict Add Students in A Class """
-        for rec in self:
-            rec.trainer_id = False
-            if rec.class_id:
-                rec.trainer_id = rec.class_id.main_trainer_id
-                # rec.trainer_id2 = rec.class_id.assistant_trainer_id
-
     def _get_default_color(self):
         return randint(1, 11)
 
@@ -163,14 +42,15 @@ class StudentDetails(models.Model):
     state = fields.Selection([('draft', 'Draft'),
                               ('confirm', 'Confirm'),
                               ('done', 'Done'),
-                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft', tracking=True)
+                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
+
     invoice_id= fields.Many2one('account.move')
     # student_id = fields.Char('ID')
     color = fields.Integer(string='Color', default=_get_default_color)
     # name = fields.Char('Student Number', size=64, required=True, default=_('New'))
 
-    student_name = fields.Char(string='Student Name')
-    parent_id = fields.Many2one('res.partner', string='Parent Name', index=True)
+    student_name = fields.Char(string='Student Name', required=1)
+    parent_id = fields.Many2one('res.partner', string='Parent Name', required=1, index=True)
     # domain=[('active', '=', True)]
     relationship = fields.Many2one('parent.relation')
     student_image = fields.Image('Image', compute_sudo=True)
@@ -180,7 +60,7 @@ class StudentDetails(models.Model):
     nationality_id = fields.Many2one('res.country')
     class_id = fields.Many2one('student.class')
 
-    dob = fields.Date("DOB", default=datetime.today())
+    dob = fields.Date("DOB", required=1)
     #
     age = fields.Char(compute='_compute_student_age', string='Age',
                       readonly=True, help='Enter student age')
@@ -259,5 +139,110 @@ class StudentDetails(models.Model):
     previous_surgical = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                          default='no', required=True,
                                          help=" Have any Surgical Procedure done, Please mention it if any")
+
+    def get_invoice_details(self):
+        print("**************************** hfhgg Paraent")
+
+    def make_invoices(self):
+        for rec in self:
+            invoice = self.env['account.move'].create({
+                # 'move_type': 'out_invoice',
+                'partner_id': rec.parent_id.id,
+                # 'payment_reference': 'invoice to client',
+                'invoice_line_ids': [(0, 0, {
+                    'product_id': self.env['product.product'].create({'name': 'Session'}),
+                    #     'quantity': 1,
+                    #     'price_unit': 42,
+                    #     'name': 'something',
+                })],
+            })
+            invoice.action_post()
+            return invoice
+
+        # def make_invoices(self):
+        #     for rec in self:
+        #         invoice = self.env['account.move'].create({
+        #             'partner_id': rec.partner_a.id
+        #         })
+        #         rec.invoice_id = invoice and rec.invoice_id or False
+        #         print(invoice,'**************************************')
+        #         # rec.invoice_id = invoice and invoice_id or False
+
+    def action_view_partner_invoices(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
+        action['domain'] = [
+            ('move_type', 'in', ('out_invoice', 'out_refund')),
+            ('partner_id', 'child_of', self.id),
+        ]
+        action['context'] = {'default_move_type': 'out_invoice', 'move_type': 'out_invoice', 'journal_type': 'sale',
+                             'search_default_unpaid': 1}
+        return action
+
+        #  Automatically fetch student Address based on Father
+
+    @api.onchange('parent_id')
+    def onchange_parent_id(self):
+        """ Method to Fetch student address """
+        for rec in self:
+            rec.email = rec.mob = rec.mob1 = rec.street = rec.street2 = rec.city = rec.state_id = rec.zip = rec.country_id = False
+            if rec.parent_id:
+                rec.email = rec.parent_id.email
+                rec.mob = rec.parent_id.phone
+                rec.mob1 = rec.parent_id.mobile
+                rec.street = rec.parent_id.street
+                rec.street2 = rec.parent_id.street2
+                rec.city = rec.parent_id.city
+                rec.state_id = rec.parent_id.state_id
+                rec.zip = rec.parent_id.zip
+                rec.country_id = rec.parent_id.country_id
+
+
+    @api.depends('dob')
+    def _compute_student_age(self):
+        """ Method to calculate student age """
+        for rec in self:
+            required_age = 3
+            current_dt = fields.Date.today()
+            rec.age = 0
+            if rec.dob and rec.dob < current_dt:
+                start = rec.dob
+                age_calc = int((current_dt - start).days / 365)
+                #   Method to check age should be greater than 4
+                if age_calc < required_age:
+                    raise ValidationError(_(
+                        "Age of student should be greater than %s years!" % ( \
+                            required_age)))
+                # Age should be greater than 0
+                if age_calc > 0.0:
+                    rec.age = age_calc
+
+    @api.constrains('current_dt', 'dob')
+    def _check_ending_date(self):
+        """ Method to Restrict DOB should not be Greater than Current Date """
+        current_dt = fields.Date.today()
+        for rec in self:
+            if current_dt < rec.dob:
+                raise ValidationError(_('The DOB Date cannot be Greater than the Current Date.'))
+
+    @api.onchange('class_id')
+    def onchange_class_seate(self):
+        """ Method to Restrict Add Students in A Class """
+        for rec in self:
+            if rec.class_id:
+                if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
+                    raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+
+    @api.onchange('class_id')
+    def onchange_trainers(self):
+        """ Method to Restrict Add Students in A Class """
+        for rec in self:
+            rec.trainer_id = False
+            if rec.class_id:
+                rec.trainer_id = rec.class_id.main_trainer_id
+                # rec.trainer_id2 = rec.class_id.assistant_trainer_id
+
+
+
 
 
