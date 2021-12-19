@@ -1,6 +1,6 @@
 {
     'name': 'Sports Management System V15',
-    'version': '15.0.1.0.1',
+    'version': '15.0.1.0.3',
     'summary': 'A module for Manage Complete Sports Activities  ',
     'description': 'Sports  Management System Enterprise version15',
     'category': 'Tools',
@@ -12,15 +12,9 @@
     'sequence': '-100',
     'images': [],
     # 'static/description/EMS.jpg'
-    'depends': ['base', 'hr', 'account'],
+    'depends': ['base', 'hr', 'account', 'crm', 'sale_management', 'account_accountant'],
     'data': [
 
-        # 'report/fleet_report.xml',
-        # 'report/fleet_report_templates.xml',
-        # 'data/fleet_mail_template_data.xml',
-        # 'data/ir_sequence_data.xml',
-        # 'report/job_card.xml',
-        # 'report/job_card_template.xml',
         'security/security.xml',
         'security/ir.model.access.csv',
 

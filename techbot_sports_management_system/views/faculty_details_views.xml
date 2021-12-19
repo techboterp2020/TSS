@@ -28,39 +28,9 @@
                             <field name="activity_name" placeholder="e.g. FootBall"/>
                         </h1>
                     </div>
-                    <!--                    <newline/>-->
-                    <!--                    <group>-->
-                    <!--                        <field name="location_id"  mode="kanban" string="Activity Location"/>-->
-                    <!--                    </group>-->
-
                 </sheet>
             </form>
         </field>
     </record>
 </odoo>
 
-
-        <!--                <sheet>-->
-        <!--                    <group string="Select Days">-->
-        <!--                        <label for="mon" string="Scheduled Days"/>-->
-        <!--                        <div class="o_row">-->
-        <!--                            <span>Mon</span>-->
-        <!--                            <field name="mon" eval="True"/>-->
-        <!--                            <span>Tue</span>-->
-        <!--                            <field name="tue" eval="True"/>-->
-        <!--                            <span>Wed</span>-->
-        <!--                            <field name="wed" eval="True"/>-->
-        <!--                            <span>Thu</span>-->
-        <!--                            <field name="thu" eval="True"/>-->
-        <!--                            <span>Fri</span>-->
-        <!--                            <field name="fri" eval="True"/>-->
-        <!--                            <span>Sat</span>-->
-        <!--                            <field name="sat" eval="True"/>-->
-        <!--                            <span>Sun</span>-->
-        <!--                            <field name="sun" eval="True"/>-->
-        <!--                        </div>-->
-        <!--                    </group>-->
-        <!--                    <group>-->
-        <!--                        <field name="trainer_ids"/>-->
-        <!--                    </group>-->
-        <!--                </sheet>-->

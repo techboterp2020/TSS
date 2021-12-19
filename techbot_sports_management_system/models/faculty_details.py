@@ -35,7 +35,7 @@ class SportsActivityType(models.Model):
     _description = 'Sports Types'
     _rec_name = 'activity_name'
 
-    activity_name = fields.Char(string="Activity Name")
+    activity_name = fields.Char(string="Activity Name", required=True)
 
 
 class SportsLocation(models.Model):
@@ -43,11 +43,11 @@ class SportsLocation(models.Model):
     _description = "Activity Location Places"
     _rec_name = 'location_name'
 
-    location_name = fields.Char(string="Location Name")
+    location_name = fields.Char(string="Location Name", required=True)
     # location_image = fields.Image()
     start_date = fields.Date('Start Date', default=date.today())
     end_date = fields.Date('End Date', required=True)
-    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict',
+    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict',required=True,
                                  default=lambda self: self.env.company.country_id, readonly=False, store=True)
     state_id = fields.Many2one("res.country.state", string='State',
                                readonly=False, store=True, domain="[('country_id', '=?', country_id)]")
