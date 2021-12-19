@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+
+
+<!--      Inherit CRM Form View to Modify its Super Button & Field Rearrangements -->
+<!--    <record model="ir.ui.view" id="sports_management_crm_form_view_inherit">-->
+<!--        <field name="name">sports.management.form.view</field>-->
+<!--        <field name="model">sports.management</field>-->
+<!--        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>-->
+
+<!--        <field name="arch" type="xml">-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>
+<!--            <button name="action_accept_driver_change"  position="before">-->
+<!--                <button name="action_email_send_button_fun" string="Send By mail"  type="object" groups="base.group_user" class="btn-primary"/>-->
+<!--            </button>-->
+
+<!--            <xpath expr="//form/sheet/div/button/field[@name='history_count']" position="attributes">-->
+<!--                <attribute name="string">Service History</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;            To Change the Group Name <group string="Driver">  as Customer Details&ndash;&gt;-->
+<!--            <xpath expr="//group/group" position="attributes">-->
+<!--                <attribute name="string">Customer Details</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;            Changed the Field name ( Before Driver  now change to Customer Name)&ndash;&gt;-->
+<!--            <xpath expr="//group/group/field[@name='driver_id']" position="attributes">-->
+<!--                <attribute name="string">Customer Name</attribute>-->
+<!--                <attribute name="required">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//field[@name='license_plate']" position="attributes">-->
+<!--                <attribute name="required">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//group/group/field[@name='driver_id']" position="after">-->
+<!--                <field name="mobile" required="1"/>-->
+<!--                <field name="email"/>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;             To Hide the Future Driver field&ndash;&gt;-->
+<!--            <xpath expr="//group/group/field[@name='future_driver_id']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;  To Hide the location field&ndash;&gt;-->
+<!--            <xpath expr="//group/group/field[@name='plan_to_change_car']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash; To Change  field name Assignment Date into Next Service Date&ndash;&gt;-->
+<!--            <xpath expr="//group/group/field[@name='next_assignation_date']" position="attributes">-->
+<!--                <attribute name="string">Next Service Date</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;            Changed the Label Name &ndash;&gt;-->
+<!--            <xpath expr="//group/group[2]" position="attributes">-->
+<!--                <attribute name="string">Checklist For Active Reception/ Pre Order :</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;            Changed the Label Name on the page&ndash;&gt;-->
+<!--            <xpath expr="//form/sheet/notebook/page[2]/group" position="attributes">-->
+<!--                <attribute name="string">Vehicle Check (Vehicle On Floor)</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;            <field name="vin_sn"/> named as Chassis Number &ndash;&gt;-->
+<!--            <xpath expr="//field[@name='vin_sn']" position="after">-->
+<!--                <field name="vehicle_reg_date"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='acquisition_date']" position="attributes">-->
+<!--                <attribute name="string">Date</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;             To Add New Fields &ndash;&gt;-->
+<!--            <xpath expr="//field[@name='manager_id']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='manager_id']" position="after">-->
+<!--                <field name="service_advisor_id"/>-->
+<!--                <field name="road_test_id"/>-->
+<!--                <field name="service_contract" placeholder="Please Select "/>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;             To Hide the location field&ndash;&gt;-->
+<!--            <xpath expr="//group/group[2]/field[@name='location']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash; Page 1:  Interior and Exterior   SECTION&ndash;&gt;-->
+<!--            <xpath expr="//form/sheet/notebook/page[1]" position="before">-->
+<!--                <page name="interior_exterior"-->
+<!--                      string="Interior and Exterior">-->
+<!--                    <group string="Vehicle Check ( Vehicle On Floor) ">-->
+<!--                        <group string="INTERIOR">-->
+<!--                            <field name="inst_cluster_light" placeholder="Please Select "/>-->
+<!--                            <field name="int_light" placeholder="Please Select "/>-->
+<!--                            <field name="steering_wheel" placeholder="Please Select "/>-->
+<!--                            <field name="ac_system" placeholder="Please Select "/>-->
+<!--                            <field name="safety_belt" placeholder="Please Select "/>-->
+<!--                            <field name="parking_brake" placeholder="Please Select "/>-->
+<!--                            <field name="sliding_roof" placeholder="Please Select "/>-->
+<!--                            <field name="vanity_mirror" placeholder="Please Select "/>-->
+<!--                            <field name="door_handle" placeholder="Please Select "/>-->
+<!--                            <field name="seat" placeholder="Please Select "/>-->
+<!--                            <field name="shift_level" placeholder="Please Select "/>-->
+<!--                            <field name="inner_door_panel" placeholder="Please Select "/>-->
+<!--                            <field name="side_mirror" placeholder="Please Select "/>-->
+<!--                            <field name="floor_mate" placeholder="Please Select "/>-->
+<!--                            <field name="navigation_dvd" placeholder="Please Select "/>-->
+<!--                            <field name="roller_blind" placeholder="Please Select "/>-->
+<!--                        </group>-->
+
+<!--                        <group string="Exterior">-->
+<!--                            <field name="wiper_blade" placeholder="Please Select "/>-->
+<!--                            <field name="exterior_light" placeholder="Please Select "/>-->
+<!--                            <field name="head_light" placeholder="Please Select "/>-->
+<!--                            <field name="wind_shield" placeholder="Please Select "/>-->
+<!--                            <field name="rear_light" placeholder="Please Select "/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                </page>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash; Invisible The Tax info Page &ndash;&gt;-->
+<!--            <xpath expr="//notebook/page[2]" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash; PAGE: 2 Change the Page Name &ndash;&gt;-->
+<!--            <xpath expr="//notebook/page[3]" position="attributes">-->
+<!--                <attribute name="string">Engine Compartment</attribute>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash; Change the Label Name &ndash;&gt;-->
+<!--            <xpath expr="//notebook/page[3]/group/group[2]" position="attributes">-->
+<!--                <attribute name="string">Engine Compartment</attribute>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//notebook/page[3]/group/group[2]/field[@name='horsepower']" position="before">-->
+<!--                <field name="visual_leaks" placeholder="Please Select "/>-->
+<!--                <field name="engine_oil" placeholder="Please Select "/>-->
+<!--                <field name="power_steering_oil" placeholder="Please Select "/>-->
+<!--                <field name="break_fluid_oil" placeholder="Please Select "/>-->
+<!--                <field name="coolant_fluid_oil" placeholder="Please Select "/>-->
+<!--                <field name="wind_shield_fluid_oil" placeholder="Please Select "/>-->
+<!--                <field name="v_belt" placeholder="Please Select "/>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash; Page 3: VEHICLE  Check  Page SECTION&ndash;&gt;-->
+<!--            <xpath expr="//form/sheet/notebook/page[3]" position="after">-->
+<!--                <page name="vehicle_check"-->
+<!--                      string="Vehicle Check">-->
+<!--                    <group string="Vehicle Check ( Vehicle On Floor) ">-->
+<!--                        <group string="Vehicle Check ( Vehicle Half Lifted Up)">-->
+<!--                            <field name="engine_leakage" placeholder="Please Select "/>-->
+<!--                            <field name="steering_rack" placeholder="Please Select "/>-->
+<!--                            <field name="suspension" placeholder="Please Select "/>-->
+<!--                            <field name="break_line" placeholder="Please Select "/>-->
+<!--                            <field name="gear_box" placeholder="Please Select "/>-->
+<!--                            <field name="propeller_shaft" placeholder="Please Select "/>-->
+<!--                            <field name="exhaust_system" placeholder="Please Select "/>-->
+<!--                            <field name="rear_axis" placeholder="Please Select "/>-->
+<!--                            <field name="fuel_tank" placeholder="Please Select "/>-->
+<!--                        </group>-->
+
+<!--                        <group string="Vehicle Check ( Vehicle Half Lifted Up)">-->
+<!--                            <field name="rims" placeholder="Please Select "/>-->
+<!--                            <field name="brake_pad_front_axle" placeholder="Please Select "/>-->
+<!--                            <field name="brake_pad_near_axle" placeholder="Please Select "/>-->
+<!--                            <field name="airmatic_abc" placeholder="Please Select "/>-->
+<!--                        </group>-->
+
+<!--                    </group>-->
+<!--                </page>-->
+<!--            </xpath>-->
+
+<!--            &lt;!&ndash;Page 4 : Body and Pain Check&ndash;&gt;-->
+<!--            <xpath expr="//page[@name='vehicle_check']" position="after">-->
+<!--                <page name="body_pain"-->
+<!--                      string="Body and Pain Check">-->
+<!--                    <group string="">-->
+<!--                        <group string="Body check">-->
+<!--                            <field name="file_name_right" invisible="1"/>-->
+<!--                            <field name="right_image" filename="file_name_right" widget="image" height="100"-->
+<!--                                   width="100"/>-->
+
+<!--                            <field name="file_name_left" invisible="1"/>-->
+<!--                            <field name="left_image" filename="file_name_left" widget="image" height="100" width="100"/>-->
+
+<!--                            <field name="file_name_top" invisible="1"/>-->
+<!--                            <field name="top_image" filename="file_name_top" widget="image" height="100" width="100"/>-->
+<!--                        </group>-->
+
+<!--                        <group string="Body check">-->
+<!--                            <field name="file_name_front" invisible="1"/>-->
+<!--                            <field name="front_image" filename="file_name_front" widget="image" height="100"-->
+<!--                                   width="100"/>-->
+
+<!--                            <field name="file_name_back" invisible="1"/>-->
+<!--                            <field name="back_image" filename="file_name_back" widget="image" height="100" width="100"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+
+<!--                    <group>-->
+<!--                        <group string="Tyre Depth">-->
+<!--                            <field name="tyre_depth_fl"/>-->
+<!--                            <field name="tyre_depth_fr"/>-->
+<!--                            <field name="tyre_depth_rl"/>-->
+<!--                            <field name="tyre_depth_rr"/>-->
+<!--                        </group>-->
+
+<!--                        <group string="Brake Pads Thickness ">-->
+<!--                            <field name="brake_pad_thi_fl"/>-->
+<!--                            <field name="brake_pad_thi_fr"/>-->
+<!--                            <field name="brake_pad_thi_rl"/>-->
+<!--                            <field name="brake_pad_thi_rr"/>-->
+<!--                        </group>-->
+
+<!--                        <group string="Wheel Rim Condition">-->
+<!--                            <field name="wheel_rim_cond_l"/>-->
+<!--                            <field name="wheel_rim_cond_r"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="regi_card"/>-->
+<!--                            <field name="serv_booklet"/>-->
+<!--                            <field name="spare_tyre_pres"/>-->
+<!--                            <field name="warning_triangle"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="first_aid"/>-->
+<!--                            <field name="tool_kit"/>-->
+<!--                            <field name="jack_present"/>-->
+<!--                            <field name="keep_removed_parts"/>-->
+<!--                        </group>-->
+<!--                        <label for="others_note"/>-->
+<!--                        <field name="others_note"/>-->
+<!--                        <p>We kindly request that valuables should not be Left inside the Vehicle</p>-->
+
+<!--                    </group>-->
+<!--                </page>-->
+<!--            </xpath>-->
+
+
+<!--&lt;!&ndash;            &lt;!&ndash;Page 5 : Pre Order&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            <xpath expr="//page[@name='body_pain']" position="after">&ndash;&gt;-->
+<!--&lt;!&ndash;                <page name="pre_order" string="Pre Order">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <group><field name="description" string="Work Description"/></group>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </page>&ndash;&gt;-->
+<!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+
+<!--            &lt;!&ndash; PAGE 6 Pre Order DETAILS &ndash;&gt;-->
+<!--            <xpath expr="//page[@name='body_pain']" position="after">-->
+<!--                <page name="pre_order"-->
+<!--                      string="Pre Order">-->
+
+<!--                    <header>-->
+<!--                        <button name="job_card_quotation_button_fun" string="Create Job Card" type="object" class="oe_highlight"-->
+<!--                                icon="fa-arrow-right"/>-->
+<!--                        <button name="sale_quotation_button_fun" string="Cash/Credit Quotation" type="object" class="oe_highlight"-->
+<!--                                icon="fa-arrow-right"/>-->
+
+<!--                    </header>-->
+
+<!--                    <group>-->
+<!--                        <group string="Customer Details">-->
+<!--                            <field name="driver_id" string="Customer Name" required="1"/>-->
+<!--                            <field name="mobile" required="1"/>-->
+<!--                            <field name="vin_sn"/>-->
+
+<!--                        </group>-->
+<!--                        <group string="Insurance Company">-->
+<!--                            <field name="insurance_company_id"/>-->
+<!--                            <field name="insurance_claim_no" />-->
+<!--                        </group>-->
+<!--                    </group>-->
+
+<!--                </page>-->
+<!--            </xpath>-->
+
+<!--        </field>-->
+<!--    </record>-->
+
