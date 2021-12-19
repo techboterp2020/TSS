@@ -116,36 +116,30 @@
                         </page>
 
                         <page string="Class/Session Details " name="Class">
-<!--                            <group>-->
-<!--                                <group>-->
-<!--                                    <field name="class_id" />-->
-<!--&lt;!&ndash;                                    <field name="gender" placeholder="Gender" required="1"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <field name="age"/>&ndash;&gt;-->
-<!--                                </group>-->
-<!--                                <group>-->
-<!--&lt;!&ndash;                                    <field name="student_height"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <field name="student_weight"/>&ndash;&gt;-->
+                            <group>
+                                <group>
+                                    <field name="class_id" />
+<!--                                    <field name="gender" placeholder="Gender" required="1"/>-->
+<!--                                    <field name="age"/>-->
+                                </group>
+                                <group> </group>
+                                <newline/>
+                                <separator string="Trainer INfo" colspan="4"/>
+                                <newline/>
+                                <group colspan="4" col="4">
+                                    <field name="trainer_id" mode="kanban" reaonly="1"/>
+                                    <field name="trainer_id2" mode="kanban" reaonly="1"/>
 
-<!--                                    &lt;!&ndash;<field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>&ndash;&gt;-->
+                                </group>
+                                <newline/>
+                            </group>
+                            <newline/>
 
-<!--                                </group>-->
-<!--                                <newline/>-->
-<!--                                <separator string="Trainer INfo" colspan="4"/>-->
-<!--                                <newline/>-->
-<!--                                <group colspan="4" col="4">-->
-<!--                                    <field name="trainer_id" mode="kanban" reaonly="1"/>-->
-<!--                                    <field name="trainer_id2" mode="kanban" reaonly="1"/>-->
-
-<!--                                </group>-->
-<!--                                <newline/>-->
-<!--                            </group>-->
-<!--                            <newline/>-->
-
-<!--                            &lt;!&ndash;                            <separator string="Termination Reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}"/>&ndash;&gt;-->
-<!--                            <group>-->
-<!--                                <field name="remark"/>-->
-<!--                                &lt;!&ndash;                                    <field name="terminate_reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}" readonly="1"/>&ndash;&gt;-->
-<!--                            </group>-->
+                            <!--                            <separator string="Termination Reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}"/>-->
+                            <group>
+                                <field name="remark"/>
+                                <!--                                    <field name="terminate_reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}" readonly="1"/>-->
+                            </group>
                         </page>
 
                         <page string="Medical History" name="student_medi_history">
@@ -162,8 +156,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Does the Student Have any Allergy or Sensitivity to the
-                                                medication/foods...etc
-                                            </td>
+                                                medication/foods...etc</td>
                                             <td>
                                                 <field name="allergy"/>
                                             </td>
@@ -290,22 +283,16 @@
                                             </td>
                                         </tr>
                                     </tbody>
-
                                 </table>
-
                             </group>
                             <newline/>
-
-
                             <group>
                                 <field name="remark"/>
                             </group>
                         </page>
-
                     </notebook>
                 </sheet>
             </form>
-
         </field>
     </record>
 
@@ -343,11 +330,7 @@
         <field name="arch" type="xml">
             <search string="Student Information">
                 <field name="student_name"/>
-                <!--                       filter_domain="['|', '|', ('student_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)]"/>-->
-                <!--                <field name="age"  filter_domain="[('age', 'ilike', self)]" />-->
-                <!--                <field name="email" filter_domain="[('email', 'ilike', self)]"/>-->
-                <filter name="mob"/>
-
+                   <filter name="mob"/>
                 <separator/>
                 <filter string="Gender" name="gender" domain="[('gender', '=', 'male')]"/>
                 <!--                <field string="Age" name="age" filter_domain="[('age', '=', 'dob')]"/>-->
@@ -379,7 +362,6 @@
                 <field name="email"/>
                 <field name="parent_id"/>
                 <field name="age"/>
-                <!--                    <field name="function"/>-->
                 <field name="mob"/>
                 <field name="street"/>
                 <field name="street2"/>
@@ -388,22 +370,11 @@
                 <field name="country_id"/>
                 <field name="mob1"/>
                 <field name="state_id"/>
-                <!--                    <field name="category_id"/>-->
                 <field name="student_image"/>
-                <!--                    <field name="type"/>-->
+
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
-                            <!--    <t t-if="!record.is_company.raw_value">-->
-                            <!--    <t t-set="background_image" t-value="kanban_image('res.partner', 'avatar_128', record.id.raw_value)"/>-->
-                            <!--  <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{background_image}')">-->
-                            <!--      <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value" t-att-alt="record.parent_id.value" t-att-src="kanban_image('res.partner', 'avatar_128', record.parent_id.raw_value)"/>-->
-                            <!--  </div>-->
-                            <!--  <div class="o_kanban_image d-md-none" t-attf-style="background-image: url(#{background_image})">-->
-                            <!--   <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value" t-att-alt="record.parent_id.value" t-att-src="kanban_image('res.partner', 'avatar_128', record.parent_id.raw_value)"/>-->
-                            <!--     </div>-->
-                            <!--       </t>-->
-                            <!--   <t t-else="">-->
                             <t>
                                 <div class="o_kanban_image_fill_left o_kanban_image_full"
                                      t-attf-style="background-image: url(#{kanban_image('student.details', 'student_image', record.id.raw_value)})"
@@ -418,9 +389,7 @@
                                     <li>
                                         <field name="parent_id"/>
                                     </li>
-                                    <!--                                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>-->
-                                    <!--                                        <li t-if="!record.parent_id.raw_value and record.function.raw_value"><field name="function"/></li>-->
-                                    <!--                                        <li t-if="record.parent_id.raw_value and record.function.raw_value"><field name="function"/> at <field name="parent_id"/></li>-->
+
                                     <li t-if="record.city.raw_value or record.country_id.raw_value">
                                         <t t-if="record.city.raw_value">
                                             <field name="city"/>

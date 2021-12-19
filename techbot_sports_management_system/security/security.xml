@@ -17,6 +17,10 @@
         <record id="group_sports_trainers" model="res.groups">
             <field name="name">Trainers</field>
             <field name="category_id" ref="module_category_sports"/>
+<!--            <field name="perm_unlink" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
         </record>
 
 <!--        <record id="group_school_student" model="res.groups">-->
