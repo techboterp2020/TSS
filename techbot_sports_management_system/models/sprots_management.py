@@ -28,9 +28,7 @@ from datetime import datetime,date,timedelta
 
 class SportManagement(models.Model):
     _name = 'sports.management'
-    # _inherit = 'crm.lead'
     _description = "Sports Management System"
-
 
 class Session(models.Model):
     _name = 'sports.management.session'
@@ -38,39 +36,20 @@ class Session(models.Model):
 
     name = fields.Char(required=True)
     start_date = fields.Datetime(
-        'Start Date', store=True)
-        # compute='_compute_dates', inverse='_inverse_dates')
+        'Start Date', store=True)        # compute='_compute_dates', inverse='_inverse_dates')
     end_date = fields.Datetime(
-        'End Date', store=True,  readonly=True)
-        # compute='_compute_dates', inverse='_inverse_dates')
+        'End Date', store=True,  readonly=True)        # compute='_compute_dates', inverse='_inverse_dates')
     duration = fields.Float('Duration',  store=True)
     class_id = fields.Many2one('student.class')
+    attendance_ids = fields.One2many('session.attendance.line','session_id')
 
-    # @api.onchange('duration')
-    # def onchange_end_time(self):
-    #     for rec in self:
-    #         print('***********************Duration', rec.duration)
-    #         duration = datetime.strptime(rec.duration, '%Y-%m-%d %H:%M')
-    #         print(duration,'******************************Dur')
-    #         rec.end_date = rec.start_date
-    #         + duration
 
-    # @api.depends('start_date', 'end_date')
-    # def _compute_duration(self):
-    #     for rec in self:
-    #         print(rec.start_date)
-    #         print('95888******', rec.end_date)
-    #         hour = rec.end_date-rec.start_date
-    #         print(hour , "*****************Duration")
-    #         rec.duration = hour
+class SessionAttendanceLine(models.Model):
+    _name = 'session.attendance.line'
+    _description = 'Session Attendance Line'
 
-    # @api.constrains('start_date', 'end_date')
-    # def _check_ending_date(self):
-    #     """ Method to Restrict Start Date should not be Greater than the End Date """
-    #     for rec in self:
-    #         if (rec.end_date < rec.start_date):
-    #             raise ValidationError(_('The End Date cannot be Less than the Start Date.'))
+    student_id = fields.Many2one('student.details')
+    attendance = fields.Boolean()
+    remark = fields.Char('Remark')
+    session_id = fields.Many2one('sports.management.session')
 
-    def _compute_display_time(self):
-        print('Meeting time')
-        # for meeting in self:

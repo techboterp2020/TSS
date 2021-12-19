@@ -10,6 +10,9 @@
                 <field name="name"/>
                 <!--                <field name="activity_id"/>-->
                 <field name="duration"/>
+                <field name="start_date"/>
+                <field name="class_id"/>
+                <field name="attendance_ids"/>
                 <!--                <field name="taken_seats"  widget="progressbar" />-->
             </tree>
         </field>
@@ -84,6 +87,12 @@
 
                             <field name="end_date"/>
                         </group>
+                    </group>
+
+                    <group string="Student Details">
+                        <field name="attendance_ids"/>
+
+
                     </group>
 
 

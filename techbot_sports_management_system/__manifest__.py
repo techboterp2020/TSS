@@ -1,6 +1,6 @@
 {
     'name': 'Sports Management System V15',
-    'version': '15.0.1.0.3',
+    'version': '15.0.1.0.4',
     'summary': 'A module for Manage Complete Sports Activities  ',
     'description': 'Sports  Management System Enterprise version15',
     'category': 'Tools',
@@ -26,9 +26,10 @@
         'views/faculty_details_views.xml',
         'views/sports_management_action_views.xml',
         'views/sports_management_menu_views.xml',
+        'views/students_class_view.xml',
         'views/sports_location_view.xml',
         'views/sports_session_view.xml',
-        'views/students_class_view.xml',
+        'views/sports_session_attendance_view.xml',
 
         # 'views/fleet_view.xml',
 

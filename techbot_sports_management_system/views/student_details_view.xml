@@ -8,7 +8,7 @@
             <form string="Student Information">
 
                  <header>
-                     <button  string='Create Invoice' type="object" class="oe_highlight"  icon="fa-arrow-right" name="action_view_partner_invoices"
+                     <button  string='Create Invoice' name="make_invoices" type="object" class="oe_highlight"  icon="fa-arrow-right"
                         context="{'default_partner_id': active_id}"/>
 <!--                     <button name="create_invoice_button_fun" string="Crate Invoice" type="object" -->
 <!--                               />-->
