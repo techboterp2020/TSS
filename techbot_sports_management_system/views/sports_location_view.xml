@@ -10,6 +10,8 @@
                  <field name="start_date" />
                 <field name="end_date" />
                 <field name="place"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
             </tree>
         </field>
     </record>
@@ -23,7 +25,7 @@
                     <div class="oe_title">
                         <label for="location_name"/>
                         <h1>
-                            <field name="location_name" placeholder="Eg , Sports city"/>
+                            <field name="location_name" placeholder="Eg , BasketBall Court"/>
                         </h1>
                     </div>
 
@@ -31,12 +33,14 @@
                     <group>
                         <group>
                             <field name="start_date"/>
-                            <field name="place"/>
+                            <field name="place" placeholder="E.g. Mussaffah"/>
+                            <field name="state_id"/>
                         </group>
 
                         <group>
                             <field name="end_date" placeholder="eg. MM/DD/Year"/>
                             <field name="country_id"/>
+
                         </group>
 
                     </group>

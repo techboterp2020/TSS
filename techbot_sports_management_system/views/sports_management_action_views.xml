@@ -6,8 +6,8 @@
     <record model="ir.actions.act_window" id="session_list_action">
         <field name="name">Sessions</field>
         <field name="res_model">sports.management.session</field>
-        <field name="view_mode">tree,form,calendar,gantt,graph,kanban</field>
-
+        <field name="view_mode">tree,form,kanban</field>
+<!--        ,calendar,gantt,graph,-->
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a Session in your address book

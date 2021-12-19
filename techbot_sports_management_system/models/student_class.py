@@ -24,7 +24,6 @@ _logger = logging.getLogger(__name__)
 
 class StudentClass(models.Model):
     """Defining a Parent relation with child."""
-
     _name = "student.class"
     _description = "Parent-child relation information"
 
@@ -41,8 +40,40 @@ class StudentClass(models.Model):
     main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True)
     assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True)
     location_id = fields.Many2one('sports.location')
-    repeat = fields.Selection([('daily', 'Daily'), ('weekly', 'Weekly'), ('month', 'Month')], string='Repeats',
-                              required=True, default='month', tracking=True)
+    repeat_type = fields.Selection([('daily', 'Daily'), ('weekly', 'Weekly'), ('month', 'Month')], string='Repeats',
+                                   required=True, readonly=False)
+
+    # compute='_compute_recurrence',
+    mon = fields.Boolean(readonly=False)
+    tue = fields.Boolean(readonly=False)
+    wed = fields.Boolean(readonly=False)
+    thu = fields.Boolean(readonly=False, compute='_compute_repeat')
+    fri = fields.Boolean(readonly=False, compute='_compute_repeat')
+    sat = fields.Boolean(readonly=False, compute='_compute_repeat')
+    sun = fields.Boolean(readonly=False, compute='_compute_repeat')
+
+    @api.model
+    def _get_recurrence_fields(self):
+        return ['mon', 'tue', 'wed', 'thu', 'fri', 'sat','sun']
+
+    # @api.depends('recurring_task')
+    @api.onchange('repeat_type')
+    def _compute_repeat(self):
+        rec_fields = self._get_recurrence_fields()
+        defaults = self.default_get(rec_fields)
+        print(defaults)
+        # for task in self:
+        #     for f in rec_fields:
+        #         if task.recurrence_id:
+        #             task[f] = task.recurrence_id[f]
+        #         else:
+        #             if task.recurring_task:
+        #                 task[f] = defaults.get(f)
+        #             else:
+        #                 task[f] = False
+    # return ['repeat_interval', 'repeat_unit', 'repeat_type', 'repeat_until', 'repeat_number',
+    #         'repeat_on_month', 'repeat_on_year', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat',
+    #         'sun', 'repeat_day', 'repeat_week', 'repeat_month', 'repeat_weekday']
 
     available_seat = fields.Float(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats",  compute='_taken_seats')
@@ -54,10 +85,6 @@ class StudentClass(models.Model):
     def draft(self):
         self.ensure_one()
         self.state = 'draft'
-
-    def started(self):
-        self.ensure_one()
-        self.state = 'started'
 
     def done(self):
         self.ensure_one()
@@ -80,6 +107,25 @@ class StudentClass(models.Model):
                 rec.filled_seats = 0.0
             else:
                 rec.filled_seats = 100.0 * len(rec.students_ids) / rec.available_seat
+
+    @api.onchange('available_seat', 'students_ids')
+    def _verify_valid_seats(self):
+        if self.available_seat < 0:
+            raise ValidationError(_("Incorrect 'seats' value , The number of available seats may not be negative"))
+        if self.available_seat < len(self.students_ids):
+            raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+
+    no_of_session = fields.Integer(' No.of Session ', required=True)
+    session_ids = fields.One2many('sports.management.session', 'class_id')
+
+    def started_button(self):
+        self.ensure_one()
+        self.state = 'started'
+        self.session_ids = [
+            (0, 0, {
+                'name': 'Session 1',
+                 'duration': 1.0,
+            })]
 
     # def _default_students(self):
     #     return self.env['student.details'].browse(self._context.get('student_name'))
@@ -109,12 +155,9 @@ class StudentClass(models.Model):
         #     }
 
 
-    @api.onchange('available_seat', 'students_ids')
-    def _verify_valid_seats(self):
-        if self.available_seat < 0:
-            raise ValidationError(_("Incorrect 'seats' value , The number of available seats may not be negative"))
-        if self.available_seat < len(self.students_ids):
-            raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+
+
+
 
 
 

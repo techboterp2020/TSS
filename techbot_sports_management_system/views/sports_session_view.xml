@@ -5,53 +5,54 @@
         <field name="name">sports.management.session.tree</field>
         <field name="model">sports.management.session</field>
         <field name="arch" type="xml">
-           <!--<tree string="Session Tree">-->
-            <tree string="Session Tree"   decoration-bf="duration&lt;5" decoration-it="duration&gt;15" >
+            <!--<tree string="Session Tree">-->
+            <tree string="Session Tree" decoration-bf="duration&lt;5" decoration-it="duration&gt;15">
                 <field name="name"/>
-                <field name="activity_id"/>
-                <field name="duration" invisible="1"/>
-                <field name="taken_seats"  widget="progressbar" />
+                <!--                <field name="activity_id"/>-->
+                <field name="duration"/>
+                <!--                <field name="taken_seats"  widget="progressbar" />-->
             </tree>
         </field>
     </record>
 
 
     <!-- calendar view -->
-    <record model="ir.ui.view" id="session_calendar_view">
-        <field name="name">session.calendar</field>
-        <field name="model">sports.management.session</field>
-        <field name="arch" type="xml">
-            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="trainer_id"
-                      scales="day,week,month" mode="month">
-                <field name="name"/>
-            </calendar>
-        </field>
-    </record>
+    <!--    <record model="ir.ui.view" id="session_calendar_view">-->
+    <!--        <field name="name">session.calendar</field>-->
+    <!--        <field name="model">sports.management.session</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date"-->
+    <!--                      scales="day,week,month" mode="month">-->
+    <!--                <field name="name"/>-->
+    <!--            </calendar>-->
+    <!--        </field>-->
+    <!--    </record>-->
 
     <!-- gantt view -->
-    <record model="ir.ui.view" id="session_gantt_view">
-        <field name="name">session.gantt</field>
-        <field name="model">sports.management.session</field>
-        <field name="arch" type="xml">
-            <gantt string="Session Gantt"
-                   date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"
-                   plan="false" offset="1" progress="taken_seats"
-                   default_group_by='trainer_id'>
-            </gantt>
-        </field>
-    </record>
+    <!--    <record model="ir.ui.view" id="session_gantt_view">-->
+    <!--        <field name="name">session.gantt</field>-->
+    <!--        <field name="model">sports.management.session</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <gantt string="Session Gantt"-->
+    <!--                   date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"-->
+    <!--                   plan="false" offset="1" progress="taken_seats"-->
+    <!--                   default_group_by='trainer_id'>-->
+    <!--            </gantt>-->
+    <!--        </field>-->
+    <!--    </record>-->
 
     <!-- graph view -->
-    <record model="ir.ui.view" id="sms_session_graph_view">
-        <field name="name">sports.management.session.graph</field>
-        <field name="model">sports.management.session</field>
-        <field name="arch" type="xml">
-            <graph string="Participation by Activity">
-                <field name="activity_id"/>
-                <field name="attendees_count" type="measure"/>
-            </graph>
-        </field>
-    </record>
+    <!--    <record model="ir.ui.view" id="sms_session_graph_view">-->
+    <!--        <field name="name">sports.management.session.graph</field>-->
+    <!--        <field name="model">sports.management.session</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <graph string="Participation by Activity">-->
+    <!--                <field name="activity_id"/>-->
+    <!--                <field name="attendees_count" type="measure"/>-->
+    <!--            </graph>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
     <!--******************** Session Type Form view *******************-->
     <record id="sessions_form_view" model="ir.ui.view">
         <field name="name">sports.management.session.form</field>
@@ -59,23 +60,35 @@
         <field name="arch" type="xml">
             <form string="Session Form">
                 <sheet>
-                    <group>
-                        <group string="General">
-                            <field name="name" placeholder="morning Session"/>
-                            <field name="activity_id"/>
 
-                            <field name="trainer_id"/>
-                            <field name="active"/>
-                        </group>
-                        <group string="Schedule">
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Eg , Session 9-10 Am"/>
+                        </h1>
+                    </div>
+                    <group string="Time Schedule">
+                        <group>
+                            <!--                        <field name="name" placeholder="Session Name"/>-->
+                            <!--                            <field name="activity_id"/>-->
+                            <!--                            <field name="trainer_id"/>-->
+                            <!--                            <field name="active"/>-->
+
                             <field name="start_date"/>
-                            <field name="duration"/>
-                            <field name="seats"/>
-                            <field name="taken_seats" widget="progressbar"/>
+                            <label for="duration"/>
+                            <div>
+                                <field name="duration" widget="float_time" string="Duration" class="oe_inline"/>
+                                <span>hours</span>
+
+                            </div>
+
+                            <field name="end_date"/>
                         </group>
                     </group>
-                    <label for="attendee_ids"/>
-                    <field name="attendee_ids" widget="many2many_tags"/>
+
+
+                    <!--                    <label for="attendee_ids"/>-->
+                    <!--                    <field name="attendee_ids" widget="many2many_tags"/>-->
                 </sheet>
             </form>
         </field>

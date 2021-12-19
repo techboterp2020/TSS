@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 ##############################################################################
 #
 #    Author: TechbotErp(<https://techboterp.com/>)
@@ -15,10 +16,12 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import crm
-from . import faculty_details
-from . import res_partner
-from . import sprots_management
-from . import student_class
-from . import student_details
 
+from odoo import api, fields, models, _
+
+class CrmLead(models.Model):
+    _inherit = 'crm.lead'
+    _description = 'Fetch place and Sports Activity Crm Lead'
+
+    location_id = fields.Many2one('sports.location', help='Enter student Sports Location')
+    program_id = fields.Many2one('sports.activity.type', string='Program', help='Enter student Sports Location')

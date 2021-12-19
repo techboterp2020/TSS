@@ -24,7 +24,9 @@
         'security/security.xml',
         'security/ir.model.access.csv',
 
+        'views/crm_lead_views.xml',
         'views/sports_management_views.xml',
+        'views/student_details_view.xml',
         'views/student_details_view.xml',
         'views/res_partner_view.xml',
         'views/faculty_details_views.xml',

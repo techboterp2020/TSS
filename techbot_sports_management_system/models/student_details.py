@@ -45,7 +45,7 @@ class StudentDetails(models.Model):
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
 
-    invoice_id= fields.Many2one('account.move')
+    invoice_id = fields.Many2one('account.move')
     # student_id = fields.Char('ID')
     color = fields.Integer(string='Color', default=_get_default_color)
     # name = fields.Char('Student Number', size=64, required=True, default=_('New'))
@@ -53,7 +53,7 @@ class StudentDetails(models.Model):
     student_name = fields.Char(string='Student Name', required=1)
     parent_id = fields.Many2one('res.partner', string='Parent Name', required=1, index=True)
     # domain=[('active', '=', True)]
-    relationship = fields.Many2one('parent.relation')
+    relationship = fields.Many2one('parent.relation', string=" Parent Relation :")
     student_image = fields.Image('Image', compute_sudo=True)
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], default='male',
                               help='Select student gender')
@@ -89,57 +89,11 @@ class StudentDetails(models.Model):
     #  states={'done': [('readonly', True)]},
     # employee_id = fields.Many2one('hr.employee')
     trainer_id = fields.Many2many('hr.employee', readonly=True)
-    # trainer_id2 = fields.Many2one('hr.employee')
+    trainer_id2 = fields.Many2one('hr.employee', readonly=True)
 
     comments = fields.Char()
 
-    allergy = fields.Selection(
-        [('yes', 'Yes'), ('no', 'No')],
-        default='no', required=True,
-        help="Does the Student Have any Allergy or Sensitivity to the medication/foods..etc, Please mention it if any.")
-    cardiac_disease = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                       default='no', required=True,
-                                       help="Does the Student Suffer from any Cardiac Problem,Please mention it if any.")
-    diabetic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                default='no', required=True,
-                                help=" Is the Student Diabetic ,Please mention it if any")
-    hyper_tension = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                     default='no', required=True,
-                                     help=" Does the Student any Hypertension ,Please mention it if any")
 
-    asthmatic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                 default='no', required=True,
-                                 help=" Is the Student Asthmatic ,Please mention it if any")
-    renal_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                     default='no', required=True,
-                                     help=" Does the Student Suffer from any renal problem,Please mention it if any")
-    urinary_infection = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                         default='no', required=True,
-                                         help=" Did the Student Suffer previously from urinary tract infection")
-
-    epilepsy = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                default='no', required=True,
-                                help=" Does the Student Suffer from epilepsy/seizures ,Please mention it if any")
-    g6pd = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                            default='no', required=True,
-                            help=" Is the Student Suffering from G6PD deficiency,Please mention it if any")
-
-    chronic_blood = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                     default='no', required=True,
-                                     help=" Does the Student have any chronic blood disease (like Thalassemia,Anemia,Hemophilia..etc, Please mention it if any")
-
-    epistaxis = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                 default='no', required=True,
-                                 help=" Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding) ")
-    skin_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                    default='no', required=True,
-                                    help=" Does the Student have any skin problems, Please mention it if any")
-    eye = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                           default='no', required=True,
-                           help=" Does the Student have any eye(opthalmology)problems (Visual Disturbances), Please mention it if any")
-    previous_surgical = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                         default='no', required=True,
-                                         help=" Have any Surgical Procedure done, Please mention it if any")
 
     def get_invoice_details(self):
         print("**************************** hfhgg Paraent")
@@ -198,7 +152,6 @@ class StudentDetails(models.Model):
                 rec.zip = rec.parent_id.zip
                 rec.country_id = rec.parent_id.country_id
 
-
     @api.depends('dob')
     def _compute_student_age(self):
         """ Method to calculate student age """
@@ -236,14 +189,57 @@ class StudentDetails(models.Model):
 
     @api.onchange('class_id')
     def onchange_trainers(self):
-        """ Method to Restrict Add Students in A Class """
+        """ Method to get Students Trainers in A Class """
         for rec in self:
             rec.trainer_id = False
             if rec.class_id:
                 rec.trainer_id = rec.class_id.main_trainer_id
-                # rec.trainer_id2 = rec.class_id.assistant_trainer_id
+                rec.trainer_id2 = rec.class_id.assistant_trainer_id
 
+    allergy = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        default='no', required=True,
+        help="Does the Student Have any Allergy or Sensitivity to the medication/foods..etc, Please mention it if any.")
+    cardiac_disease = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                       default='no', required=True,
+                                       help="Does the Student Suffer from any Cardiac Problem,Please mention it if any.")
+    diabetic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                default='no', required=True,
+                                help=" Is the Student Diabetic ,Please mention it if any")
+    hyper_tension = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                     default='no', required=True,
+                                     help=" Does the Student any Hypertension ,Please mention it if any")
 
+    asthmatic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                 default='no', required=True,
+                                 help=" Is the Student Asthmatic ,Please mention it if any")
+    renal_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                     default='no', required=True,
+                                     help=" Does the Student Suffer from any renal problem,Please mention it if any")
+    urinary_infection = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                         default='no', required=True,
+                                         help=" Did the Student Suffer previously from urinary tract infection")
 
+    epilepsy = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                default='no', required=True,
+                                help=" Does the Student Suffer from epilepsy/seizures ,Please mention it if any")
+    g6pd = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                            default='no', required=True,
+                            help=" Is the Student Suffering from G6PD deficiency,Please mention it if any")
 
+    chronic_blood = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                     default='no', required=True,
+                                     help=" Does the Student have any chronic blood disease (like Thalassemia,Anemia,Hemophilia..etc, Please mention it if any")
 
+    epistaxis = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                 default='no', required=True,
+                                 help=" Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding) ")
+    skin_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                    default='no', required=True,
+                                    help=" Does the Student have any skin problems, Please mention it if any")
+    eye = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                           default='no', required=True,
+                           help=" Does the Student have any eye(opthalmology)problems (Visual Disturbances), Please mention it if any")
+    previous_surgical = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                         default='no', required=True,
+                                         help=" Have any Surgical Procedure done, Please mention it if any")

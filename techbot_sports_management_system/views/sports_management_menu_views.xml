@@ -17,8 +17,8 @@
         <menuitem id="menu_sports_management_student_info" name="Students Details" action="techbot_sports_management_system.action_student_student_form_1"
                   parent="techbot_sports_management_system.menu_tsms" sequence="2"/>
 
-        <menuitem id="menu_student_class" name="Class"
-              parent="techbot_sports_management_system.menu_tsms" action="student_class_list_action" sequence="3"/>
+<!--        <menuitem id="menu_student_class" name="Class"-->
+<!--              parent="techbot_sports_management_system.menu_tsms" action="student_class_list_action" sequence="3"/>-->
 
 
 
@@ -31,8 +31,8 @@
                   parent="techbot_sports_management_system.menu_tsms" sequence="5"/>
 
 <!--      SUB MENUE ITEMS-->
-        <menuitem id="sub_menu_sports_session" name="Sessions " parent="menu_sports_management_configuration"
-              action="session_list_action"/>
+<!--        <menuitem id="sub_menu_sports_session" name="Sessions " parent="menu_sports_management_configuration"-->
+<!--              action="session_list_action"/>-->
 
          <menuitem id="menu_faculty_facility" name="Faculty and Facility "
               parent="techbot_sports_management_system.menu_sports_management_configuration" action="sports_activity_type_action"/>
