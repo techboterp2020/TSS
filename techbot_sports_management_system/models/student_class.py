@@ -20,6 +20,7 @@ import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -104,7 +105,7 @@ class StudentClass(models.Model):
                 (0, 0, {
                     'name': self.name,
                     'duration': 1.0,
-                    'start_date': '1-2-3',
+                    'start_date': self.start_date + relativedelta(day=1),
                 })]
 
     # def _default_students(self):
