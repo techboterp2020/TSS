@@ -64,8 +64,9 @@
                     <separator string="Session  Details"/>
                     <group>
                         <field name="repeat_type"/>
-                        <!--                        <field name="mon" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
+<!--                                                <field name="mon" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
                         <!--                        <field name="tue" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
+                        <field name="session_id"/>
 
                     </group>
                     <group>

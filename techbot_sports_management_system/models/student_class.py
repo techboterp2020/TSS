@@ -45,6 +45,7 @@ class StudentClass(models.Model):
     location_id = fields.Many2one('sports.location')
     repeat_type = fields.Selection([('daily', 'Daily'), ('weekly', 'Weekly'), ('month', 'Month')], string='Repeats',
                                    required=True, readonly=False)
+    session_id = fields.Many2one('sports.management.session','Session')
 
     # compute='_compute_recurrence',
     mon = fields.Boolean(readonly=False)
@@ -103,7 +104,7 @@ class StudentClass(models.Model):
         for i in range(0, self.no_of_session):
             self.session_ids = [
                 (0, 0, {
-                    'name': self.name,
+                    'name': self.session_id.name,
                     'duration': 1.0,
                     'start_date': self.start_date + relativedelta(day=1),
                 })]
