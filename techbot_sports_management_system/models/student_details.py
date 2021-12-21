@@ -44,7 +44,7 @@ class StudentDetails(models.Model):
         self.ensure_one()
         self.state = 'confirm'
 
-    state = fields.Selection([('draft', 'Draft'),
+    state = fields.Selection([('draft', 'Draft'), ('invoice', 'Invoiced'),
                               ('confirm', 'Confirmed'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
@@ -94,29 +94,62 @@ class StudentDetails(models.Model):
     # employee_id = fields.Many2one('hr.employee')
     trainer_id = fields.Many2many('hr.employee', readonly=True)
     trainer_id2 = fields.Many2one('hr.employee', readonly=True)
+    session_student_id = fields.Many2one('sports.management.session')
 
     comments = fields.Char()
 
 
 
+
     def get_invoice_details(self):
         print("**************************** hfhgg Paraent")
+        action_data = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
+        action_data['domain'] = [('id', 'in', self.parent_id.ids)]
+        return action_data
 
     def make_invoices(self):
-        for rec in self:
-            invoice = self.env['account.move'].create({
-                # 'move_type': 'out_invoice',
-                'partner_id': rec.parent_id.id,
-                # 'payment_reference': 'invoice to client',
-                'invoice_line_ids': [(0, 0, {
-                    'product_id': self.env['product.product'].create({'name': 'Session'}),
-                        'quantity': 1,
-                        'price_unit': 42,
-                        # 'name': 'something',
-                })],
-            })
-            invoice.action_post()
-            return invoice
+        self.ensure_one()
+        self.state = 'invoice'
+        # for rec in self:
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            # 'move_type': 'entry',
+            'state': 'draft',
+            # 'journal_id': journal.id,
+            'partner_id': self.parent_id.id,
+            'invoice_date': datetime.now(),
+            # 'date': '2019-01-21',
+            'invoice_line_ids': [(0, 0, {
+                # 'product_id': self.product_a.id,
+                # 'product_id': self.product.id,
+                'quantity': 5.0,
+                'name': 'Session',
+                'discount': 0.00,
+                'price_unit': 100,
+            })]
+        })
+        return invoice
+        # "state"
+        # ":"
+        # draft
+        # ",
+        # invoice.action_post()
+
+    # invoice = self.env['account.move'].create({
+    #     # 'move_type': 'out_invoice',
+    #     'partner_id': rec.parent_id.id,
+    #     # 'payment_reference': 'invoice to client',
+    #     'invoice_line_ids': [(0, 0, {
+    #         'name':self.name,
+    #         'price_unit': 100.0
+    #         # 'product_id': self.env['product.product'].create({'name': 'Session'}),
+    #         #     'quantity': 1,
+    #         #     'price_unit': 100,
+    #         #     # 'name': 'something',
+    #     })],
+    # })
+    # invoice.action_post()
+    # return invoice
 
         # def make_invoices(self):
         #     for rec in self:
@@ -224,7 +257,6 @@ class StudentDetails(models.Model):
     chronic_blood = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                      default='no', required=True,
                                      help=" Does the Student have any chronic blood disease (like Thalassemia,Anemia,Hemophilia..etc, Please mention it if any")
-
     epistaxis = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                  default='no', required=True,
                                  help=" Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding) ")

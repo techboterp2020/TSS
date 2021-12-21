@@ -9,10 +9,10 @@
 
                  <header>
                      <button  string='Create Invoice' name="make_invoices" type="object" class="oe_highlight"  icon="fa-arrow-right"
-                        context="{'default_partner_id': active_id}"/>
+                        context="{'default_partner_id': active_id}" states="draft"/>
 <!--                     <button name="create_invoice_button_fun" string="Crate Invoice" type="object" -->
 <!--                               />-->
-                    <button name="confirm" string="Confirm" states="draft" type="object"
+                    <button name="confirm" string="Confirm" states="invoice" type="object"
                             class="oe_highlight"/>
 <!--             groups="hr.group_hr_user"       <button name="calculation_done" string="Calculate" states="draft" type="object"-->
 <!--                            attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight"-->
@@ -35,7 +35,8 @@
                 <sheet name="student_info" string="Student Details">
 
                     <div name="button_box"  class="oe_button_box">
-                        <button class="oe_stat_button"  string="Invoiced" type="object" name="get_invoice_details" icon="fa-file-invoice">
+                        <button class="oe_stat_button"
+                                string="Invoiced" type="object" name="get_invoice_details" icon="fa-file-invoice">
 <!--                            <field string="Invoice" name="invoice_count" widget="statinfo"/>-->
                         </button>
                     </div>

@@ -84,8 +84,8 @@
                             <field name="name" placeholder="Eg , Session 9-10 Am"/>
                         </h1>
                     </div>
-                    <group string="Time Schedule">
-                        <group>
+                    <group >
+                        <group string="Time Schedule">
                             <!--                        <field name="name" placeholder="Session Name"/>-->
                             <!--                            <field name="activity_id"/>-->
                             <!--                            <field name="trainer_id"/>-->
@@ -97,6 +97,11 @@
                                 <span>hours</span>
 
                             </div>
+
+                        </group>
+                        <group string="Students Details">
+                            <field name="no_of_students"/>
+                            <field name="students" widget="many2many_tags"/>
 
                         </group>
                     </group>

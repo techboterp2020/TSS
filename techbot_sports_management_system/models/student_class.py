@@ -30,21 +30,22 @@ class StudentClass(models.Model):
     _name = "student.class"
     _description = "Parent-child relation information"
 
-    @api.depends('start_date', 'duration')
+    @api.depends('start_date', 'no_of_class', 'no_of_sessions')
     def date_end_calculation(self):
         for record in self:
             record.end_date = False
             if record.start_date:
-                record.end_date = record.start_date + timedelta((record.duration * 365) / (12 * 4))
+                record.end_date = record.start_date + timedelta(
+                    (record.no_of_class * 365) / (12 * 4 * record.no_of_sessions))
 
     name = fields.Char("Name", required=True,
                        help='Parent relation with student')
     state = fields.Selection([('draft', 'Draft'),
                               ('started', 'Start'),
                               ('completed', 'Completed'),
-                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft', tracking=True)
+                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
     start_date = fields.Datetime('Start Date')
-    end_date = fields.Datetime('To', compute='date_end_calculation', readonly=True, store=True)
+    end_date = fields.Datetime('End Date', compute='date_end_calculation', readonly=True, store=True)
     # trainer_id = fields.Many2one('hr.employee', string='Instructor')
     activity_id = fields.Many2one('sports.activity.type', 'Activity', store=True, )
     main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True, )
@@ -83,29 +84,30 @@ class StudentClass(models.Model):
             else:
                 rec.filled_seats = 100.0 * len(rec.students_ids) / rec.available_seat
 
-    @api.onchange('available_seat', 'students_ids')
-    def _verify_valid_seats(self):
-        if self.available_seat < 0:
-            raise ValidationError(
-                _("Incorrect 'seats' value , The number of available seats may not be negative or Zero"))
-        if self.available_seat < len(self.students_ids):
-            raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+    # @api.onchange('available_seat', 'students_ids')
+    # def _verify_valid_seats(self):
+    #     if self.available_seat < 0:
+    #         raise ValidationError(
+    #             _("Incorrect 'seats' value , The number of available seats may not be negative or Zero"))
+    #     if self.available_seat < len(self.students_ids):
+    #         raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
 
     session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
                                         required=True,
                                         default='weekly', readonly=False)
 
     # compute='_compute_recurrence',
-    # mon = fields.Boolean(readonly=False)
-    # tue = fields.Boolean(readonly=False)
+    mon = fields.Boolean(readonly=False)
+    tue = fields.Boolean(readonly=False)
     # wed = fields.Boolean(readonly=False)
     # thu = fields.Boolean(readonly=False)
     # fri = fields.Boolean(readonly=False)
     # sat = fields.Boolean(readonly=False)
     # sun = fields.Boolean(readonly=False)
-    duration = fields.Integer(' No.of Class ', required=True)
+    no_of_class = fields.Integer(' No.of Sessions ', required=True)
     session_ids = fields.One2many('sports.management.session', 'class_id')
-    number = fields.Char(string='Number')
+    duration = fields.Float('Session Duration', store=True)
+    no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
 
     def class_start_button_fun(self):
         self.ensure_one()
@@ -118,57 +120,74 @@ class StudentClass(models.Model):
             raise UserError(_("Please enter proper Start Date"))
         if not self.available_seat or self.available_seat < 0:
             raise UserError(_("Please enter proper value for Available seats"))
+        if self.available_seat < len(self.students_ids):
+            raise ValidationError(_("Available Seat is Filled , Please Increase seats or Remove excess Students"))
+
+        if not self.duration or self.duration < 0:
+            raise ValidationError(_("Please enter proper Session  Duration"))
         # if not self.session_id:
         #     raise UserError(_("Please enter proper Session"))
         if self.session_based_on == 'month':
-            if not self.duration or self.duration < 0:
-                raise UserError(_("Please enter proper value for Session Duration"))
+            if not self.no_of_class or self.no_of_class < 0:
+                raise UserError(_("Please enter proper value for Sessions"))
+
         self.compute()
 
     def compute(self):
+        """Method to Create Session"""
         for rec in self:
-            for i in range(0, self.duration):
+            for i in range(1, self.no_of_class+1):
                 if rec.session_based_on == 'month':
-                    next_date = relativedelta(months=i)
+                    next_date = relativedelta(weeks=4 * i) / rec.no_of_sessions
                 else:
-                    next_date = relativedelta(days=7 * i)
+                    next_date = relativedelta(days=7 * i) / rec.no_of_sessions
                 self.session_ids = [
                     (0, 0, {
-                        'name': self.name,
-                        'duration': 1.0,
-                        'date_from': rec.start_date + next_date,
+                        'name': self.name + ' '+'Session' + ' ' + str(i),
+                        'duration': self.duration,
+                        'date_from': (rec.start_date + next_date),
+                        'no_of_students': self.filled_seats,
+                        'students':self.students_ids.ids,
 
                     })]
+
 
 class Session(models.Model):
     _name = 'sports.management.session'
     _description = "Sports Management  Sessions"
 
-    number = fields.Char(string='Number')
+    no_of_students = fields.Integer(string='Total Students', readonly=True)
+    students = fields.One2many('student.details','session_student_id', string='Students', readonly=True)
+
     name = fields.Char(required=True, string='Session Name')
-    date_from = fields.Datetime('Start date' , readonly=True)
+    date_from = fields.Datetime('Start date', readonly=True)
     duration = fields.Float('Duration', store=True)
     trainer_id = fields.Many2many('hr.employee')
     class_id = fields.Many2one('student.class')
-    attendance_ids = fields.One2many('session.attendance.line', 'session_id', computr='_compute_attendance_ids')
+    attendance_ids = fields.One2many('session.attendance.line', 'session_id', compute='_compute_attendance_ids')
     start_time = fields.Datetime('Start Time', readonly=True)
     end_time = fields.Datetime('Start End Time', readonly=True)
-    working_time = fields.Char('Total Working Time',compute='_compute_working_time')
+    working_time = fields.Char('Total Working Time', compute='_compute_working_time')
 
-    @api.depends('start_time','end_time')
+    @api.depends('start_time', 'end_time')
     def _compute_working_time(self):
         for rec in self:
-            difference = (rec.end_time - rec.start_time)
-            rec.working_time = difference
-            print(rec.working_time,'1747452875245dsfs5afc45saf5f5s4')
+            rec.working_time = False
+            if rec.start_time and self.end_time:
+                rec.working_time = rec.end_time-rec.start_time
+            # difference = self.end_time
+            # # - rec.start_time)
+            # rec.working_time = difference
+            # print(rec.working_time, '1747452875245dsfs5afc45saf5f5s4')
             # if rec.end_time:
             #     rec.working_time = datetime.time(rec.end_time - rec.start_time).hour
 
         # self.working_time= (self.end_time- self.start_time)
+
     state = fields.Selection([('draft', 'Draft'),
                               ('started', 'Start'),
                               ('completed', 'Completed'),
-                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft', tracking=True)
+                              ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
 
     def draft(self):
         self.ensure_one()
@@ -178,31 +197,29 @@ class Session(models.Model):
         self.ensure_one()
         self.state = 'started'
         self.start_time = datetime.now()
-        student_obj = self.env['student.class']
-        print(student_obj, '78558*********************')
-        # student_ids = student_obj.search([('class_id', '=', self.id)]).mapped('id')
-        # print((student_ids,'****************stsfgf******************'))
-
-    # @api.multi
-    @api.depends('class_id')
-    def _compute_attendance_ids(self):
-        for rec in self:
-            # if i in range(0, rec.available_seat):
-            #     self.attendance_ids= [
-            #         (0, 0, {
-            #             'attendance_ids': i*self.attendance_ids,
-            #             # 'duration': 1.0,
-            #             # 'date_from': rec.start_date + next_date,
-            #
-            #         })]
-            rec.attendance_ids = rec.students_ids.ids
-            print('rec.attendance_ids', rec.attendance_ids)
-        self.start()
 
     def done(self):
         self.ensure_one()
         self.state = 'completed'
         self.end_time = datetime.now()
+
+    # # @api.multi
+    @api.depends('class_id')
+    def _compute_attendance_ids(self):
+        for rec in self:
+            # print('*************Seat', len(rec.available_seat))
+            # if i in range(0, rec.available_seat):
+            #     self.attendance_ids = [
+            #         (0, 0, {
+            #             # 'attendance_ids': i * self.attendance_ids,
+            #             'duration': 1.0,
+            #             # 'date_from': rec.start_date + next_date,
+            #             #
+            #         })]
+            #         rec.attendance_ids = rec.students_ids.ids
+            print('rec.attendance_ids', rec.attendance_ids)
+
+    #     self.start()
 
 
 class SessionAttendanceLine(models.Model):
