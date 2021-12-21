@@ -40,8 +40,12 @@ class StudentDetails(models.Model):
         self.ensure_one()
         self.state = 'draft'
 
+    def confirm(self):
+        self.ensure_one()
+        self.state = 'confirm'
+
     state = fields.Selection([('draft', 'Draft'),
-                              ('confirm', 'Confirm'),
+                              ('confirm', 'Confirmed'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
 
@@ -123,19 +127,7 @@ class StudentDetails(models.Model):
         #         print(invoice,'**************************************')
         #         # rec.invoice_id = invoice and invoice_id or False
 
-    def action_view_partner_invoices(self):
-        self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
-        action['domain'] = [
-            ('move_type', 'in', ('out_invoice', 'out_refund')),
-            ('partner_id', 'child_of', self.id),
-        ]
-        action['context'] = {'default_move_type': 'out_invoice', 'move_type': 'out_invoice', 'journal_type': 'sale',
-                             'search_default_unpaid': 1}
-        return action
-
-        #  Automatically fetch student Address based on Father
-
+    #  Automatically fetch student Address based on Father
     @api.onchange('parent_id')
     def onchange_parent_id(self):
         """ Method to Fetch student address """
@@ -191,10 +183,12 @@ class StudentDetails(models.Model):
     def onchange_trainers(self):
         """ Method to get Students Trainers in A Class """
         for rec in self:
-            rec.trainer_id = False
+            rec.trainer_id = rec.trainer_id2= False
             if rec.class_id:
                 rec.trainer_id = rec.class_id.main_trainer_id
                 rec.trainer_id2 = rec.class_id.assistant_trainer_id
+            # rec.write({'trainer_id':rec.trainer_id and rec.trainer_id.id or False,
+            #            'trainer_id2': rec.trainer_id2 and rec.trainer_id2.id or False, })
 
     allergy = fields.Selection(
         [('yes', 'Yes'), ('no', 'No')],

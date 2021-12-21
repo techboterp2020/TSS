@@ -12,8 +12,8 @@
                         context="{'default_partner_id': active_id}"/>
 <!--                     <button name="create_invoice_button_fun" string="Crate Invoice" type="object" -->
 <!--                               />-->
-<!--                    <button name="confirm" string="Confirm" states="draft" type="object"-->
-<!--                            class="oe_highlight"/>-->
+                    <button name="confirm" string="Confirm" states="draft" type="object"
+                            class="oe_highlight"/>
 <!--             groups="hr.group_hr_user"       <button name="calculation_done" string="Calculate" states="draft" type="object"-->
 <!--                            attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight"-->
 <!--                            groups="hr.group_hr_user"/>-->
@@ -110,7 +110,7 @@
                         </page>
 
                         <page string="Trainer Info" name="trainer">
-                            <field name="trainer_id" mode="kanban" readonly="1"/>
+                            <field name="trainer_id" mode="kanban"  force_save="1" readonly="1"/>
 <!--                            <field name="trainer_id2" mode="kanban"/>-->
 
                         </page>
@@ -127,8 +127,8 @@
                                 <separator string="Trainer INfo" colspan="4"/>
                                 <newline/>
                                 <group colspan="4" col="4">
-                                    <field name="trainer_id" mode="kanban" reaonly="1"/>
-                                    <field name="trainer_id2" mode="kanban" reaonly="1"/>
+                                    <field name="trainer_id" mode="kanban" readonly="1" force_save="1"/>
+                                    <field name="trainer_id2" mode="kanban" readonly="1" force_save="1"/>
 
                                 </group>
                                 <newline/>

@@ -6,10 +6,6 @@
         <menuitem id="menu_tsms" name="Sports Management" sequence="1"/>
         <!--    web_icon="school,static/description/ems.png"-->
 
- <!-- TO DO: Subscription/ CRM leads Menu in Sports Management System-->
-<!--        <menuitem id="menu_sports_management_subscription_inher" name="Subscription" action="crm.action_your_pipeline"-->
-<!--                  parent="techbot_sports_management_system.menu_tsms" sequence="1"/>-->
-
  <!-- TO DO: Customer Menu in Sports Management System-->
              <menuitem id="menu_sports_management_customer_registration_inher" name="Customer Details" action="base.action_partner_form"
                   parent="techbot_sports_management_system.menu_tsms" sequence="1"/>
@@ -23,11 +19,11 @@
        <menuitem id="menu_hr_employee_trainers" name="Trainers Details"
               parent="techbot_sports_management_system.menu_tsms" action="hr.open_view_employee_list_my" sequence="4"/>
 
-        <menuitem id="menu_sports_management_configuration" name="Configuration" action="techbot_sports_management_system.action_student_student_form_1"
-                  parent="techbot_sports_management_system.menu_tsms" />
+        <menuitem id="sub_menu_sports_session" name="Sessions " parent="techbot_sports_management_system.menu_tsms"
+              action="session_list_action" sequence="5"/>
 
-         <menuitem id="sub_menu_sports_session" name="Sessions " parent="techbot_sports_management_system.menu_tsms"
-              action="session_list_action" sequence="6"/>
+        <menuitem id="menu_sports_management_configuration" name="Configuration" action="techbot_sports_management_system.action_student_student_form_1"
+                  parent="techbot_sports_management_system.menu_tsms" sequence="6" />
 
 <!--      SUB MENUE ITEMS-->
         <menuitem id="menu_faculty_facility" name="Faculty and Facility "

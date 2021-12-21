@@ -10,8 +10,8 @@
                 <field name="name"/>
                 <!--                <field name="activity_id"/>-->
                 <field name="duration"/>
-                <field name="start_date"/>
-                <field name="class_id"/>
+                <field name="date_from"/>
+
                 <field name="attendance_ids"/>
                 <!--                <field name="taken_seats"  widget="progressbar" />-->
             </tree>
@@ -62,6 +62,20 @@
         <field name="model">sports.management.session</field>
         <field name="arch" type="xml">
             <form string="Session Form">
+
+                <header>
+
+                    <button name="draft" string="Reset to Draft" groups="base.group_user"
+                            type="object"/>
+                    <button name="start" string="Start" states="draft" type="object"
+                            class="oe_highlight"
+                            groups="base.group_user"/>
+                    <button name="done" string="Completed" states="started" type="object"
+                            class="oe_highlight"/>
+<!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
+<!--                            groups="hr.group_hr_user"/>-->
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <sheet>
 
                     <div class="oe_title">
@@ -75,9 +89,8 @@
                             <!--                        <field name="name" placeholder="Session Name"/>-->
                             <!--                            <field name="activity_id"/>-->
                             <!--                            <field name="trainer_id"/>-->
-                            <!--                            <field name="active"/>-->
+                            <field name="date_from"/>
 
-                            <field name="start_date"/>
                             <label for="duration"/>
                             <div>
                                 <field name="duration" widget="float_time" string="Duration" class="oe_inline"/>
@@ -85,7 +98,6 @@
 
                             </div>
 
-                            <field name="end_date"/>
                         </group>
                     </group>
 
@@ -98,6 +110,14 @@
 
                     <!--                    <label for="attendee_ids"/>-->
                     <!--                    <field name="attendee_ids" widget="many2many_tags"/>-->
+                </sheet>
+                <sheet>
+                    <group string="Trainer Work Time">
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                        <field name="working_time"/>
+
+                    </group>
                 </sheet>
             </form>
         </field>

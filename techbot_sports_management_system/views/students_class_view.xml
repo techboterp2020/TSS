@@ -23,7 +23,7 @@
                 <header>
                     <button name="draft" string="Reset to Draft" groups="base.group_user"
                             type="object"/>
-                    <button name="started_button" string="Started" states="draft" type="object" class="oe_highlight"
+                    <button name="class_start_button_fun" string="Started" states="draft" type="object" class="oe_highlight"
                             groups="base.group_user"/>
                     <button name="done" string="Completed" states="started" type="object"
                             class="oe_highlight"/>
@@ -45,7 +45,7 @@
                     <group>
                         <group>
                             <field name="start_date" required="1"/>
-                            <field name="from_to"/>
+                            <field name="end_date"/>
                             <field name="main_trainer_id"/>
                             <field name="assistant_trainer_id"/>
 
@@ -63,14 +63,18 @@
                     <newline/>
                     <separator string="Session  Details"/>
                     <group>
-                        <field name="repeat_type"/>
-<!--                                                <field name="mon" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
-                        <!--                        <field name="tue" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
-                        <field name="session_id"/>
+                        <group>
+                            <field name="session_based_on"/>
+                            <field name="duration"/>
+                            <!--                                                <field name="mon" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
+                            <!--                        <field name="tue" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
+
+                        </group>
+
 
                     </group>
                     <group>
-                        <field name="no_of_session"/>
+
                         <field name="session_ids"/>
                     </group>
 
