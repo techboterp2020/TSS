@@ -46,14 +46,14 @@ class StudentClass(models.Model):
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
     start_date = fields.Datetime('Start Date')
     end_date = fields.Datetime('End Date', compute='date_end_calculation', readonly=True, store=True)
-    # trainer_id = fields.Many2one('hr.employee', string='Instructor')
+
     activity_id = fields.Many2one('sports.activity.type', 'Activity', store=True, )
     main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True, )
     assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True, )
     location_id = fields.Many2one('sports.location')
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
-    # students_id = fields.Many2many('student.details',  string="Students")
+
     students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
 
     def draft(self):
@@ -104,7 +104,7 @@ class StudentClass(models.Model):
     # fri = fields.Boolean(readonly=False)
     # sat = fields.Boolean(readonly=False)
     # sun = fields.Boolean(readonly=False)
-    no_of_class = fields.Integer(' No.of Sessions ', required=True)
+    no_of_class = fields.Integer(' Total Class hour ', required=True)
     session_ids = fields.One2many('sports.management.session', 'class_id')
     duration = fields.Float('Session Duration', store=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
@@ -147,7 +147,7 @@ class StudentClass(models.Model):
                         'duration': self.duration,
                         'date_from': (rec.start_date + next_date),
                         'no_of_students': self.filled_seats,
-                        'students':self.students_ids.ids,
+                        'students': self.students_ids.ids,
 
                     })]
 
@@ -164,7 +164,8 @@ class Session(models.Model):
     duration = fields.Float('Duration', store=True)
     trainer_id = fields.Many2many('hr.employee')
     class_id = fields.Many2one('student.class')
-    attendance_ids = fields.One2many('session.attendance.line', 'session_id', compute='_compute_attendance_ids')
+    attendance_ids = fields.One2many('session.attendance.line', 'session_id')
+    # compute='_compute_attendance_ids'
     start_time = fields.Datetime('Start Time', readonly=True)
     end_time = fields.Datetime('Start End Time', readonly=True)
     working_time = fields.Char('Total Working Time', compute='_compute_working_time')
@@ -175,14 +176,6 @@ class Session(models.Model):
             rec.working_time = False
             if rec.start_time and self.end_time:
                 rec.working_time = rec.end_time-rec.start_time
-            # difference = self.end_time
-            # # - rec.start_time)
-            # rec.working_time = difference
-            # print(rec.working_time, '1747452875245dsfs5afc45saf5f5s4')
-            # if rec.end_time:
-            #     rec.working_time = datetime.time(rec.end_time - rec.start_time).hour
-
-        # self.working_time= (self.end_time- self.start_time)
 
     state = fields.Selection([('draft', 'Draft'),
                               ('started', 'Start'),
@@ -204,20 +197,21 @@ class Session(models.Model):
         self.end_time = datetime.now()
 
     # # @api.multi
-    @api.depends('class_id')
+    # @api.depends('class_id')
     def _compute_attendance_ids(self):
         for rec in self:
+            print('*************************************')
             # print('*************Seat', len(rec.available_seat))
             # if i in range(0, rec.available_seat):
             #     self.attendance_ids = [
             #         (0, 0, {
-            #             # 'attendance_ids': i * self.attendance_ids,
+            #             'attendance_ids': self.students,
             #             'duration': 1.0,
             #             # 'date_from': rec.start_date + next_date,
             #             #
             #         })]
             #         rec.attendance_ids = rec.students_ids.ids
-            print('rec.attendance_ids', rec.attendance_ids)
+            # print('rec.attendance_ids', rec.attendance_ids)
 
     #     self.start()
 

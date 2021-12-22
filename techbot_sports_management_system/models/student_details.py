@@ -121,19 +121,14 @@ class StudentDetails(models.Model):
             # 'date': '2019-01-21',
             'invoice_line_ids': [(0, 0, {
                 # 'product_id': self.product_a.id,
-                # 'product_id': self.product.id,
-                'quantity': 5.0,
+                # 'product_id': "Session'",
                 'name': 'Session',
+                'quantity': 4.0,
                 'discount': 0.00,
                 'price_unit': 100,
             })]
         })
         return invoice
-        # "state"
-        # ":"
-        # draft
-        # ",
-        # invoice.action_post()
 
     # invoice = self.env['account.move'].create({
     #     # 'move_type': 'out_invoice',
