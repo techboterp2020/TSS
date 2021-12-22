@@ -61,12 +61,12 @@
                             <field name="start_date" required="1"/>
                             <label for="no_of_class"/>
                             <div>
-                                <field name="no_of_class" widget="float_time" string="Duration" class="oe_inline"/>
-                                <span> hours</span>
+                                <field name="no_of_class" class="oe_inline"/>
+
 
                             </div>
-<!--                            <field name="no_of_class"/>-->
-<!--                            <field name="duration"/><span>Hour</span>-->
+                            <!--                            <field name="no_of_class"/>-->
+                            <!--                            <field name="duration"/><span>Hour</span>-->
                             <!--                            mode="kanban"-->
                         </group>
 
@@ -83,15 +83,25 @@
                                 <span>Per</span>
                                 <field name="session_based_on"/>
                             </div>
-                            <field name="duration"/>
+
                         </group>
+                        <group/>
+                        <group>
+                            <label for="duration" string="Duration "/>
+                            <div>
+                                <field name="duration" widget="float_time" string="Duration"/>
+                                <span> hours</span>
+                            </div>
+
+                        </group>
+
 
                     </group>
 
                     <!--          <div class="header">
                         <div class="row">
                             <div class="col-xs-12">              <field name="mon" attrs="{'invisible': [('session_based_on', '!=', 'weekly')]}"/>-->
-                        <!--                        <field name="tue" attrs="{'invisible': [('session_based_on', '!=', 'weekly')]}"/>-->
+                    <!--                        <field name="tue" attrs="{'invisible': [('session_based_on', '!=', 'weekly')]}"/>-->
 
                     <group string="Sessions">
 

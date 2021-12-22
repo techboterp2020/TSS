@@ -32,7 +32,6 @@ class StudentDetails(models.Model):
 
     # invoice_count = fields.Integer(compute='_compute_invoice_count', string='Child qty')
 
-
     def _get_default_color(self):
         return randint(1, 11)
 
@@ -63,6 +62,7 @@ class StudentDetails(models.Model):
                               help='Select student gender')
     # states={'done': [('readonly', True)]},
     nationality_id = fields.Many2one('res.country')
+    # class_id = fields.Many2many('student.class')
     class_id = fields.Many2one('student.class')
 
     dob = fields.Date("DOB", required=1)
@@ -92,14 +92,12 @@ class StudentDetails(models.Model):
     remark = fields.Text('Remark', help='Remark can be entered if any')
     #  states={'done': [('readonly', True)]},
     # employee_id = fields.Many2one('hr.employee')
+
     trainer_id = fields.Many2many('hr.employee', readonly=True)
-    trainer_id2 = fields.Many2one('hr.employee', readonly=True)
+    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'trainer2',readonly=True)
     session_student_id = fields.Many2one('sports.management.session')
 
     comments = fields.Char()
-
-
-
 
     def get_invoice_details(self):
         print("**************************** hfhgg Paraent")

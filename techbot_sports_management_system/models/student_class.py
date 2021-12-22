@@ -84,14 +84,6 @@ class StudentClass(models.Model):
             else:
                 rec.filled_seats = 100.0 * len(rec.students_ids) / rec.available_seat
 
-    # @api.onchange('available_seat', 'students_ids')
-    # def _verify_valid_seats(self):
-    #     if self.available_seat < 0:
-    #         raise ValidationError(
-    #             _("Incorrect 'seats' value , The number of available seats may not be negative or Zero"))
-    #     if self.available_seat < len(self.students_ids):
-    #         raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
-
     session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
                                         required=True,
                                         default='weekly', readonly=False)
@@ -104,12 +96,13 @@ class StudentClass(models.Model):
     # fri = fields.Boolean(readonly=False)
     # sat = fields.Boolean(readonly=False)
     # sun = fields.Boolean(readonly=False)
-    no_of_class = fields.Integer(' Total Class hour ', required=True)
+    no_of_class = fields.Integer(' Total Class  ', required=True)
     session_ids = fields.One2many('sports.management.session', 'class_id')
     duration = fields.Float('Session Duration', store=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
 
     def class_start_button_fun(self):
+        """Method to Check Validation"""
         self.ensure_one()
         self.state = 'started'
         if not self.activity_id:
@@ -134,20 +127,23 @@ class StudentClass(models.Model):
         self.compute()
 
     def compute(self):
-        """Method to Create Session"""
+        """Method to Create a Session"""
         for rec in self:
-            for i in range(1, self.no_of_class+1):
+            for i in range(1, self.no_of_class + 1):
                 if rec.session_based_on == 'month':
                     next_date = relativedelta(weeks=4 * i) / rec.no_of_sessions
                 else:
                     next_date = relativedelta(days=7 * i) / rec.no_of_sessions
                 self.session_ids = [
                     (0, 0, {
-                        'name': self.name + ' '+'Session' + ' ' + str(i),
+                        'name': self.name + ' ' + 'Session' + ' ' + str(i),
                         'duration': self.duration,
                         'date_from': (rec.start_date + next_date),
-                        'no_of_students': self.filled_seats,
-                        'students': self.students_ids.ids,
+                        'available_seat': self.available_seat,
+                        'no_of_students': len(self.students_ids.ids),
+                        'students_ids': self.students_ids.ids,  # pass student from student class to Session
+                        'main_trainer_info_id': self.main_trainer_id.ids,
+                        # 'assi_trainer_info_id': self.assistant_trainer_id
 
                     })]
 
@@ -156,13 +152,17 @@ class Session(models.Model):
     _name = 'sports.management.session'
     _description = "Sports Management  Sessions"
 
-    no_of_students = fields.Integer(string='Total Students', readonly=True)
-    students = fields.One2many('student.details','session_student_id', string='Students', readonly=True)
+    main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer')
+    # assi_trainer_info_id = fields.Many2many('hr.employee')
+    available_seat = fields.Integer(string='Available Seat', readonly=True)
+    no_of_students = fields.Integer(string='Total no.of Students', readonly=True)
+
+    students_ids = fields.One2many('student.details', 'session_student_id', string='Students', readonly=True)
 
     name = fields.Char(required=True, string='Session Name')
     date_from = fields.Datetime('Start date', readonly=True)
     duration = fields.Float('Duration', store=True)
-    trainer_id = fields.Many2many('hr.employee')
+
     class_id = fields.Many2one('student.class')
     attendance_ids = fields.One2many('session.attendance.line', 'session_id')
     # compute='_compute_attendance_ids'
@@ -175,7 +175,7 @@ class Session(models.Model):
         for rec in self:
             rec.working_time = False
             if rec.start_time and self.end_time:
-                rec.working_time = rec.end_time-rec.start_time
+                rec.working_time = rec.end_time - rec.start_time
 
     state = fields.Selection([('draft', 'Draft'),
                               ('started', 'Start'),
@@ -190,6 +190,7 @@ class Session(models.Model):
         self.ensure_one()
         self.state = 'started'
         self.start_time = datetime.now()
+        self.compute_attendance()
 
     def done(self):
         self.ensure_one()
@@ -198,22 +199,21 @@ class Session(models.Model):
 
     # # @api.multi
     # @api.depends('class_id')
-    def _compute_attendance_ids(self):
+    def compute_attendance(self):
         for rec in self:
             print('*************************************')
-            # print('*************Seat', len(rec.available_seat))
-            # if i in range(0, rec.available_seat):
-            #     self.attendance_ids = [
-            #         (0, 0, {
-            #             'attendance_ids': self.students,
-            #             'duration': 1.0,
-            #             # 'date_from': rec.start_date + next_date,
-            #             #
-            #         })]
-            #         rec.attendance_ids = rec.students_ids.ids
-            # print('rec.attendance_ids', rec.attendance_ids)
+            rec.attendance_ids = False
+            attendance_details = []
+            for student in rec.class_id.students_ids:
+                attendance_details.append(
+                    (0, 0, {
+                        'student_id': student.id,
 
-    #     self.start()
+                    })
+                )
+
+            rec.attendance_ids = attendance_details
+
 
 
 class SessionAttendanceLine(models.Model):
@@ -222,6 +222,6 @@ class SessionAttendanceLine(models.Model):
 
     student_id = fields.Many2one('student.details')
     attendance = fields.Boolean()
-    class_id = fields.Many2one('student.class')
+    # class_id = fields.Many2one('student.class')
     remark = fields.Char('Remark')
     session_id = fields.Many2one('sports.management.session')

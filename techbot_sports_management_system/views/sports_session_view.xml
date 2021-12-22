@@ -72,8 +72,8 @@
                             groups="base.group_user"/>
                     <button name="done" string="Completed" states="started" type="object"
                             class="oe_highlight"/>
-<!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
-<!--                            groups="hr.group_hr_user"/>-->
+                    <!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
+                    <!--                            groups="hr.group_hr_user"/>-->
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -84,24 +84,25 @@
                             <field name="name" placeholder="Eg , Session 9-10 Am"/>
                         </h1>
                     </div>
-                    <group >
+                    <group>
                         <group string="Time Schedule">
                             <!--                        <field name="name" placeholder="Session Name"/>-->
                             <!--                            <field name="activity_id"/>-->
                             <!--                            <field name="trainer_id"/>-->
                             <field name="date_from"/>
 
-                            <label for="duration"/>
+                            <label for="duration" />
                             <div>
-                                <field name="duration" widget="float_time" string="Duration" class="oe_inline"/>
+                                <field name="duration" readonly="1" widget="float_time" string="Duration" class="oe_inline"/>
                                 <span>hours</span>
 
                             </div>
 
                         </group>
                         <group string="Students Details">
+                            <field name="available_seat"/>
                             <field name="no_of_students"/>
-                            <field name="students" widget="many2many_tags"/>
+                            <field name="students_ids" widget="many2many_tags"/>
 
                         </group>
                     </group>
@@ -117,6 +118,11 @@
                     <!--                    <field name="attendee_ids" widget="many2many_tags"/>-->
                 </sheet>
                 <sheet>
+                    <group string="Trainer Info">
+                        <field name="main_trainer_info_id" widget="many2many_tags" />
+<!--                        <field name="assi_trainer_info_id" widget="many2many_tags"/>-->
+
+                    </group>
                     <group string="Trainer Work Time">
                         <field name="start_time"/>
                         <field name="end_time"/>

@@ -9,7 +9,7 @@
             <tree string="Session Attendance Tree" >
                 <field name="student_id"/>
                 <!--                <field name="activity_id"/>-->
-                <field name="class_id"/>
+<!--                <field name="class_id"/>-->
                 <field name="attendance"/>
                 <field name="remark"/>
 

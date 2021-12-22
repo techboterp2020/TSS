@@ -112,7 +112,7 @@
 
                         <page string="Trainer Info" name="trainer">
                             <field name="trainer_id" mode="kanban"  force_save="1" readonly="1"/>
-<!--                            <field name="trainer_id2" mode="kanban"/>-->
+                            <field name="trainer_id2" mode="kanban"/>
 
                         </page>
 
