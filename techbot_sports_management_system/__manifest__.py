@@ -14,9 +14,8 @@
     # 'static/description/EMS.jpg'
     'depends': ['base', 'hr', 'account', 'crm', 'sale_management', 'account_accountant'],
     'data': [
-
-        'security/security.xml',
         'security/ir.model.access.csv',
+        'security/security.xml',
 
         'views/crm_lead_views.xml',
         'views/sports_management_views.xml',

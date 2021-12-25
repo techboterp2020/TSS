@@ -6,7 +6,7 @@
         <field name="model">sports.management.session</field>
         <field name="arch" type="xml">
             <!--<tree string="Session Tree">-->
-            <tree string="Session Tree" decoration-bf="duration&lt;5" decoration-it="duration&gt;15">
+            <tree string="Session Tree"  decoration-bf="duration&lt;5" decoration-it="duration&gt;15">
                 <field name="name"/>
                 <!--                <field name="activity_id"/>-->
                 <field name="duration"/>
@@ -19,30 +19,30 @@
     </record>
 
 
-    <!-- calendar view -->
-    <!--    <record model="ir.ui.view" id="session_calendar_view">-->
-    <!--        <field name="name">session.calendar</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date"-->
-    <!--                      scales="day,week,month" mode="month">-->
-    <!--                <field name="name"/>-->
-    <!--            </calendar>-->
-    <!--        </field>-->
-    <!--    </record>-->
+<!--     calendar view-->
+<!--        <record model="ir.ui.view" id="session_calendar_view">-->
+<!--            <field name="name">session.calendar</field>-->
+<!--            <field name="model">sports.management.session</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <calendar string="Session Calendar" date_start="date_from" date_stop="duration"-->
+<!--                          scales="day,week,month" mode="month">-->
+<!--                    <field name="name"/>-->
+<!--                </calendar>-->
+<!--            </field>-->
+<!--        </record>-->
 
     <!-- gantt view -->
-    <!--    <record model="ir.ui.view" id="session_gantt_view">-->
-    <!--        <field name="name">session.gantt</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <gantt string="Session Gantt"-->
-    <!--                   date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"-->
-    <!--                   plan="false" offset="1" progress="taken_seats"-->
-    <!--                   default_group_by='trainer_id'>-->
-    <!--            </gantt>-->
-    <!--        </field>-->
-    <!--    </record>-->
+<!--        <record model="ir.ui.view" id="session_gantt_view">-->
+<!--            <field name="name">session.gantt</field>-->
+<!--            <field name="model">sports.management.session</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <gantt string="Session Gantt"-->
+<!--                       date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"-->
+<!--                       plan="false" offset="1" progress="taken_seats"-->
+<!--                       default_group_by='trainer_id'>-->
+<!--                </gantt>-->
+<!--            </field>-->
+<!--        </record>-->
 
     <!-- graph view -->
     <!--    <record model="ir.ui.view" id="sms_session_graph_view">-->

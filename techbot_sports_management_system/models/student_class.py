@@ -211,10 +211,7 @@ class Session(models.Model):
 
                     })
                 )
-
             rec.attendance_ids = attendance_details
-
-
 
 class SessionAttendanceLine(models.Model):
     _name = 'session.attendance.line'

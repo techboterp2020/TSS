@@ -90,8 +90,6 @@ class StudentDetails(models.Model):
     student_weight = fields.Float('Weight', help="Weight in K.G")
 
     remark = fields.Text('Remark', help='Remark can be entered if any')
-    #  states={'done': [('readonly', True)]},
-    # employee_id = fields.Many2one('hr.employee')
 
     trainer_id = fields.Many2many('hr.employee', readonly=True)
     trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'trainer2',readonly=True)
@@ -128,30 +126,6 @@ class StudentDetails(models.Model):
         })
         return invoice
 
-    # invoice = self.env['account.move'].create({
-    #     # 'move_type': 'out_invoice',
-    #     'partner_id': rec.parent_id.id,
-    #     # 'payment_reference': 'invoice to client',
-    #     'invoice_line_ids': [(0, 0, {
-    #         'name':self.name,
-    #         'price_unit': 100.0
-    #         # 'product_id': self.env['product.product'].create({'name': 'Session'}),
-    #         #     'quantity': 1,
-    #         #     'price_unit': 100,
-    #         #     # 'name': 'something',
-    #     })],
-    # })
-    # invoice.action_post()
-    # return invoice
-
-        # def make_invoices(self):
-        #     for rec in self:
-        #         invoice = self.env['account.move'].create({
-        #             'partner_id': rec.partner_a.id
-        #         })
-        #         rec.invoice_id = invoice and rec.invoice_id or False
-        #         print(invoice,'**************************************')
-        #         # rec.invoice_id = invoice and invoice_id or False
 
     #  Automatically fetch student Address based on Father
     @api.onchange('parent_id')
@@ -204,12 +178,24 @@ class StudentDetails(models.Model):
             if rec.class_id:
                 if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
                     raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+    # for rec in self:
+    #     print('*************************************')
+    #     rec.attendance_ids = False
+    #     attendance_details = []
+    #     for student in rec.class_id.students_ids:
+    #         attendance_details.append(
+    #             (0, 0, {
+    #                 'student_id': student.id,
+    #
+    #             })
+    #         )
+    #     rec.attendance_ids = attendance_details
 
     @api.onchange('class_id')
     def onchange_trainers(self):
         """ Method to get Students Trainers in A Class """
         for rec in self:
-            rec.trainer_id = rec.trainer_id2= False
+            rec.trainer_id = rec.trainer_id2 = False
             if rec.class_id:
                 rec.trainer_id = rec.class_id.main_trainer_id
                 rec.trainer_id2 = rec.class_id.assistant_trainer_id
