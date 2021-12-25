@@ -18,6 +18,33 @@
         </field>
     </record>
 
+<!--     <record id="view_sports_session_filter" model="ir.ui.view">-->
+<!--        <field name="name">session.filter</field>-->
+<!--        <field name="model">sports.management.session</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Search Sessions">-->
+<!--                <field name="name"/>-->
+<!--                <separator/>-->
+<!--&lt;!&ndash;                <filter name="filter_approve" domain="[('state','=','draft')]" string="To Start"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <filter domain="[('state','=','approve')]" string="Approved" name="approved"/>&ndash;&gt;-->
+<!--                <separator/>-->
+<!--                <filter string="My Sessions" name="my_sessions" domain="[('main_trainer_id.user_id','=', uid)]" help="My Sessions"/>-->
+<!--                <separator/>-->
+<!--&lt;!&ndash;                <filter string="My Department Loans" name="filter_my_departments_loan" help="My Department Loans" domain="[('department_id.manager_id.user_id','=',uid)]"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="employee_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="department_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <group expand="0" string="Group By...">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <filter name="group_name" string="Description" context="{'group_by':'name'}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <filter name="group_request" string="Applied Date" context="{'group_by':'loan_applied_date'}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <filter name="group_employee" string="Employee" context="{'group_by':'employee_id'}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <filter name="group_department" string="Department"&ndash;&gt;-->
+<!--&lt;!&ndash;                            context="{'group_by':'department_id','set_visible':True}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <filter name="group_status" string="Status" context="{'group_by':'state'}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </group>&ndash;&gt;-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
 
 <!--     calendar view-->
 <!--        <record model="ir.ui.view" id="session_calendar_view">-->

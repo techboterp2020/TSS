@@ -115,9 +115,10 @@ class StudentClass(models.Model):
             raise UserError(_("Please enter proper value for Available seats"))
         if self.available_seat < len(self.students_ids):
             raise ValidationError(_("Available Seat is Filled , Please Increase seats or Remove excess Students"))
-
         if not self.duration or self.duration < 0:
             raise ValidationError(_("Please enter proper Session  Duration"))
+        if not self.no_of_class or self.no_of_class < 0:
+            raise UserError(_("Please enter proper value for Total Class"))
         # if not self.session_id:
         #     raise UserError(_("Please enter proper Session"))
         if self.session_based_on == 'month':
