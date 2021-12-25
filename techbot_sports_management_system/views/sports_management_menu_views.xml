@@ -8,7 +8,7 @@
 
  <!-- TO DO: Customer Menu in Sports Management System-->
              <menuitem id="menu_sports_management_customer_registration_inher" name="Customer Details" action="base.action_partner_form"
-                  parent="techbot_sports_management_system.menu_tsms" groups="techbot_sports_management_system.group_hide_menue" sequence="1"/>
+                  parent="techbot_sports_management_system.menu_tsms" sequence="1"/>
         <!--       Menu Item -->
         <menuitem id="menu_sports_management_student_info" name="Students Details" action="techbot_sports_management_system.action_student_student_form_1"
                   parent="techbot_sports_management_system.menu_tsms" sequence="2"/>

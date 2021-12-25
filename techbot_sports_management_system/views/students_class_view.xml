@@ -85,28 +85,21 @@
                             </div>
 
                         </group>
+
                         <group/>
+
                         <group>
                             <label for="duration" string="Duration "/>
                             <div>
                                 <field name="duration" widget="float_time" string="Duration"/>
                                 <span> hours</span>
                             </div>
-
                         </group>
-
-
                     </group>
 
-                    <!--          <div class="header">
-                        <div class="row">
-                            <div class="col-xs-12">              <field name="mon" attrs="{'invisible': [('session_based_on', '!=', 'weekly')]}"/>-->
-                    <!--                        <field name="tue" attrs="{'invisible': [('session_based_on', '!=', 'weekly')]}"/>-->
-
-                    <group string="Sessions">
-
+                    <tree string="Sessions">
                         <field name="session_ids"/>
-                    </group>
+                    </tree>
 
                 </sheet>
             </form>

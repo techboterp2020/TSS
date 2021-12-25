@@ -140,12 +140,11 @@ class StudentClass(models.Model):
                         'name': self.name + ' ' + 'Session' + ' ' + str(i),
                         'duration': self.duration,
                         'date_from': (rec.start_date + next_date),
+                        'venue_id': self.location_id.id,
                         'available_seat': self.available_seat,
                         'no_of_students': len(self.students_ids.ids),
                         'students_ids': self.students_ids.ids,  # pass student from student class to Session
                         'main_trainer_info_id': self.main_trainer_id.ids,
-                        # 'assi_trainer_info_id': self.assistant_trainer_id
-
                     })]
 
 
@@ -157,7 +156,7 @@ class Session(models.Model):
     # assi_trainer_info_id = fields.Many2many('hr.employee')
     available_seat = fields.Integer(string='Available Seat', readonly=True)
     no_of_students = fields.Integer(string='Total no.of Students', readonly=True)
-
+    venue_id = fields.Many2one('sports.location')
     students_ids = fields.One2many('student.details', 'session_student_id', string='Students', readonly=True)
 
     name = fields.Char(required=True, string='Session Name')
@@ -182,6 +181,7 @@ class Session(models.Model):
                               ('started', 'Start'),
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
+    color = fields.Integer('Color Index', default=0)
 
     def draft(self):
         self.ensure_one()
