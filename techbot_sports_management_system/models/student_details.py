@@ -167,18 +167,18 @@ class StudentDetails(models.Model):
             if current_dt < rec.dob:
                 raise ValidationError(_('The DOB Date cannot be Greater than the Current Date.'))
 
-    # @api.onchange('class_id')
-    # def onchange_class_seate(self):
-    #     """ Method to Restrict Add Students in A Class """
-    #     for rec in self:
-    #         if rec.class_id:
-    #             if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
-    #                 raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
-    #             """ Method to get Students Trainers in A Class """
-    #             rec.trainer_id = rec.trainer_id2 = False
-    #             if rec.class_id:
-    #                 rec.trainer_id = rec.class_id.main_trainer_id
-    #                 rec.trainer_id2 = rec.class_id.assistant_trainer_id
+    @api.onchange('class_id')
+    def onchange_class_seate(self):
+        """ Method to Restrict Add Students in A Class """
+        for rec in self:
+            if rec.class_id:
+                if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
+                    raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+                """ Method to get Students Trainers in A Class """
+                rec.trainer_id = rec.trainer_id2 = False
+                if rec.class_id:
+                    rec.trainer_id = rec.class_id.main_trainer_id
+                    rec.trainer_id2 = rec.class_id.assistant_trainer_id
 
     # @api.onchange('class_id')
     # def onchange_trainers(self):
