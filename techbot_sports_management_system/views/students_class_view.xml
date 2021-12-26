@@ -8,6 +8,21 @@
         <field name="arch" type="xml">
             <tree string="Class Name" multi_edit="1" sample="1">
                 <field name="name" string="Class Name"/>
+                <field name="activity_id"/>
+                <field name="location_id"/>
+                <field name="duration" widget="float_time" string="Duration"/>
+                <field name="available_seat"/>
+                <field name="students_ids" widget="many2many_tags"/>
+                <field name="filled_seats" widget="progressbar"/>
+                <field name="start_date" />
+                <field name="end_date"/>
+                <field name="main_trainer_id"/>
+                <field name="assistant_trainer_id"/>
+                <field name="no_of_class"/>
+                <field name="no_of_sessions"/>
+                <field name="session_based_on"/>
+                <field name="session_ids"/>
+                <field name="state"/>
 
             </tree>
         </field>
@@ -92,7 +107,7 @@
                             <label for="duration" string="Duration "/>
                             <div>
                                 <field name="duration" widget="float_time" string="Duration"/>
-                                <span> hours</span>
+                                <span>hours</span>
                             </div>
                         </group>
                     </group>

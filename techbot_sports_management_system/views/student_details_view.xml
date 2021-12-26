@@ -335,13 +335,15 @@
                 <field name="student_name"/>
                    <filter name="mob"/>
                 <separator/>
+<!--                <filter name="class_id" string="Class" domain="[('class_id', '=', 'class_id'}]" help="class"/>-->
                 <filter string="Gender" name="gender" domain="[('gender', '=', 'male')]"/>
-                <!--                <field string="Age" name="age" filter_domain="[('age', '=', 'dob')]"/>-->
+
                 <separator/>
-                <!--                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>-->
+
                 <separator/>
                 <group expand="0" name="group_by" string="Group By">
-                    <filter name="salesperson" string="Trainers" context="{'group_by' : 'trainer_id'}"/>
+                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>
+                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>
                     <filter name="parent" string="Parent" context="{'group_by': 'parent_id'}"/>
                     <filter name="gender" string="Gender" context="{'group_by': 'gender'}"/>
                     <!--                    <filter name="group_age" string="Age" context="{'group_by': 'age'}"/>-->

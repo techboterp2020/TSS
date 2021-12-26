@@ -53,7 +53,6 @@ class StudentClass(models.Model):
     location_id = fields.Many2one('sports.location')
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
-
     students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
 
     def draft(self):
@@ -119,6 +118,8 @@ class StudentClass(models.Model):
             raise ValidationError(_("Please enter proper Session  Duration"))
         if not self.no_of_class or self.no_of_class < 0:
             raise UserError(_("Please enter proper value for Total Class"))
+        if not self.filled_seats or self.filled_seats < 0:
+            raise UserError(_("Please Add/ Assign Students into the Class"))
         # if not self.session_id:
         #     raise UserError(_("Please enter proper Session"))
         if self.session_based_on == 'month':
@@ -153,20 +154,16 @@ class Session(models.Model):
     _description = "Sports Management  Sessions"
 
     main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer')
-    # assi_trainer_info_id = fields.Many2many('hr.employee')
     available_seat = fields.Integer(string='Available Seat', readonly=True)
     no_of_students = fields.Integer(string='Total no.of Students', readonly=True)
     venue_id = fields.Many2one('sports.location')
     students_ids = fields.One2many('student.details', 'session_student_id', string='Students', readonly=True)
-
-    name = fields.Char(required=True, string='Session Name')
+    name = fields.Char(string='Session Name', required=True)
     current_date = fields.Datetime('Current Date', default=fields.Datetime.today())
     date_from = fields.Datetime('Start date', readonly=True)
     duration = fields.Float('Duration', store=True)
-
     class_id = fields.Many2one('student.class')
     attendance_ids = fields.One2many('session.attendance.line', 'session_id')
-    # compute='_compute_attendance_ids'
     start_time = fields.Datetime('Start Time', readonly=True)
     end_time = fields.Datetime('Start End Time', readonly=True)
     working_time = fields.Char('Total Working Time', compute='_compute_working_time')
@@ -179,7 +176,7 @@ class Session(models.Model):
                 rec.working_time = rec.end_time - rec.start_time
 
     state = fields.Selection([('draft', 'Draft'),
-                              ('started', 'Start'),
+                              ('started', 'Started'),
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
     color = fields.Integer('Color Index', default=0)
@@ -199,18 +196,14 @@ class Session(models.Model):
         self.state = 'completed'
         self.end_time = datetime.now()
 
-    # # @api.multi
-    # @api.depends('class_id')
     def compute_attendance(self):
         for rec in self:
-            print('*************************************')
             rec.attendance_ids = False
             attendance_details = []
             for student in rec.class_id.students_ids:
                 attendance_details.append(
                     (0, 0, {
                         'student_id': student.id,
-
                     })
                 )
             rec.attendance_ids = attendance_details
