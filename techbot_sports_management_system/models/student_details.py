@@ -80,9 +80,8 @@ class StudentDetails(models.Model):
     remark = fields.Text('Remark', help='Remark can be entered if any')
     # class_id = fields.Many2many('student.class')
     class_id = fields.Many2one('student.class')
-    trainer_id = fields.Many2many('hr.employee',  'student_employee_rel', 'student_id', 'employee_id',readonly=True)
-    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'Assistant Trainer',
-                                   readonly=True)
+    trainer_id = fields.Many2many('hr.employee')
+    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'Assistant Trainer')
     session_student_id = fields.Many2one('sports.management.session')
     comments = fields.Char()
 
@@ -160,11 +159,12 @@ class StudentDetails(models.Model):
         """ Method to Restrict Add Students in A Class """
         for rec in self:
             rec.trainer_id = rec.trainer_id2 = False
+                # [(5,0,0)]
             if rec.class_id:
-                #  """ Method to get Students Trainers in A Class """
-                rec.trainer_id = [(6,0,[rec.class_id.main_trainer_id.id])]
-                rec.trainer_id2 = [(6,0,[rec.class_id.assistant_trainer_id.id])]
-
+                """ Method to get Students Trainers in A Class """
+                rec.trainer_id = [(6, 0, [rec.class_id.main_trainer_id.id])]
+                # rec.trainer_id2 = [(6, 0, [rec.class_id.assistant_trainer_id.id])]
+                # assistant_trainer_id rec.class_id.assistant_trainer_id.id
                 if (rec.class_id.available_seat== (len(rec.class_id.students_ids.ids))):
                     raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
 

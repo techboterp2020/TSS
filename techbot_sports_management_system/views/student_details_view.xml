@@ -110,11 +110,12 @@
                             </group>
                         </page>
 
-                        <page string="Trainer Info" name="trainer">
-                            <field name="trainer_id" mode="kanban"  force_save="1" readonly="1"/>
-                            <field name="trainer_id2" mode="kanban"/>
+<!--                        <page string="Trainer Info" name="trainer">-->
+<!--                            <field name="trainer_id" mode="kanban"   />-->
+<!--&lt;!&ndash;                            force_save="1"&ndash;&gt;-->
+<!--                            <field name="trainer_id2" mode="kanban"/>-->
 
-                        </page>
+<!--                        </page>-->
 
                         <page string="Class/Session Details " name="Class">
                             <group>
@@ -129,8 +130,9 @@
                                 <separator string="Trainer INfo" colspan="4"/>
                                 <newline/>
                                 <group colspan="4" col="4">
-                                    <field name="trainer_id" mode="kanban" readonly="1" force_save="1"/>
-                                    <field name="trainer_id2" mode="kanban" readonly="1" force_save="1"/>
+                                    <field name="trainer_id" mode="kanban" readonly="1" force_save="1" />
+<!--                                    -->
+                                    <field name="trainer_id2" mode="kanban" />
 
                                 </group>
                                 <newline/>

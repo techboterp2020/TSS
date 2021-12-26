@@ -52,8 +52,11 @@ class StudentClass(models.Model):
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
     students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
+
     main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True)
     assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True)
+
+
 
     def draft(self):
         self.ensure_one()
@@ -135,7 +138,6 @@ class StudentClass(models.Model):
         if self.available_seat == 0:
             raise UserError(_("Available Seat should be greater than Zero"))
 
-
     def compute(self):
         """Method to Create a Session"""
         for rec in self:
@@ -160,6 +162,8 @@ class StudentClass(models.Model):
 class Session(models.Model):
     _name = 'sports.management.session'
     _description = "Sports Management  Sessions"
+
+
 
     venue_id = fields.Many2one('sports.location',readonly=True)
     main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer', readonly=True)
@@ -189,6 +193,15 @@ class Session(models.Model):
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
     color = fields.Integer('Color Index', default=0)
+
+    def write(self, vals):
+        if vals.get('state') =='started':
+            vals.update({'start_time': datetime.now()})
+        if vals.get('state') == 'completed':
+            vals.update({'start_time': datetime.now()})
+        return super(Session, self).write(vals)
+
+
 
     def draft(self):
         self.ensure_one()
