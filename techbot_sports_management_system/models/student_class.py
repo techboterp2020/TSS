@@ -52,8 +52,8 @@ class StudentClass(models.Model):
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
     students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
-    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True, )
-    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True, )
+    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True)
+    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True)
 
     def draft(self):
         self.ensure_one()
@@ -120,12 +120,21 @@ class StudentClass(models.Model):
             raise UserError(_("Please enter proper value for Total Class"))
         if not self.filled_seats or self.filled_seats < 0:
             raise UserError(_("Please Add/ Assign Students into the Class"))
-        # if not self.session_id:
-        #     raise UserError(_("Please enter proper Session"))
+        if self.main_trainer_id == self.assistant_trainer_id :
+            raise UserError(_("Trainers are same Please Choose Different Trainers"))
         if self.session_based_on == 'month':
             if not self.no_of_class or self.no_of_class < 0:
                 raise UserError(_("Please enter proper value for Sessions"))
         self.compute()
+
+    @api.constrains('main_trainer_id', 'assistant_trainer_id')
+    def _same_trainer(self):
+        """Method to Check Same Trainers"""
+        if self.main_trainer_id == self.assistant_trainer_id:
+            raise UserError(_("Instructors/Trainers are same Please Choose Different Trainers"))
+        if self.available_seat == 0:
+            raise UserError(_("Available Seat should be greater than Zero"))
+
 
     def compute(self):
         """Method to Create a Session"""

@@ -80,14 +80,13 @@ class StudentDetails(models.Model):
     remark = fields.Text('Remark', help='Remark can be entered if any')
     # class_id = fields.Many2many('student.class')
     class_id = fields.Many2one('student.class')
-    trainer_id = fields.Many2many('hr.employee', readonly=True)
-    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'trainer2',
+    trainer_id = fields.Many2many('hr.employee',  'student_employee_rel', 'student_id', 'employee_id',readonly=True)
+    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'Assistant Trainer',
                                    readonly=True)
     session_student_id = fields.Many2one('sports.management.session')
     comments = fields.Char()
 
     def get_invoice_details(self):
-        print("**************************** hfhgg Paraent")
         action_data = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
         action_data['domain'] = [('id', 'in', self.parent_id.ids)]
         return action_data
@@ -112,7 +111,7 @@ class StudentDetails(models.Model):
         })
         return invoice
 
-    #  Automatically fetch student Address based on Father
+    #  Automatically fetch student Address based on Parents
     @api.onchange('parent_id')
     def onchange_parent_id(self):
         """ Method to Fetch student address """
@@ -168,9 +167,6 @@ class StudentDetails(models.Model):
 
                 if (rec.class_id.available_seat== (len(rec.class_id.students_ids.ids))):
                     raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
-
-
-
 
     # @api.onchange('class_id')
     # def onchange_trainers(self):
