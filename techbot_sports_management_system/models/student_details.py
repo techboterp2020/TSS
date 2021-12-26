@@ -32,7 +32,6 @@ class StudentDetails(models.Model):
 
     # invoice_count = fields.Integer(compute='_compute_invoice_count', string='Child qty')
 
-
     def _get_default_color(self):
         return randint(1, 11)
 
@@ -40,8 +39,12 @@ class StudentDetails(models.Model):
         self.ensure_one()
         self.state = 'draft'
 
-    state = fields.Selection([('draft', 'Draft'),
-                              ('confirm', 'Confirm'),
+    def confirm(self):
+        self.ensure_one()
+        self.state = 'confirm'
+
+    state = fields.Selection([('draft', 'Draft'), ('invoice', 'Invoiced'),
+                              ('confirm', 'Confirmed'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
 
@@ -59,6 +62,7 @@ class StudentDetails(models.Model):
                               help='Select student gender')
     # states={'done': [('readonly', True)]},
     nationality_id = fields.Many2one('res.country')
+    # class_id = fields.Many2many('student.class')
     class_id = fields.Many2one('student.class')
 
     dob = fields.Date("DOB", required=1)
@@ -86,56 +90,40 @@ class StudentDetails(models.Model):
     student_weight = fields.Float('Weight', help="Weight in K.G")
 
     remark = fields.Text('Remark', help='Remark can be entered if any')
-    #  states={'done': [('readonly', True)]},
-    # employee_id = fields.Many2one('hr.employee')
+
     trainer_id = fields.Many2many('hr.employee', readonly=True)
-    trainer_id2 = fields.Many2one('hr.employee', readonly=True)
+    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'trainer2',readonly=True)
+    session_student_id = fields.Many2one('sports.management.session')
 
     comments = fields.Char()
 
-
-
     def get_invoice_details(self):
         print("**************************** hfhgg Paraent")
+        action_data = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
+        action_data['domain'] = [('id', 'in', self.parent_id.ids)]
+        return action_data
 
     def make_invoices(self):
-        for rec in self:
-            invoice = self.env['account.move'].create({
-                # 'move_type': 'out_invoice',
-                'partner_id': rec.parent_id.id,
-                # 'payment_reference': 'invoice to client',
-                'invoice_line_ids': [(0, 0, {
-                    'product_id': self.env['product.product'].create({'name': 'Session'}),
-                        'quantity': 1,
-                        'price_unit': 42,
-                        # 'name': 'something',
-                })],
-            })
-            invoice.action_post()
-            return invoice
-
-        # def make_invoices(self):
-        #     for rec in self:
-        #         invoice = self.env['account.move'].create({
-        #             'partner_id': rec.partner_a.id
-        #         })
-        #         rec.invoice_id = invoice and rec.invoice_id or False
-        #         print(invoice,'**************************************')
-        #         # rec.invoice_id = invoice and invoice_id or False
-
-    def action_view_partner_invoices(self):
         self.ensure_one()
-        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
-        action['domain'] = [
-            ('move_type', 'in', ('out_invoice', 'out_refund')),
-            ('partner_id', 'child_of', self.id),
-        ]
-        action['context'] = {'default_move_type': 'out_invoice', 'move_type': 'out_invoice', 'journal_type': 'sale',
-                             'search_default_unpaid': 1}
-        return action
+        self.state = 'invoice'
+        # for rec in self:
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'state': 'draft',
+            'partner_id': self.parent_id.id,
+            'invoice_date': datetime.now(),
+            'invoice_line_ids': [(0, 0, {
+                # 'product_id': self.product_a.id,
+                # 'product_id': "Session'",
+                'name': 'Session',
+                'quantity': 4.0,
+                'discount': 0.00,
+                'price_unit': 100,
+            })]
+        })
+        return invoice
 
-        #  Automatically fetch student Address based on Father
-
+    #  Automatically fetch student Address based on Father
     @api.onchange('parent_id')
     def onchange_parent_id(self):
         """ Method to Fetch student address """
@@ -186,15 +174,20 @@ class StudentDetails(models.Model):
             if rec.class_id:
                 if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
                     raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
+                """ Method to get Students Trainers in A Class """
+                rec.trainer_id = rec.trainer_id2 = False
+                if rec.class_id:
+                    rec.trainer_id = rec.class_id.main_trainer_id
+                    rec.trainer_id2 = rec.class_id.assistant_trainer_id
 
-    @api.onchange('class_id')
-    def onchange_trainers(self):
-        """ Method to get Students Trainers in A Class """
-        for rec in self:
-            rec.trainer_id = False
-            if rec.class_id:
-                rec.trainer_id = rec.class_id.main_trainer_id
-                rec.trainer_id2 = rec.class_id.assistant_trainer_id
+    # @api.onchange('class_id')
+    # def onchange_trainers(self):
+    #     """ Method to get Students Trainers in A Class """
+    #     for rec in self:
+    #         rec.trainer_id = rec.trainer_id2 = False
+    #         if rec.class_id:
+    #             rec.trainer_id = rec.class_id.main_trainer_id
+    #             rec.trainer_id2 = rec.class_id.assistant_trainer_id
 
     allergy = fields.Selection(
         [('yes', 'Yes'), ('no', 'No')],
@@ -230,7 +223,6 @@ class StudentDetails(models.Model):
     chronic_blood = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                      default='no', required=True,
                                      help=" Does the Student have any chronic blood disease (like Thalassemia,Anemia,Hemophilia..etc, Please mention it if any")
-
     epistaxis = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                  default='no', required=True,
                                  help=" Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding) ")

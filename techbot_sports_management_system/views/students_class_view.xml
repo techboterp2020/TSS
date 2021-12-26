@@ -23,13 +23,14 @@
                 <header>
                     <button name="draft" string="Reset to Draft" groups="base.group_user"
                             type="object"/>
-                    <button name="started_button" string="Started" states="draft" type="object" class="oe_highlight"
+                    <button name="class_start_button_fun" string="Started" states="draft" type="object"
+                            class="oe_highlight"
                             groups="base.group_user"/>
                     <button name="done" string="Completed" states="started" type="object"
                             class="oe_highlight"/>
                     <button name="cancel" string="Cancel" states="draft" type="object"
                             groups="hr.group_hr_user"/>
-                    <!--                           />-->
+
                     <!--                    <button name="cancel" string="Cancel" states="draft" type="object" groups="base.group_user"/>-->
                     <field name="state" widget="statusbar"/>
                 </header>
@@ -42,15 +43,8 @@
                         </h1>
                     </div>
                     <newline/>
-                    <group>
-                        <group>
-                            <field name="start_date" required="1"/>
-                            <field name="from_to"/>
-                            <field name="main_trainer_id"/>
-                            <field name="assistant_trainer_id"/>
 
-                            <!--                            mode="kanban"-->
-                        </group>
+                    <group>
                         <group>
                             <field name="activity_id"/>
                             <field name="location_id"/>
@@ -59,19 +53,53 @@
                             <field name="filled_seats" widget="progressbar"/>
                         </group>
                     </group>
-
                     <newline/>
+
                     <separator string="Session  Details"/>
                     <group>
-                        <field name="repeat_type"/>
-                        <!--                        <field name="mon" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
-                        <!--                        <field name="tue" attrs="{'invisible': [('repeat_type', '!=', 'weekly')]}"/>-->
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <label for="no_of_class"/>
+                            <div>
+                                <field name="no_of_class" class="oe_inline"/>
 
+
+                            </div>
+                            <!--                            <field name="no_of_class"/>-->
+                            <!--                            <field name="duration"/><span>Hour</span>-->
+                            <!--                            mode="kanban"-->
+                        </group>
+
+                        <group>
+                            <field name="end_date"/>
+                            <field name="main_trainer_id"/>
+                            <field name="assistant_trainer_id"/>
+                        </group>
+
+                        <group>
+                            <label for="no_of_sessions" string="Sessions"/>
+                            <div class="o_row">
+                                <field name="no_of_sessions"/>
+                                <span>Per</span>
+                                <field name="session_based_on"/>
+                            </div>
+
+                        </group>
+
+                        <group/>
+
+                        <group>
+                            <label for="duration" string="Duration "/>
+                            <div>
+                                <field name="duration" widget="float_time" string="Duration"/>
+                                <span> hours</span>
+                            </div>
+                        </group>
                     </group>
-                    <group>
-                        <field name="no_of_session"/>
+
+                    <tree string="Sessions">
                         <field name="session_ids"/>
-                    </group>
+                    </tree>
 
                 </sheet>
             </form>

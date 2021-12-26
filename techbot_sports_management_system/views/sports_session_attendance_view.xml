@@ -6,94 +6,17 @@
         <field name="model">session.attendance.line</field>
         <field name="arch" type="xml">
             <!--<tree string="Session Tree">-->
-            <tree string="Session Attendance Tree" >
+            <tree string="Session Attendance Tree" editable="top">
                 <field name="student_id"/>
                 <!--                <field name="activity_id"/>-->
-                <field name="session_id"/>
+                <!--                <field name="class_id"/>-->
                 <field name="attendance"/>
                 <field name="remark"/>
 
-                <!--                <field name="taken_seats"  widget="progressbar" />-->
+                <!--             widget="many2one_clickable"    <field name="taken_seats"  widget="progressbar" />-->
             </tree>
         </field>
     </record>
 
 
-    <!-- calendar view -->
-    <!--    <record model="ir.ui.view" id="session_calendar_view">-->
-    <!--        <field name="name">session.calendar</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date"-->
-    <!--                      scales="day,week,month" mode="month">-->
-    <!--                <field name="name"/>-->
-    <!--            </calendar>-->
-    <!--        </field>-->
-    <!--    </record>-->
-
-    <!-- gantt view -->
-    <!--    <record model="ir.ui.view" id="session_gantt_view">-->
-    <!--        <field name="name">session.gantt</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <gantt string="Session Gantt"-->
-    <!--                   date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"-->
-    <!--                   plan="false" offset="1" progress="taken_seats"-->
-    <!--                   default_group_by='trainer_id'>-->
-    <!--            </gantt>-->
-    <!--        </field>-->
-    <!--    </record>-->
-
-    <!-- graph view -->
-    <!--    <record model="ir.ui.view" id="sms_session_graph_view">-->
-    <!--        <field name="name">sports.management.session.graph</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <graph string="Participation by Activity">-->
-    <!--                <field name="activity_id"/>-->
-    <!--                <field name="attendees_count" type="measure"/>-->
-    <!--            </graph>-->
-    <!--        </field>-->
-    <!--    </record>-->
-
-    <!--******************** Session Type Form view *******************-->
-<!--    <record id="sessions_form_view" model="ir.ui.view">-->
-<!--        <field name="name">session.attendance.line.form</field>-->
-<!--        <field name="model">session.attendance.line.</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <form string="Session Form">-->
-<!--                <sheet>-->
-
-<!--                    <div class="oe_title">-->
-<!--                        <label for="name"/>-->
-<!--                        <h1>-->
-<!--                            <field name="name" placeholder="Eg , Session 9-10 Am"/>-->
-<!--                        </h1>-->
-<!--                    </div>-->
-<!--                    <group string="Time Schedule">-->
-<!--                        <group>-->
-<!--                            &lt;!&ndash;                        <field name="name" placeholder="Session Name"/>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <field name="activity_id"/>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <field name="trainer_id"/>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <field name="active"/>&ndash;&gt;-->
-
-<!--                            <field name="start_date"/>-->
-<!--                            <label for="duration"/>-->
-<!--                            <div>-->
-<!--                                <field name="duration" widget="float_time" string="Duration" class="oe_inline"/>-->
-<!--                                <span>hours</span>-->
-
-<!--                            </div>-->
-
-<!--                            <field name="end_date"/>-->
-<!--                        </group>-->
-<!--                    </group>-->
-
-
-<!--                    &lt;!&ndash;                    <label for="attendee_ids"/>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                    <field name="attendee_ids" widget="many2many_tags"/>&ndash;&gt;-->
-<!--                </sheet>-->
-<!--            </form>-->
-<!--        </field>-->
-<!--    </record>-->
 </odoo>
