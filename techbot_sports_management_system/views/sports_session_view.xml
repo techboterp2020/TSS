@@ -130,7 +130,7 @@
                             <!--                        <field name="name" placeholder="Session Name"/>-->
                             <!--                            <field name="activity_id"/>-->
                             <!--                            <field name="trainer_id"/>-->
-                            <field name="date_from" groups="planning.group_planning_user"/>
+                            <field name="date_from" />
                             <label for="duration"/>
                             <div>
                                 <field name="duration" readonly="1" widget="float_time" string="Duration"
