@@ -6,7 +6,7 @@
         <field name="name">sports.activity.type.tree</field>
         <field name="model">sports.activity.type</field>
         <field name="arch" type="xml">
-            <tree string="Faculty Type" multi_edit="1" sample="1">
+            <tree string="Faculty Type" editable="bottom" multi_edit="1" sample="1">
                 <field name="activity_name" string="Activity Name"/>
                 <!--                <field name="location_id" string="Activity Location"/>-->
             </tree>
