@@ -71,10 +71,10 @@
                 <!--                <filter name="filter_approve" domain="[('state','=','draft')]" string="To Start"/>-->
                 <!--                <filter domain="[('state','=','approve')]" string="Approved" name="approved"/>-->
                 <!--                <separator/>-->
-<!--                <filter string="Today" name="filter_today"-->
-<!--                        domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
+                <!--                <filter string="Today" name="filter_today"-->
+                <!--                        domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
                 <filter string="Today" name="filter_today"
-                             context="{'group_by':'current_date'}"/>
+                        context="{'group_by':'current_date'}"/>
                 <filter string="My Sessions" name="my_sessions" domain="[('main_trainer_info_id.user_id','=', uid)]"
                         help="My Sessions"/>
                 <!--                <separator/>-->
@@ -82,14 +82,14 @@
                 <!--                <field name="employee_id"/>-->
                 <!--                <field name="department_id"/>-->
                 <group expand="0" string="Group By...">
-<!--                    <filter name="group_name" string="Class" context="{'group_by':'name'}"/>-->
+                    <!--                    <filter name="group_name" string="Class" context="{'group_by':'name'}"/>-->
                     <filter name="group_name" string="Class" context="{'group_by':'class_id'}"/>
                     <filter name="group_request" string="Responsible Trainer"
                             context="{'group_by':'main_trainer_info_id'}"/>
                     <filter name="group_venue" string="Location" context="{'group_by':'venue_id'}"/>
 
 
-<!--                            domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
+                    <!--                            domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
                     <!--                    <filter name="group_department" string="Department"-->
                     <!--                            context="{'group_by':'department_id','set_visible':True}"/>-->
                     <!--                    <filter name="group_status" string="Status" context="{'group_by':'state'}"/>-->
@@ -130,7 +130,7 @@
                             <!--                        <field name="name" placeholder="Session Name"/>-->
                             <!--                            <field name="activity_id"/>-->
                             <!--                            <field name="trainer_id"/>-->
-                            <field name="date_from" groups="planning.group_planning_user"/>
+                            <field name="date_from"/>
                             <label for="duration"/>
                             <div>
                                 <field name="duration" readonly="1" widget="float_time" string="Duration"
@@ -163,7 +163,9 @@
                         <!--                        <field name="assi_trainer_info_id" widget="many2many_tags"/>-->
 
                     </group>
-                    <group string="Trainer Work Time">
+                    <!--   Hide Trainer Work Details From Employee/ Trainers  -->
+                    <group string="Trainer Work Time"
+                           groups="techbot_sports_management_system.group_sports_administration">
                         <field name="start_time"/>
                         <field name="end_time"/>
                         <field name="working_time"/>

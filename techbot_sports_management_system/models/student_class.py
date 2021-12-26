@@ -48,12 +48,15 @@ class StudentClass(models.Model):
     end_date = fields.Datetime('End Date', compute='date_end_calculation', readonly=True, store=True)
 
     activity_id = fields.Many2one('sports.activity.type', 'Activity', store=True, )
-    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True, )
-    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True, )
     location_id = fields.Many2one('sports.location')
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
     students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
+
+    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True)
+    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True)
+
+
 
     def draft(self):
         self.ensure_one()
@@ -120,12 +123,20 @@ class StudentClass(models.Model):
             raise UserError(_("Please enter proper value for Total Class"))
         if not self.filled_seats or self.filled_seats < 0:
             raise UserError(_("Please Add/ Assign Students into the Class"))
-        # if not self.session_id:
-        #     raise UserError(_("Please enter proper Session"))
+        if self.main_trainer_id == self.assistant_trainer_id :
+            raise UserError(_("Trainers are same Please Choose Different Trainers"))
         if self.session_based_on == 'month':
             if not self.no_of_class or self.no_of_class < 0:
                 raise UserError(_("Please enter proper value for Sessions"))
         self.compute()
+
+    @api.constrains('main_trainer_id', 'assistant_trainer_id')
+    def _same_trainer(self):
+        """Method to Check Same Trainers"""
+        if self.main_trainer_id == self.assistant_trainer_id:
+            raise UserError(_("Instructors/Trainers are same Please Choose Different Trainers"))
+        if self.available_seat == 0:
+            raise UserError(_("Available Seat should be greater than Zero"))
 
     def compute(self):
         """Method to Create a Session"""
@@ -152,20 +163,23 @@ class Session(models.Model):
     _name = 'sports.management.session'
     _description = "Sports Management  Sessions"
 
-    main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer')
-    available_seat = fields.Integer(string='Available Seat', readonly=True)
-    no_of_students = fields.Integer(string='Total no.of Students', readonly=True)
-    venue_id = fields.Many2one('sports.location')
-    students_ids = fields.One2many('student.details', 'session_student_id', string='Students', readonly=True)
-    name = fields.Char(string='Session Name', required=True)
-    current_date = fields.Datetime('Current Date', default=fields.Datetime.today())
-    date_from = fields.Datetime('Start date', readonly=True)
-    duration = fields.Float('Duration', store=True)
+
+
+    venue_id = fields.Many2one('sports.location',readonly=True)
+    main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer', readonly=True)
     class_id = fields.Many2one('student.class')
     attendance_ids = fields.One2many('session.attendance.line', 'session_id')
+    students_ids = fields.One2many('student.details', 'session_student_id', string='Students', readonly=True)
+
+    name = fields.Char(string='Session Name', readonly=True,required=True)
+    available_seat = fields.Integer(string='Available Seat', readonly=True)
+    no_of_students = fields.Integer(string='Total no.of Students', readonly=True)
+    current_date = fields.Datetime('Current Date', default=fields.Datetime.today())  # FOr Calendar view
+    date_from = fields.Datetime('Start date', readonly=True)
+    duration = fields.Float('Duration', store=True, readonly=True)
     start_time = fields.Datetime('Start Time', readonly=True)
     end_time = fields.Datetime('Start End Time', readonly=True)
-    working_time = fields.Char('Total Working Time', compute='_compute_working_time')
+    working_time = fields.Char('Total Working Time', compute='_compute_working_time', readonly=True)
 
     @api.depends('start_time', 'end_time')
     def _compute_working_time(self):
@@ -179,6 +193,15 @@ class Session(models.Model):
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
     color = fields.Integer('Color Index', default=0)
+
+    def write(self, vals):
+        if vals.get('state') =='started':
+            vals.update({'start_time': datetime.now()})
+        if vals.get('state') == 'completed':
+            vals.update({'start_time': datetime.now()})
+        return super(Session, self).write(vals)
+
+
 
     def draft(self):
         self.ensure_one()
@@ -197,6 +220,7 @@ class Session(models.Model):
 
     def compute_attendance(self):
         for rec in self:
+            """Method to Compute/ Fetch Students for Attendance"""
             rec.attendance_ids = False
             attendance_details = []
             for student in rec.class_id.students_ids:
@@ -211,8 +235,9 @@ class SessionAttendanceLine(models.Model):
     _name = 'session.attendance.line'
     _description = 'Session Attendance Line'
 
+    session_id = fields.Many2one('sports.management.session')
     student_id = fields.Many2one('student.details')
     attendance = fields.Boolean()
     # class_id = fields.Many2one('student.class')
     remark = fields.Char('Remark')
-    session_id = fields.Many2one('sports.management.session')
+

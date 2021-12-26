@@ -1,13 +1,21 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sports_management,sports.management,model_sports_management,base.group_user,1,1,1,1
-access_student_details,student.details,model_student_details,base.group_user,1,1,1,1
-access_sports_location,sports.location,model_sports_location,base.group_user,1,1,1,1
-access_sports_activity_type,sports.activity.type,model_sports_activity_type,base.group_user,1,1,1,1
-access_blood_group,blood.group,model_blood_group,base.group_user,1,1,1,1
-access_parent_relation,parent.relation,model_parent_relation,base.group_user,1,1,1,1
-access_student_class,student.class,model_student_class,base.group_user,1,1,1,1
-access_sports_management_session,sports.management.session,model_sports_management_session,base.group_user,1,1,1,1
-access_session_attendance_line,session.attendance.line,model_session_attendance_line,base.group_user,1,1,1,1
+access_sports_management,sports.management.admin,model_sports_management,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_sports_management_trainer,sports.management.trainer,model_sports_management,techbot_sports_management_system.group_sports_trainers,1,1,0,0
+access_student_details,student.details,model_student_details,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_student_details_trainer,student.details.trainer,model_student_details,techbot_sports_management_system.group_sports_trainers,1,1,0,0
+access_student_class,student.class,model_student_class,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_student_class.trainers,student.class.trainers,model_student_class,techbot_sports_management_system.group_sports_trainers,1,1,0,0
+access_sports_management_session,sports.management.session,model_sports_management_session,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_sports_management_session_trainer,sports.management.session.trainer,model_sports_management_session,techbot_sports_management_system.group_sports_trainers,1,1,0,0
+access_session_attendance_line,session.attendance.line,model_session_attendance_line,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_session_attendance_line_trainer,session.attendance.line.trainer,model_session_attendance_line,techbot_sports_management_system.group_sports_trainers,1,1,1,0
+access_sports_location,sports.location,model_sports_location,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_sports_activity_type,sports.activity.type,model_sports_activity_type,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_blood_group,blood.group,model_blood_group,techbot_sports_management_system.group_sports_administration,1,1,1,1
+access_parent_relation,parent.relation,model_parent_relation,techbot_sports_management_system.group_sports_administration,1,1,1,1
+
+
+
 
 
 

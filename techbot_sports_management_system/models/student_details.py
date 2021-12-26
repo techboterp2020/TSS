@@ -49,30 +49,12 @@ class StudentDetails(models.Model):
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
 
     invoice_id = fields.Many2one('account.move')
-    # student_id = fields.Char('ID')
     color = fields.Integer(string='Color', default=_get_default_color)
+    student_image = fields.Image('Image', compute_sudo=True)
     # name = fields.Char('Student Number', size=64, required=True, default=_('New'))
-
     student_name = fields.Char(string='Student Name', required=1)
     parent_id = fields.Many2one('res.partner', string='Parent Name', required=1, index=True)
-    # domain=[('active', '=', True)]
     relationship = fields.Many2one('parent.relation', string=" Parent Relation :")
-    student_image = fields.Image('Image', compute_sudo=True)
-    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], default='male',
-                              help='Select student gender')
-    # states={'done': [('readonly', True)]},
-    nationality_id = fields.Many2one('res.country')
-    # class_id = fields.Many2many('student.class')
-    class_id = fields.Many2one('student.class')
-
-    dob = fields.Date("DOB", required=1)
-    #
-    age = fields.Char(compute='_compute_student_age', string='Age',
-                      readonly=True, help='Enter student age')
-    mob = fields.Char('Mobile', compute='onchange_parent_id')
-    mob1 = fields.Char('Phone', compute='onchange_parent_id')
-    email = fields.Char('Email', compute='onchange_parent_id')
-
     street = fields.Char('Street')
     street2 = fields.Char("Street2")
     zip = fields.Char('Zip', change_default=True, readonly=False, store=True)
@@ -81,24 +63,29 @@ class StudentDetails(models.Model):
         "res.country.state", string='State',
         readonly=False, store=True, domain="[('country_id', '=?', country_id)]")
     country_id = fields.Many2one('res.country', string='Country', readonly=False, store=True)
-
+    mob = fields.Char('Mobile', compute='onchange_parent_id')
+    mob1 = fields.Char('Phone', compute='onchange_parent_id')
+    email = fields.Char('Email', compute='onchange_parent_id')
+    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], default='male',
+                              help='Select student gender')
+    nationality_id = fields.Many2one('res.country')
+    dob = fields.Date("DOB", required=1)
+    age = fields.Char(compute='_compute_student_age', string='Age',
+                      readonly=True, help='Enter student age')
     contact_phone = fields.Char()
     contact_mobile = fields.Char()
-
     blood_group = fields.Many2one('blood.group', help='Enter student blood group')
     student_height = fields.Float('Height', help="Height in C.M")
     student_weight = fields.Float('Weight', help="Weight in K.G")
-
     remark = fields.Text('Remark', help='Remark can be entered if any')
-
-    trainer_id = fields.Many2many('hr.employee', readonly=True)
-    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'trainer2',readonly=True)
+    # class_id = fields.Many2many('student.class')
+    class_id = fields.Many2one('student.class')
+    trainer_id = fields.Many2many('hr.employee')
+    trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'Assistant Trainer')
     session_student_id = fields.Many2one('sports.management.session')
-
     comments = fields.Char()
 
     def get_invoice_details(self):
-        print("**************************** hfhgg Paraent")
         action_data = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
         action_data['domain'] = [('id', 'in', self.parent_id.ids)]
         return action_data
@@ -123,7 +110,7 @@ class StudentDetails(models.Model):
         })
         return invoice
 
-    #  Automatically fetch student Address based on Father
+    #  Automatically fetch student Address based on Parents
     @api.onchange('parent_id')
     def onchange_parent_id(self):
         """ Method to Fetch student address """
@@ -171,14 +158,15 @@ class StudentDetails(models.Model):
     def onchange_class_seate(self):
         """ Method to Restrict Add Students in A Class """
         for rec in self:
+            rec.trainer_id = rec.trainer_id2 = False
+                # [(5,0,0)]
             if rec.class_id:
-                if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
-                    raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
                 """ Method to get Students Trainers in A Class """
-                rec.trainer_id = rec.trainer_id2 = False
-                if rec.class_id:
-                    rec.trainer_id = rec.class_id.main_trainer_id
-                    rec.trainer_id2 = rec.class_id.assistant_trainer_id
+                rec.trainer_id = [(6, 0, [rec.class_id.main_trainer_id.id])]
+                # rec.trainer_id2 = [(6, 0, [rec.class_id.assistant_trainer_id.id])]
+                # assistant_trainer_id rec.class_id.assistant_trainer_id.id
+                if (rec.class_id.available_seat== (len(rec.class_id.students_ids.ids))):
+                    raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
 
     # @api.onchange('class_id')
     # def onchange_trainers(self):
