@@ -126,7 +126,6 @@ class StudentDetails(models.Model):
         })
         return invoice
 
-
     #  Automatically fetch student Address based on Father
     @api.onchange('parent_id')
     def onchange_parent_id(self):

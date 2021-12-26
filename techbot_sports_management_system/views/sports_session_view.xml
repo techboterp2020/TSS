@@ -19,22 +19,22 @@
                 <field name="students_ids"/>
                 <field name="attendance_ids"/>
                 <field name="state"/>
-<!--                <field name="location_id"/>-->
+                <!--                <field name="location_id"/>-->
                 <field name="main_trainer_info_id" optional="hide"/>
             </tree>
         </field>
     </record>
     <!--     calendar view-->
-            <record model="ir.ui.view" id="session_calendar_view">
-                <field name="name">session.calendar</field>
-                <field name="model">sports.management.session</field>
-                <field name="arch" type="xml">
-                    <calendar string="Session Calendar" date_start="name"  color="main_trainer_info_id"
-                              scales="day,week,month" mode="month">
-                        <field name="name"/>
-                    </calendar>
-                </field>
-            </record>
+    <record model="ir.ui.view" id="session_calendar_view">
+        <field name="name">session.calendar</field>
+        <field name="model">sports.management.session</field>
+        <field name="arch" type="xml">
+            <calendar string="Session Calendar" date_start="name" color="main_trainer_info_id"
+                      scales="day,week,month" mode="month">
+                <field name="name"/>
+            </calendar>
+        </field>
+    </record>
 
     <!-- gantt view -->
     <!--        <record model="ir.ui.view" id="session_gantt_view">-->
@@ -71,6 +71,10 @@
                 <!--                <filter name="filter_approve" domain="[('state','=','draft')]" string="To Start"/>-->
                 <!--                <filter domain="[('state','=','approve')]" string="Approved" name="approved"/>-->
                 <!--                <separator/>-->
+<!--                <filter string="Today" name="filter_today"-->
+<!--                        domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
+                <filter string="Today" name="filter_today"
+                             context="{'group_by':'current_date'}"/>
                 <filter string="My Sessions" name="my_sessions" domain="[('main_trainer_info_id.user_id','=', uid)]"
                         help="My Sessions"/>
                 <!--                <separator/>-->
@@ -81,7 +85,10 @@
                     <filter name="group_name" string="Class" context="{'group_by':'name'}"/>
                     <filter name="group_request" string="Responsible Trainer"
                             context="{'group_by':'main_trainer_info_id'}"/>
-                                        <filter name="group_venue" string="Location" context="{'group_by':'venue_id'}"/>
+                    <filter name="group_venue" string="Location" context="{'group_by':'venue_id'}"/>
+
+
+<!--                            domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
                     <!--                    <filter name="group_department" string="Department"-->
                     <!--                            context="{'group_by':'department_id','set_visible':True}"/>-->
                     <!--                    <filter name="group_status" string="Status" context="{'group_by':'state'}"/>-->
@@ -129,7 +136,7 @@
                                        class="oe_inline"/>
                                 <span>hours</span>
                             </div>
-                            <field name="venue_id" readonly="1" />
+                            <field name="venue_id" readonly="1"/>
                         </group>
                         <group string="Students Details">
                             <field name="available_seat"/>
@@ -232,7 +239,9 @@
                                     </li>
                                     <li t-if="record.venue_id.raw_value" class="o_text_overflow">
                                         <span class="float-left">Venue :
-                                            <strong><field name="venue_id"/></strong>
+                                            <strong>
+                                                <field name="venue_id"/>
+                                            </strong>
                                         </span>
                                     </li>
 
@@ -243,14 +252,10 @@
                                     <span class="float-right">
                                         <field name="state" widget="label_selection"
                                                options="{'classes': {'draft': 'started', 'started': 'completed'}}"/>
-
                                     </span>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </t>
                 </templates>
             </kanban>

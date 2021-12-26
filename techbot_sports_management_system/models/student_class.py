@@ -160,6 +160,7 @@ class Session(models.Model):
     students_ids = fields.One2many('student.details', 'session_student_id', string='Students', readonly=True)
 
     name = fields.Char(required=True, string='Session Name')
+    current_date = fields.Datetime('Current Date', default=fields.Datetime.today())
     date_from = fields.Datetime('Start date', readonly=True)
     duration = fields.Float('Duration', store=True)
 
