@@ -125,7 +125,6 @@ class StudentClass(models.Model):
         if self.session_based_on == 'month':
             if not self.no_of_class or self.no_of_class < 0:
                 raise UserError(_("Please enter proper value for Sessions"))
-
         self.compute()
 
     def compute(self):
