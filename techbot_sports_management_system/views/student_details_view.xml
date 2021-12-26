@@ -8,12 +8,12 @@
             <form string="Student Information">
 
                  <header>
-                     <button  string='Create Invoice' type="object" class="oe_highlight"  icon="fa-arrow-right" name="action_view_partner_invoices"
-                        context="{'default_partner_id': active_id}"/>
+                     <button  string='Create Invoice' name="make_invoices" type="object" class="oe_highlight"  icon="fa-arrow-right"
+                        context="{'default_partner_id': active_id}" states="draft"/>
 <!--                     <button name="create_invoice_button_fun" string="Crate Invoice" type="object" -->
 <!--                               />-->
-<!--                    <button name="confirm" string="Confirm" states="draft" type="object"-->
-<!--                            class="oe_highlight"/>-->
+                    <button name="confirm" string="Confirm" states="invoice" type="object"
+                            class="oe_highlight"/>
 <!--             groups="hr.group_hr_user"       <button name="calculation_done" string="Calculate" states="draft" type="object"-->
 <!--                            attrs="{'invisible':[('state','!=','draft')]}" class="oe_highlight"-->
 <!--                            groups="hr.group_hr_user"/>-->
@@ -31,23 +31,17 @@
                             type="object"/>
                     <field name="state" widget="statusbar"/>
                 </header>
+
                 <sheet name="student_info" string="Student Details">
 
                     <div name="button_box"  class="oe_button_box">
-
-                        <button class="oe_stat_button"  string="Invoiced" type="object" name="get_invoice_details" icon="fa-file-invoice">
+                        <button class="oe_stat_button"
+                                string="Invoiced" type="object" name="get_invoice_details" icon="fa-file-invoice">
 <!--                            <field string="Invoice" name="invoice_count" widget="statinfo"/>-->
                         </button>
                     </div>
-
                     <!--  <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
                     <field name="student_image" widget="image" class="oe_avatar"/>
-
-
-<!--                    <div class="oe_title">-->
-<!--                        <label for="name" class="oe_edit_only"/>-->
-<!--                        <h3><field name="name" class="oe_inline" readonly="1"/></h3>-->
-<!--                    </div>-->
 
                     <div class="oe_title mb24">
                         <h1>
@@ -62,11 +56,9 @@
                             </h2>
                         </div>
                         <div>
-                            <span>Parent Relation</span>
+                            <span>Parent Relation : </span>
                             <field name="relationship" placeholder="Father"/>
                         </div>
-                        <!-- <field name="parent_id" widget="res_partner_many2one" placeholder="Company Name..." domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'show_vat': True}" attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}"/>-->
-
                     </div>
 
                     <group>
@@ -96,60 +88,50 @@
                                     <field name="gender" placeholder="Gender" required="1"/>
                                     <field name="nationality_id"/>
                                     <field name="blood_group"/>
-
                                 </group>
+
                                 <group>
                                     <field name="dob" widget="date" placeholder="Birthdate"/>
-
                                     <field name="age"/>
                                     <field name="student_height"/>
                                     <field name="student_weight"/>
-
-                                    <!-- <field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>-->
-
                                 </group>
-                                <newline/>
-                                <separator string="Emergency Contact Details" colspan="4"/>
-                                <newline/>
+
+                                <newline/><separator string="Emergency Contact Details" colspan="4"/><newline/>
                                 <group colspan="4" col="4">
                                     <field name="contact_phone" placeholder="Phone Number"/>
                                     <field name="contact_mobile" placeholder="Mobile Number"/>
                                 </group>
                             </group>
+
                             <newline/>
-                            <!--                            <separator string="Termination Reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}"/>-->
                             <group>
                                 <field name="remark"/>
-                                <!--                                    <field name="terminate_reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}" readonly="1"/>-->
                             </group>
                         </page>
 
                         <page string="Trainer Info" name="trainer">
-                            <field name="trainer_id" mode="kanban"/>
-<!--                            <field name="trainer_id2" mode="kanban"/>-->
+                            <field name="trainer_id" mode="kanban"  force_save="1" readonly="1"/>
+                            <field name="trainer_id2" mode="kanban"/>
 
                         </page>
 
-                        <page string="Class/Lesson" name="Class">
+                        <page string="Class/Session Details " name="Class">
                             <group>
                                 <group>
                                     <field name="class_id" />
+<!--                                widget="many2many_tags"    options="{'color_field': 'color', 'no_create_edit': True}"/>-->
 <!--                                    <field name="gender" placeholder="Gender" required="1"/>-->
 <!--                                    <field name="age"/>-->
                                 </group>
-                                <group>
-<!--                                    <field name="student_height"/>-->
-<!--                                    <field name="student_weight"/>-->
-
-                                    <!--<field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>-->
-
-                                </group>
+                                <group> </group>
                                 <newline/>
-                                <separator string="Emergency Contact Details" colspan="4"/>
+                                <separator string="Trainer INfo" colspan="4"/>
                                 <newline/>
                                 <group colspan="4" col="4">
-                                    <field name="contact_phone" placeholder="Phone Number"/>
-                                    <field name="contact_mobile" placeholder="Mobile Number"/>
+                                    <field name="trainer_id" mode="kanban" readonly="1" force_save="1"/>
+                                    <field name="trainer_id2" mode="kanban" readonly="1" force_save="1"/>
+
                                 </group>
                                 <newline/>
                             </group>
@@ -164,24 +146,19 @@
 
                         <page string="Medical History" name="student_medi_history">
                             <group string="Health Concerns">
-                                <!--                                <div> <field name="allergy"  string="Have any Allergy or Sensitivity to the medication/foods ..etc,"/></div>-->
                                 <table style="margin-top:20px;" width="100%" class="table table-sm table-bordered">
-
                                     <thead>
-
                                         <tr>
                                             <th>Health Concern</th>
                                             <th>Status</th>
                                             <th>Comments</th>
-
                                         </tr>
-
                                     </thead>
+
                                     <tbody>
                                         <tr>
                                             <td>Does the Student Have any Allergy or Sensitivity to the
-                                                medication/foods...etc
-                                            </td>
+                                                medication/foods...etc</td>
                                             <td>
                                                 <field name="allergy"/>
                                             </td>
@@ -308,44 +285,16 @@
                                             </td>
                                         </tr>
                                     </tbody>
-
                                 </table>
-                                <!--                                <group>-->
-                                <!--                                    <field name="allergy"  />-->
-                                <!--                                    <field name="gender" placeholder="Gender" required="1"/>-->
-                                <!--                                    <field name="age"/>-->
-                                <!--                                </group>-->
-                                <!--                                <group>-->
-                                <!--                                    <field name="student_height"/>-->
-                                <!--                                    <field name="student_weight"/>-->
-                                <!--                                    &lt;!&ndash;                                    <field name="eye"/>&ndash;&gt;-->
-                                <!--                                    &lt;!&ndash;                                    <field name="ear"/>&ndash;&gt;-->
-
-                                <!--                                    &lt;!&ndash;                                    <field name="admission_date" widget="date" placeholder="Admission Date" attrs="{'readonly':[('state','in',['alumni','terminate'])]}" readonly="1"/>&ndash;&gt;-->
-
-                                <!--                                </group>-->
-                                <!--                                <newline/>-->
-                                <!--                                <separator string="Emergency Contact Details" colspan="4"/>-->
-                                <!--                                <newline/>-->
-                                <!--                                <group colspan="4" col="4">-->
-                                <!--                                    <field name="contact_phone" placeholder="Phone Number"/>-->
-                                <!--                                    <field name="contact_mobile" placeholder="Mobile Number"/>-->
-                                <!--                                </group>-->
-                                <!--                                <newline/>-->
                             </group>
                             <newline/>
-
-                            <!--                            <separator string="Termination Reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}"/>-->
                             <group>
                                 <field name="remark"/>
-                                <!--                                    <field name="terminate_reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}" readonly="1"/>-->
                             </group>
                         </page>
-
                     </notebook>
                 </sheet>
             </form>
-
         </field>
     </record>
 
@@ -359,6 +308,7 @@
                 <field name="parent_id"/>
                 <field name="student_name"/>
                 <field name="trainer_id"/>
+                <field name="class_id"/>
                 <field name="gender"/>
                 <field name="email"/>
                 <field name="blood_group"/>
@@ -383,19 +333,17 @@
         <field name="arch" type="xml">
             <search string="Student Information">
                 <field name="student_name"/>
-                <!--                       filter_domain="['|', '|', ('student_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)]"/>-->
-                <!--                <field name="age"  filter_domain="[('age', 'ilike', self)]" />-->
-                <!--                <field name="email" filter_domain="[('email', 'ilike', self)]"/>-->
-                <filter name="mob"/>
+                   <filter name="mob"/>
+                <separator/>
+<!--                <filter name="class_id" string="Class" domain="[('class_id', '=', 'class_id'}]" help="class"/>-->
+                <filter string="Gender" name="gender" domain="[('gender', '=', 'male')]"/>
 
                 <separator/>
-                <filter string="Gender" name="gender" domain="[('gender', '=', 'male')]"/>
-                <!--                <field string="Age" name="age" filter_domain="[('age', '=', 'dob')]"/>-->
-                <separator/>
-                <!--                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>-->
+
                 <separator/>
                 <group expand="0" name="group_by" string="Group By">
-                    <filter name="salesperson" string="Trainers" context="{'group_by' : 'trainer_id'}"/>
+                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>
+                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>
                     <filter name="parent" string="Parent" context="{'group_by': 'parent_id'}"/>
                     <filter name="gender" string="Gender" context="{'group_by': 'gender'}"/>
                     <!--                    <filter name="group_age" string="Age" context="{'group_by': 'age'}"/>-->
@@ -419,7 +367,6 @@
                 <field name="email"/>
                 <field name="parent_id"/>
                 <field name="age"/>
-                <!--                    <field name="function"/>-->
                 <field name="mob"/>
                 <field name="street"/>
                 <field name="street2"/>
@@ -428,22 +375,11 @@
                 <field name="country_id"/>
                 <field name="mob1"/>
                 <field name="state_id"/>
-                <!--                    <field name="category_id"/>-->
                 <field name="student_image"/>
-                <!--                    <field name="type"/>-->
+
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
-                            <!--    <t t-if="!record.is_company.raw_value">-->
-                            <!--    <t t-set="background_image" t-value="kanban_image('res.partner', 'avatar_128', record.id.raw_value)"/>-->
-                            <!--  <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{background_image}')">-->
-                            <!--      <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value" t-att-alt="record.parent_id.value" t-att-src="kanban_image('res.partner', 'avatar_128', record.parent_id.raw_value)"/>-->
-                            <!--  </div>-->
-                            <!--  <div class="o_kanban_image d-md-none" t-attf-style="background-image: url(#{background_image})">-->
-                            <!--   <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value" t-att-alt="record.parent_id.value" t-att-src="kanban_image('res.partner', 'avatar_128', record.parent_id.raw_value)"/>-->
-                            <!--     </div>-->
-                            <!--       </t>-->
-                            <!--   <t t-else="">-->
                             <t>
                                 <div class="o_kanban_image_fill_left o_kanban_image_full"
                                      t-attf-style="background-image: url(#{kanban_image('student.details', 'student_image', record.id.raw_value)})"
@@ -458,9 +394,7 @@
                                     <li>
                                         <field name="parent_id"/>
                                     </li>
-                                    <!--                                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>-->
-                                    <!--                                        <li t-if="!record.parent_id.raw_value and record.function.raw_value"><field name="function"/></li>-->
-                                    <!--                                        <li t-if="record.parent_id.raw_value and record.function.raw_value"><field name="function"/> at <field name="parent_id"/></li>-->
+
                                     <li t-if="record.city.raw_value or record.country_id.raw_value">
                                         <t t-if="record.city.raw_value">
                                             <field name="city"/>

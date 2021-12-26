@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+#
 ##############################################################################
 #
 #    Author: TechbotErp(<https://techboterp.com/>)
@@ -23,17 +23,6 @@ from odoo.exceptions import ValidationError
 from datetime import date
 
 
-# _logger = logging.getLogger(__name__)
-# WEEKDAY_SELECTION = [
-#     ('MON', 'Monday'),
-#     ('TUE', 'Tuesday'),
-#     ('WED', 'Wednesday'),
-#     ('THU', 'Thursday'),
-#     ('FRI', 'Friday'),
-#     ('SAT', 'Saturday'),
-#     ('SUN', 'Sunday'),
-# ]
-
 class BloodGroup(models.Model):
     _name = 'blood.group'
     _description = 'Blood Group'
@@ -46,34 +35,23 @@ class SportsActivityType(models.Model):
     _description = 'Sports Types'
     _rec_name = 'activity_name'
 
-    activity_name = fields.Char(string="Activity Name")
-    # location_id = fields.Many2many('sports.location')
+    activity_name = fields.Char(string="Activity Name", required=True)
 
 
 class SportsLocation(models.Model):
     _name = 'sports.location'
-    # _inherit = 'hr.employee'
     _description = "Activity Location Places"
     _rec_name = 'location_name'
 
-    location_name = fields.Char(string="Location Name")
+    location_name = fields.Char(string="Location Name", required=True)
     # location_image = fields.Image()
     start_date = fields.Date('Start Date', default=date.today())
     end_date = fields.Date('End Date', required=True)
-    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict',
+    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict',required=True,
                                  default=lambda self: self.env.company.country_id, readonly=False, store=True)
-    place = fields.Char('Near Place')
-
-    # mon = fields.Boolean()
-    # tue = fields.Boolean()
-    # wed = fields.Boolean()
-    # thu = fields.Boolean()
-    # fri = fields.Boolean()
-    # sat = fields.Boolean()
-    # sun = fields.Boolean()
-    # trainer_ids = fields.One2many('hr.employee', 'job_title', string="Trainers")
-    # trainer_ids = fields.Many2one('hr.employee', string="Trainers")
-    # trainer_ids = fields.Many2many('hr.employee', string="Trainers")
+    state_id = fields.Many2one("res.country.state", string='State',
+                               readonly=False, store=True, domain="[('country_id', '=?', country_id)]")
+    place = fields.Char('Place')
 
     @api.constrains('start_date', 'end_date')
     def _check_ending_date(self):

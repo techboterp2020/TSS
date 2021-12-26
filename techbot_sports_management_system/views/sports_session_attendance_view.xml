@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  ********************* Session Type Tree view ************************************** -->
+    <record id="session_attendance_line_view_tree" model="ir.ui.view">
+        <field name="name">session.attendance.line.tree</field>
+        <field name="model">session.attendance.line</field>
+        <field name="arch" type="xml">
+            <!--<tree string="Session Tree">-->
+            <tree string="Session Attendance Tree" editable="top">
+                <field name="student_id"/>
+                <!--                <field name="activity_id"/>-->
+                <!--                <field name="class_id"/>-->
+                <field name="attendance"/>
+                <field name="remark"/>
+
+                <!--             widget="many2one_clickable"    <field name="taken_seats"  widget="progressbar" />-->
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>
