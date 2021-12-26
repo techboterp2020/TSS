@@ -109,12 +109,9 @@ class StudentDetails(models.Model):
         # for rec in self:
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice',
-            # 'move_type': 'entry',
             'state': 'draft',
-            # 'journal_id': journal.id,
             'partner_id': self.parent_id.id,
             'invoice_date': datetime.now(),
-            # 'date': '2019-01-21',
             'invoice_line_ids': [(0, 0, {
                 # 'product_id': self.product_a.id,
                 # 'product_id': "Session'",
@@ -177,29 +174,20 @@ class StudentDetails(models.Model):
             if rec.class_id:
                 if (rec.class_id.available_seat == len(rec.class_id.students_ids.ids)):
                     raise ValidationError(_("Too many Students, Please Increase seats or Remove excess Students"))
-    # for rec in self:
-    #     print('*************************************')
-    #     rec.attendance_ids = False
-    #     attendance_details = []
-    #     for student in rec.class_id.students_ids:
-    #         attendance_details.append(
-    #             (0, 0, {
-    #                 'student_id': student.id,
-    #
-    #             })
-    #         )
-    #     rec.attendance_ids = attendance_details
+                """ Method to get Students Trainers in A Class """
+                rec.trainer_id = rec.trainer_id2 = False
+                if rec.class_id:
+                    rec.trainer_id = rec.class_id.main_trainer_id
+                    rec.trainer_id2 = rec.class_id.assistant_trainer_id
 
-    @api.onchange('class_id')
-    def onchange_trainers(self):
-        """ Method to get Students Trainers in A Class """
-        for rec in self:
-            rec.trainer_id = rec.trainer_id2 = False
-            if rec.class_id:
-                rec.trainer_id = rec.class_id.main_trainer_id
-                rec.trainer_id2 = rec.class_id.assistant_trainer_id
-            # rec.write({'trainer_id':rec.trainer_id and rec.trainer_id.id or False,
-            #            'trainer_id2': rec.trainer_id2 and rec.trainer_id2.id or False, })
+    # @api.onchange('class_id')
+    # def onchange_trainers(self):
+    #     """ Method to get Students Trainers in A Class """
+    #     for rec in self:
+    #         rec.trainer_id = rec.trainer_id2 = False
+    #         if rec.class_id:
+    #             rec.trainer_id = rec.class_id.main_trainer_id
+    #             rec.trainer_id2 = rec.class_id.assistant_trainer_id
 
     allergy = fields.Selection(
         [('yes', 'Yes'), ('no', 'No')],

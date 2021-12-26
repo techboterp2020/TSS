@@ -82,7 +82,8 @@
                 <!--                <field name="employee_id"/>-->
                 <!--                <field name="department_id"/>-->
                 <group expand="0" string="Group By...">
-                    <filter name="group_name" string="Class" context="{'group_by':'name'}"/>
+<!--                    <filter name="group_name" string="Class" context="{'group_by':'name'}"/>-->
+                    <filter name="group_name" string="Class" context="{'group_by':'class_id'}"/>
                     <filter name="group_request" string="Responsible Trainer"
                             context="{'group_by':'main_trainer_info_id'}"/>
                     <filter name="group_venue" string="Location" context="{'group_by':'venue_id'}"/>
