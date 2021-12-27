@@ -84,11 +84,45 @@ class StudentDetails(models.Model):
     trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'Assistant Trainer')
     session_student_id = fields.Many2one('sports.management.session')
     comments = fields.Char()
+    currency_id = fields.Many2one('res.currency', string='Currency',
+                                  required=True, readonly=True,
+                                  states={'draft': [('readonly', False)]},
+                                  default=lambda self: self.env.company.currency_id.id)
+    total_invoiced = fields.Monetary( string="Total Invoiced",)
+    # compute='_invoice_total', groups='account.group_account_invoice,account.group_account_readonly'
+    # def _invoice_total(self):
+    #     self.total_invoiced = 0
+    #     if not self.ids:
+    #         return True
+    #
+    #     all_partners_and_children = {}
+    #     all_partner_ids = []
+    #     for partner in self.filtered('id'):
+    #         # price_total is in the company currency
+    #         all_partners_and_children[partner] = self.with_context(active_test=False).search(
+    #             [('id', 'child_of', partner.id)]).ids
+    #         all_partner_ids += all_partners_and_children[partner]
+    #
+    #     domain = [
+    #         ('partner_id', 'in', all_partner_ids),
+    #         ('state', 'not in', ['draft', 'cancel']),
+    #         ('move_type', 'in', ('out_invoice', 'out_refund')),
+    #     ]
+    #     price_totals = self.env['account.invoice.report'].read_group(domain, ['price_subtotal'], ['partner_id'])
+    #     for partner, child_ids in all_partners_and_children.items():
+    #         partner.total_invoiced = sum(
+    #             price['price_subtotal'] for price in price_totals if price['partner_id'][0] in child_ids)
 
-    def get_invoice_details(self):
-        action_data = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
-        action_data['domain'] = [('id', 'in', self.parent_id.ids)]
-        return action_data
+    def action_view_partner_invoices(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
+        action['domain'] = [
+            ('move_type', 'in', ('out_invoice', 'out_refund')),
+            ('partner_id', 'child_of', self.parent_id.id),
+        ]
+        action['context'] = {'default_move_type': 'out_invoice', 'move_type': 'out_invoice', 'journal_type': 'sale',
+                             'search_default_open': 1}
+        return action
+
 
     def make_invoices(self):
         self.ensure_one()

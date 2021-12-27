@@ -14,7 +14,7 @@
                 <field name="available_seat"/>
                 <field name="students_ids" widget="many2many_tags"/>
                 <field name="filled_seats" widget="progressbar"/>
-                <field name="start_date" />
+                <field name="start_date"/>
                 <field name="end_date"/>
                 <field name="main_trainer_id"/>
                 <field name="assistant_trainer_id"/>
@@ -36,8 +36,8 @@
         <field name="arch" type="xml">
             <form string="Name ">
                 <header>
-                    <button name="draft" string="Reset to Draft" groups="base.group_user"
-                            type="object"/>
+                    <!--                    <button name="draft" string="Reset to Draft" groups="base.group_user"-->
+                    <!--                            type="object"/>-->
                     <button name="class_start_button_fun" string="Started" states="draft" type="object"
                             class="oe_highlight"
                             groups="base.group_user"/>
@@ -120,4 +120,133 @@
             </form>
         </field>
     </record>
+
+    <!--******************** Student Class Details KANBAN view *******************-->
+    <record id="student_class_kanban_view" model="ir.ui.view">
+        <field name="name">sports.management.student.class.kanban.view</field>
+        <field name="model">student.class</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column o_opportunity_kanban" multi_edit="1"
+                    sample="1">
+                <field name="state"
+                       options="{&quot;group_by_tooltip&quot;: {&quot;date_from&quot;: &quot;name&quot;}}"/>
+
+                <!--                <field name="color"/>-->
+                <field name="id"/>
+                <field name="name"/>
+                <field name="activity_id"/>
+                <field name="location_id"/>
+                <field name="duration" widget="float_time" string="Duration"/>
+                <field name="available_seat"/>
+                <field name="students_ids" widget="many2many_tags"/>
+                <field name="filled_seats" widget="progressbar"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="main_trainer_id"/>
+                <field name="assistant_trainer_id"/>
+                <field name="no_of_class"/>
+                <field name="no_of_sessions"/>
+                <field name="session_based_on"/>
+                <field name="session_ids"/>
+                <field name="state"/>
+                <field name="duration"/>
+                <!--                <field name="no_of_students"/>-->
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown"
+                                   data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <!--                                    <ul class="oe_kanban_colorpicker" data-field="color"/>-->
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content flex-grow-1">
+                                <div class="o_kanban_record_title oe_kanban_details">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <ul>
+                                    <li>
+                                        <span class="float-left">Start Date :
+                                            <field name="start_date"/>
+                                        </span>
+                                    </li>
+                                    <br></br>
+                                    <newline/>
+                                    <li>
+                                        <span class="float-left">Duration in Hours :
+                                            <field name="duration" string="Duration "/>
+                                        </span>
+                                    </li>
+
+                                    <li>
+                                        <span class="float-left">Responsible Trainer :
+                                            <strong>
+                                                <field name="main_trainer_id" string="Duration "/>
+                                            </strong>
+                                        </span>
+                                    </li>
+
+                                    <br></br>
+                                    <newline/>
+                                    <li t-if="record.location_id.raw_value">
+                                        <span class="float-left">Location :
+                                            <strong>
+                                                <field name="location_id"/>
+                                            </strong>
+                                        </span>
+                                    </li>
+
+                                    <!--class="o_text_overflow"-->
+                                    <li t-if="record.available_seat.raw_value">
+                                        <span class="float-left">Total Student :
+                                            <field name="available_seat"/>
+                                        </span>
+                                    </li>
+
+                                    <!--                                    <li t-if="record.students_ids.raw_value">-->
+                                    <!--                                        <span class="float-left">Total Student :-->
+                                    <!--                                            <field name="students_ids"/>-->
+                                    <!--                                        </span>-->
+                                    <!--                                    </li>-->
+
+
+                                    <li>
+                                        <span class="float-left">Filled Seats :
+                                            <field name="filled_seats" widget="progressbar"/>
+                                        </span>
+                                    </li>
+
+
+                                </ul>
+                                <br/>
+                                <newline/>
+
+                                <div class="col-6">
+                                    <span class="float-right">
+                                        <field name="state" widget="label_selection"
+                                               options="{'classes': {'draft': 'started', 'started': 'completed'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
 </odoo>

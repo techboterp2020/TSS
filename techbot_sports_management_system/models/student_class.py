@@ -163,9 +163,7 @@ class Session(models.Model):
     _name = 'sports.management.session'
     _description = "Sports Management  Sessions"
 
-
-
-    venue_id = fields.Many2one('sports.location',readonly=True)
+    venue_id = fields.Many2one('sports.location', readonly=True)
     main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer', readonly=True)
     class_id = fields.Many2one('student.class')
     attendance_ids = fields.One2many('session.attendance.line', 'session_id')
