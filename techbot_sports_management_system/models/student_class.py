@@ -143,9 +143,9 @@ class StudentClass(models.Model):
         for rec in self:
             for i in range(1, self.no_of_class + 1):
                 if rec.session_based_on == 'month':
-                    next_date = relativedelta(weeks=4 * i) / rec.no_of_sessions
+                    next_date = relativedelta(rec.start_date) + relativedelta(weeks=4 * i) / rec.no_of_sessions
                 else:
-                    next_date = relativedelta(days=7 * i) / rec.no_of_sessions
+                    next_date = relativedelta(rec.start_date)+relativedelta(days=7 * i) / rec.no_of_sessions
                 self.session_ids = [
                     (0, 0, {
                         'name': self.name + ' ' + 'Session' + ' ' + str(i),
@@ -195,13 +195,11 @@ class Session(models.Model):
     color = fields.Integer('Color Index', default=0)
 
     def write(self, vals):
-        if vals.get('state') =='started':
+        if vals.get('state') == 'started':
             vals.update({'start_time': datetime.now()})
         if vals.get('state') == 'completed':
-            vals.update({'start_time': datetime.now()})
+            vals.update({'end_time': datetime.now()})
         return super(Session, self).write(vals)
-
-
 
     def draft(self):
         self.ensure_one()

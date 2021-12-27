@@ -16,7 +16,6 @@
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
-
         'views/crm_lead_views.xml',
         'views/sports_management_views.xml',
         'views/student_details_view.xml',
@@ -30,9 +29,7 @@
         'views/sports_session_view.xml',
         'views/sports_session_attendance_view.xml',
 
-        # 'views/fleet_view.xml',
 
-        # 'security/workshop_security.xml',
 
     ],
     # 'demo': ['demo/school_demo.xml'],

@@ -142,8 +142,7 @@
                         <group string="Students Details">
                             <field name="available_seat"/>
                             <field name="no_of_students"/>
-                            <field name="students_ids" widget="many2many_tags"/>
-
+<!--                            <field name="students_ids" widget="many2many_tags"/>-->
                         </group>
                     </group>
 
