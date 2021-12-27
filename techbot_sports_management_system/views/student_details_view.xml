@@ -127,12 +127,12 @@
                                 </group>
                                 <group> </group>
                                 <newline/>
-                                <separator string="Trainer INfo" colspan="4"/>
+                                <separator string="Trainer Info" colspan="4"/>
                                 <newline/>
                                 <group colspan="4" col="4">
                                     <field name="trainer_id" mode="kanban" readonly="1" force_save="1" />
 <!--                                    -->
-                                    <field name="trainer_id2" mode="kanban" />
+<!--                                    <field name="trainer_id2" mode="kanban" />-->
 
                                 </group>
                                 <newline/>
