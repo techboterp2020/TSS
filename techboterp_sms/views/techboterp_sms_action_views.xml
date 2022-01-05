@@ -1,0 +1,98 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<odoo>-->
+
+
+<!--    &lt;!&ndash; Action for SESSION &ndash;&gt;-->
+<!--    <record model="ir.actions.act_window" id="session_list_action">-->
+<!--        <field name="name">Sessions</field>-->
+<!--        <field name="res_model">sports.management.session</field>-->
+<!--        <field name="view_mode">kanban,tree,calendar,form</field>-->
+<!--&lt;!&ndash;        ,gantt,graph,calendar&ndash;&gt;-->
+<!--        <field name="context">{'search_default_my_sessions':1}</field>-->
+<!--        <field name="help" type="html">-->
+<!--            <p class="o_view_nocontent_smiling_face">-->
+<!--                Create a Session in your address book-->
+<!--            </p>-->
+<!--&lt;!&ndash;            <p>&ndash;&gt;-->
+<!--&lt;!&ndash;                Odoo helps you track all activities related to your contacts.&ndash;&gt;-->
+<!--&lt;!&ndash;            </p>&ndash;&gt;-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+<!--        &lt;!&ndash; Action for Student Class &ndash;&gt;-->
+<!--    <record model="ir.actions.act_window" id="student_class_list_action">-->
+<!--        <field name="name">Class</field>-->
+<!--        <field name="res_model">student.class</field>-->
+<!--        <field name="view_mode">tree,form,kanban</field>-->
+
+<!--        <field name="help" type="html">-->
+<!--            <p class="o_view_nocontent_smiling_face">-->
+<!--                Create a Class in your address book-->
+<!--            </p>-->
+<!--&lt;!&ndash;            <p>&ndash;&gt;-->
+<!--&lt;!&ndash;                Odoo helps you track all activities related to your contacts.&ndash;&gt;-->
+<!--&lt;!&ndash;            </p>&ndash;&gt;-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+
+
+
+
+
+
+<!--    &lt;!&ndash;        Action For Sports Activity Typ  model name sports.activity.type  &ndash;&gt;-->
+<!--    <record id="sports_activity_type_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Sports Activity</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">sports.activity.type</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        &lt;!&ndash;         kanban  calendar,pivot,graph,gantt,activity,map&ndash;&gt;-->
+<!--        &lt;!&ndash;            <field name="context">{}</field>&ndash;&gt;-->
+<!--        <field name="help" type="html">-->
+<!--            <p class="o_view_nocontent_smiling_face">-->
+<!--                Create A Sports Activity-->
+<!--            </p>-->
+<!--            <p>-->
+
+<!--            </p>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash;        Action For Location Type   &ndash;&gt;-->
+<!--    <record id="sports_location_type_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Activity Locations</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">sports.location</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        &lt;!&ndash;           calendar,pivot,graph,gantt,activity,map&ndash;&gt;-->
+<!--        &lt;!&ndash;            <field name="context">{}</field>&ndash;&gt;-->
+<!--        <field name="help" type="html">-->
+<!--            <p class="o_view_nocontent_smiling_face">-->
+<!--                Create A Sports Activity-->
+<!--            </p>-->
+<!--            <p>-->
+
+<!--            </p>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--</odoo>-->
+<!-- &lt;!&ndash;    <record id="action_sports_management_inher" model="ir.actions.act_window">&ndash;&gt;-->
+<!--    &lt;!&ndash;        <field name="name">Subscription</field>&ndash;&gt;-->
+<!--    &lt;!&ndash;&lt;!&ndash;        <field name="domain">[('state', '=', 'done')]</field>&ndash;&gt;&ndash;&gt;-->
+<!--    &lt;!&ndash;&lt;!&ndash;        <field name="context">{'search_default_done_student':1}</field>&ndash;&gt;&ndash;&gt;-->
+<!--    &lt;!&ndash;        <field name="res_model">sports.management</field>&ndash;&gt;-->
+<!--    &lt;!&ndash;         <field name="view_id" ref="" />&ndash;&gt;-->
+<!--    &lt;!&ndash;&lt;!&ndash;        <field name="search_view_id" ref="view_student_student_search_1" />&ndash;&gt;&ndash;&gt;-->
+<!--    &lt;!&ndash;        <field name="view_mode">kanban,tree,form</field>&ndash;&gt;-->
+<!--    &lt;!&ndash;        <field name="help" type="html">&ndash;&gt;-->
+<!--    &lt;!&ndash;                <p class="o_view_nocontent_smiling_face">&ndash;&gt;-->
+<!--    &lt;!&ndash;                    Create a Contact in your address book&ndash;&gt;-->
+<!--    &lt;!&ndash;              </p><p>&ndash;&gt;-->
+<!--    &lt;!&ndash;                Odoo helps you track all activities related to your contacts.&ndash;&gt;-->
+<!--    &lt;!&ndash;              </p>&ndash;&gt;-->
+
+<!--    &lt;!&ndash;            </field>&ndash;&gt;-->
+<!--    &lt;!&ndash;    </record>&ndash;&gt;-->

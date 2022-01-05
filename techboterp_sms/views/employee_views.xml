@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!--  Inherit Partner Form View to Modify it  -->
+    <record id="view_employee_form_inher" model="ir.ui.view">
+        <field name="name">hr.employee.form.inher</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[2]" position="after">
+                <page name='trainer_session' string="Session Details">
+                    <field name="session_ids" />
+<!--           widget="many2many_tags"      widget="statinfo"     <field name="assistant_employee_id" widget="many2many_tags"/>-->
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="product_form_view_procurement_button_inher" model="ir.ui.view">-->
+<!--        <field name="name">product.form.view.procurement.button.inher</field>-->
+<!--        <field name="model">product.product</field>-->
+<!--        &lt;!&ndash;            <field name="groups_id" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>&ndash;&gt;-->
+<!--        <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            Invisible Units In -->
+<!--            <xpath expr="//button[@name='action_open_quants']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//button[@name='action_product_tmpl_forecast_report']" position="before">-->
+<!--                <button type="object" name="action_open_quants"-->
+<!--                        attrs="{'invisible':[('show_on_hand_qty_status_button', '=', False)]}" class="oe_stat_button"-->
+<!--                        icon="fa-cubes">-->
+<!--                    <div class="o_field_widget o_stat_info">-->
+<!--                        <span class="o_stat_value" widget="statinfo">-->
+<!--                            <field name="qty_available" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                            &lt;!&ndash; <field name="uom_name"/>&ndash;&gt;-->
+<!--                        </span>-->
+<!--                        <span class="o_stat_text">Seat Available</span>-->
+<!--                    </div>-->
+<!--                </button>-->
+<!--            </xpath>-->
+<!--          </field>-->
+<!--    </record>-->
+
+
+
+
+    <!--<menuitem id="fleet_customer_registration_inher" name="Customers" action="base.action_partner_form"-->
+<!--              parent="fleet.menu_root" sequence="100"/>-->
+
+
+<!--              action="product_product_action" -->
+
+
+<!--    <menuitem name="Variants" action="product.product_variant_action" parent="menu_stock_root"/>-->
+
+</odoo>
+
+
