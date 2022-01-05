@@ -63,7 +63,7 @@
                         <group>
                             <label for="start_date" string="Date"/>
                             <div class="o_row">
-                                <field name="date_start" widget="daterange" nolabel="1" class="oe_inline"
+                                <field name="start_date" widget="daterange" nolabel="1" class="oe_inline"
                                        options="{'related_end_date': 'end_date'}"/>
                                 <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
                                 <field name="end_date" widget="daterange" nolabel="1" class="oe_inline"
