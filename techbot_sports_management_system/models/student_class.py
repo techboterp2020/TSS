@@ -40,7 +40,7 @@ class StudentClass(models.Model):
 
     name = fields.Char("Name", required=True,
                        help='Parent relation with student')
-    state = fields.Selection([('draft', 'Draft'),
+    state = fields.Selection([('draft', 'New'),
                               ('started', 'Start'),
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
@@ -51,7 +51,8 @@ class StudentClass(models.Model):
     location_id = fields.Many2one('sports.location')
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
-    students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
+    # students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
+    students_ids = fields.Many2many('student.details', 'class_id', string="Students")
 
     main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True)
     assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True)
@@ -143,14 +144,15 @@ class StudentClass(models.Model):
         for rec in self:
             for i in range(1, self.no_of_class + 1):
                 if rec.session_based_on == 'month':
-                    next_date = relativedelta(rec.start_date) + relativedelta(weeks=4 * i) / rec.no_of_sessions
+                    next_date = rec.start_date + relativedelta(weeks=4 * i) / rec.no_of_sessions
                 else:
-                    next_date = relativedelta(rec.start_date)+relativedelta(days=7 * i) / rec.no_of_sessions
+                    next_date = rec.start_date+relativedelta(days=7 * i) / rec.no_of_sessions
                 self.session_ids = [
                     (0, 0, {
                         'name': self.name + ' ' + 'Session' + ' ' + str(i),
                         'duration': self.duration,
-                        'date_from': (rec.start_date + next_date),
+                        # 'date_from': (rec.start_date + next_date),
+                        'date_from': next_date,
                         'venue_id': self.location_id.id,
                         'available_seat': self.available_seat,
                         'no_of_students': len(self.students_ids.ids),

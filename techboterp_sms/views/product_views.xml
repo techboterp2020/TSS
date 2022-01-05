@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!--  Inherit Product variant  Form View to Modify it  -->
+    <record id="product_variant_easy_edit_view_form_inher" model="ir.ui.view">
+        <field name="name">product.view.form.easy.edit.view.form.inher</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='weight']" position="after">
+
+                <group>
+                    <label for="date_start" string="Date"/>
+                    <div class="o_row">
+                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline"
+                               options="{'related_end_date': 'date_end'}"/>
+                        <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                        <field name="date_end" widget="daterange" nolabel="1" class="oe_inline"
+                               options="{'related_start_date': 'date_start'}"/>
+                    </div>
+
+                </group>
+                <group name='trainer_info' string="Trainer Details">
+                    <field name="employee_id"/>
+                    <field name="assistant_employee_id" widget="many2many_tags"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Inherit Product tree view and add new filed like start date and End Date-->
+    <record id="product_product_tree_view_inher" model="ir.ui.view">
+        <field name="name">product.view.form.easy.edit.view.form.inher</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='price']" position="after">
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </xpath>
+<!--            <xpath expr="//tree/field[@name='price']" position="after">-->
+<!--                <field name="date_start"/>-->
+<!--                <field name="date_end"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+
+    <record id="view_stock_product_tree_inher" model="ir.ui.view">
+        <field name="name">product.view.form.easy.edit.view.form.inher</field>
+        <field name="model">product.product</field>
+        <!--            <field name="groups_id" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>-->
+        <field name="inherit_id" ref="stock.view_stock_product_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='qty_available']" position="attributes">
+                <attribute name="string">Seat Available</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_stock_quant_tree_inventory_editable_inher" model="ir.ui.view">
+        <field name="name">view.stock.quant.tree.inventory.editable.inher</field>
+        <field name="model">stock.quant</field>
+        <!--            <field name="groups_id" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>-->
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='quantity']" position="attributes">
+                <attribute name="string">Seat Available</attribute>
+            </xpath>
+
+            <xpath expr="//tree/field[@name='inventory_quantity']" position="attributes">
+                <attribute name="string">Assign Seats</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
+
+
