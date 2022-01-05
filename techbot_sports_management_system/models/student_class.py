@@ -100,7 +100,7 @@ class StudentClass(models.Model):
     # sat = fields.Boolean(readonly=False)
     # sun = fields.Boolean(readonly=False)
     no_of_class = fields.Integer(' Total Class  ', required=True)
-    session_ids = fields.One2many('sports.management.session', 'class_id')
+    session_ids = fields.One2many('sports.management.session', 'class_id') # Relation b/w session with class
     duration = fields.Float('Session Duration', store=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
 

@@ -18,8 +18,8 @@
         'security/ir.model.access.csv',
         'views/crm_lead_views.xml',
         'views/sports_management_views.xml',
-        'views/sale_order_views.xml',
-        'views/product_variant_views.xml',
+        # 'views/sale_order_views.xml',
+        # 'views/product_variant_views.xml',
 
         'views/student_details_view.xml',
         'views/res_partner_view.xml',
