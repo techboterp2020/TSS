@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-
     <!--  Inherit Product variant  Form View to Modify it  -->
     <record id="product_variant_easy_edit_view_form_inher" model="ir.ui.view">
         <field name="name">product.view.form.easy.edit.view.form.inher</field>
         <field name="model">product.product</field>
         <field name="inherit_id" ref="stock.product_product_view_form_easy_inherit_stock"/>
-<!--        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>-->
+        <!--        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>-->
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="after">
 
+            <xpath expr="//form/header" position="inside">
+                <button name="delete_students_button"  type='object' string="Clear Student"/>
+            </xpath>
+
+            <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="after">
                 <group>
                     <label for="date_start" string="Date"/>
                     <div class="o_row">
@@ -27,7 +29,6 @@
                     <field name="employee_id"/>
                     <field name="assistant_employee_id" widget="many2many_tags"/>
                 </group>
-
             </xpath>
 
             <xpath expr="//form/sheet/group[2]" position="after">
@@ -41,38 +42,37 @@
                             <field name="session_based_on"/>
                         </div>
                     </group>
-
                 </group>
+
                 <group string="Select Days" attrs="{'invisible': [('session_based_on', '=', 'month')]}">
                     <!--                    <label for="days" string="Scheduled Days"/>-->
                     <group name="days">
                         <div class="o_row">
-                            <span>Mon </span>
+                            <span>Mon</span>
                             <field name="mon" eval="True"/>
                             <span attrs="{'invisible': [('mon', '=', False)]}">Time</span>
                             <field name="mon_time" widget="float_time" eval="True"
                                    attrs="{'invisible': [('mon', '=', False)]}"/>
                         </div>
                         <div class="o_row">
-                            <span>Tue </span>
+                            <span>Tue</span>
                             <field name="tue" eval="True"/>
                             <span attrs="{'invisible': [('tue', '=', False)]}">Time</span>
                             <field name="tue_time" widget="float_time" eval="True"
                                    attrs="{'invisible': [('tue', '=', False)]}"/>
-
                         </div>
                     </group>
 
                     <group>
                         <div class="o_row">
-                            <span>Wed </span>
+                            <span>Wed</span>
                             <field name="wed" eval="True"/>
                             <span attrs="{'invisible': [('wed', '=', False)]}">Time</span>
                             <field name="wed_time" widget="float_time" eval="True"
                                    attrs="{'invisible': [('wed', '=', False)]}"/>
                         </div>
                         <div class="o_row">
-                            <span>Thu </span>
+                            <span>Thu</span>
                             <field name="thu" eval="True"/>
                             <span attrs="{'invisible': [('thu', '=', False)]}">Time</span>
                             <field name="thu_time" widget="float_time" eval="True"
@@ -82,14 +82,14 @@
 
                     <group>
                         <div class="o_row">
-                            <span>Fri  </span>
+                            <span>Fri</span>
                             <field name="fri" eval="True"/>
                             <span attrs="{'invisible': [('fri', '=', False)]}">Time</span>
                             <field name="fri_time" widget="float_time" eval="True"
                                    attrs="{'invisible': [('fri', '=', False)]}"/>
                         </div>
                         <div class="o_row">
-                            <span>Sat </span>
+                            <span>Sat</span>
                             <field name="sat" eval="True"/>
                             <span attrs="{'invisible': [('sat', '=', False)]}">Time</span>
                             <field name="sat_time" widget="float_time" eval="True"
@@ -99,7 +99,7 @@
 
                     <group>
                         <div class="o_row">
-                            <span>Sun </span>
+                            <span>Sun</span>
                             <field name="sun" eval="True"/>
                             <span attrs="{'invisible': [('sun', '=', False)]}">Time</span>
                             <field name="sun_time" widget="float_time" eval="True"
