@@ -54,14 +54,16 @@ class ProductProductVariants(models.Model):
     sun = fields.Boolean(readonly=False)
     sun_time = fields.Float(string='Time')
 
-    # def create(self, vals):
+    def delete_students_button(self):
+        """Method to delete M2M field details"""
+        for rec in self:
+            rec.student_id = [(5, 0, 0)]
     #     self._check_emplou(vals)
     #     return super(ProductProductVariants, self).create(vals)
 
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
-
 
 
 
