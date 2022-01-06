@@ -26,7 +26,10 @@ class ProductProductVariants(models.Model):
 
     def _get_default_color(self):
         return randint(1, 11)
-    employee_id = fields.Many2one('hr.employee','Main Trainer')
+
+    date_start = fields.Date('Date From')
+    date_end = fields.Date('Date To')
+    employee_id = fields.Many2one('hr.employee', 'Main Trainer')
     student_id = fields.Many2many('student.details', 'product_student_rel', 'child_id', 'product_id')
     assistant_employee_id = fields.Many2many(
         'hr.employee')  # 'employee_product_rel', 'hr_employee', "product_product_id"
@@ -34,26 +37,51 @@ class ProductProductVariants(models.Model):
     no_of_class = fields.Integer(' Total Class  ', required=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
     session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
-                                        required=True,
-                                        default='weekly', readonly=False)
+                                        required=True, default='weekly', readonly=False)
+
     mon = fields.Boolean(readonly=False)
+    mon_time = fields.Float(string='Time')
     tue = fields.Boolean(readonly=False)
+    tue_time = fields.Float(string='Time')
     wed = fields.Boolean(readonly=False)
+    wed_time = fields.Float(string='Time')
     thu = fields.Boolean(readonly=False)
+    thu_time = fields.Float(string='Time')
     fri = fields.Boolean(readonly=False)
+    fri_time = fields.Float(string='Time')
     sat = fields.Boolean(readonly=False)
+    sat_time = fields.Float(string='Time')
     sun = fields.Boolean(readonly=False)
+    sun_time = fields.Float(string='Time')
 
     # def create(self, vals):
     #     self._check_emplou(vals)
     #     return super(ProductProductVariants, self).create(vals)
 
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    date_start = fields.Datetime('Date From')
-    date_end = fields.Datetime('Date To')
+
 
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
+
+    # def _compute_timeframes(self, company):
+    #     start_datetime = datetime.utcnow()
+    #     tz_name = company.resource_calendar_id.tz
+    #     if tz_name:
+    #         start_datetime = pytz.timezone(tz_name).localize(start_datetime)
+    #     return [
+    #         (_('Last 24 hours'), (
+    #             (start_datetime + relativedelta(days=-1), start_datetime),
+    #             (start_datetime + relativedelta(days=-2), start_datetime + relativedelta(days=-1)))
+    #         ), (_('Last 7 Days'), (
+    #             (start_datetime + relativedelta(weeks=-1), start_datetime),
+    #             (start_datetime + relativedelta(weeks=-2), start_datetime + relativedelta(weeks=-1)))
+    #         ), (_('Last 30 Days'), (
+    #             (start_datetime + relativedelta(months=-1), start_datetime),
+    #             (start_datetime + relativedelta(months=-2), start_datetime + relativedelta(months=-1)))
+    #         )
+    #     ]

@@ -45,6 +45,21 @@ class SaleOrder(models.Model):
             if rec.partner_id:
                 return {'domain': {'child_id': [('parent_id', '=', rec.partner_id.id)]}}
 
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        for rec in self:
+            for line in rec.order_line:
+                print(line.product_id)
+                print(rec.child_id)
+                line.product_id.student_id = [(6,0, rec.child_id.ids)]
+                # line.product_id.student_id = [(2,0, rec.child_id.ids)]
+                # line.product_id.student_id.append([0,0,{'student_id': rec.child_id.ids }])
+                print('*******************************',line.product_id.student_id)
+                # self.write({'student_id': line.product_id.student_id})
+
+                # for order in self.filtered('fiscal_position_id.is_taxcloud'):
+        #     order.validate_taxes_on_sales_order()
+        return res
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -62,6 +77,7 @@ class SaleOrderLine(models.Model):
                 rec.trainer_id = rec.product_id.employee_id
                 rec.start_date = rec.product_id.date_start
                 rec.end_date = rec.product_id.date_end
+
 
 
 # Changed The tree name Quantity to Seat
