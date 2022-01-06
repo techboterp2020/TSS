@@ -16,7 +16,7 @@
 #
 ##############################################################################
 from odoo import api, fields, models, api, _
-
+from odoo.exceptions import UserError, ValidationError
 
 # from odoo.exceptions import ValidationError,Warning
 
@@ -51,14 +51,10 @@ class SaleOrder(models.Model):
             for line in rec.order_line:
                 print(line.product_id)
                 print(rec.child_id)
-                line.product_id.student_id = [(6,0, rec.child_id.ids)]
-                # line.product_id.student_id = [(2,0, rec.child_id.ids)]
-                # line.product_id.student_id.append([0,0,{'student_id': rec.child_id.ids }])
-                print('*******************************',line.product_id.student_id)
-                # self.write({'student_id': line.product_id.student_id})
-
-                # for order in self.filtered('fiscal_position_id.is_taxcloud'):
-        #     order.validate_taxes_on_sales_order()
+                # line.product_id.student_id = [(6,0, rec.child_id.ids)]
+                # if line.product_id.student_id == rec.child_id.id:
+                #     raise UserError(_("Instructors/Trainers are same Please Choose Different Trainers"))
+                line.product_id.student_id = [(4, rec.child_id.id)]
         return res
 
 class SaleOrderLine(models.Model):
