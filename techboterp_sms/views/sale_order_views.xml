@@ -20,8 +20,8 @@
                     <group name="child_details"  string="Children Details">
                         <group>
                             <field name="child_id" widget="res_partner_many2one"/>
-                            <field name="age"  attrs="{'invisible': [('child_id', '=', False)]}"/>
-                            <field name="gender" attrs="{'invisible': [('child_id', '=', False)]}"/>
+                            <field name="age"  force_save="1"  attrs="{'invisible': [('child_id', '=', False)]}"/>
+                            <field name="gender" force_save="1" attrs="{'invisible': [('child_id', '=', False)]}"/>
                         </group>
                     </group>
                 </xpath>
