@@ -18,11 +18,8 @@
 from odoo import api, fields, models, api, _
 from odoo.exceptions import UserError, ValidationError
 
-# from odoo.exceptions import ValidationError,Warning
-
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-    _description = 'Sale Order Inherit'
 
     child_id = fields.Many2one('student.details' )
     age = fields.Char(string='Age', readonly=True, store=True )
@@ -46,14 +43,14 @@ class SaleOrder(models.Model):
                 return {'domain': {'child_id': [('parent_id', '=', rec.partner_id.id)]}}
 
     def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
         for rec in self:
             for line in rec.order_line:
-                print(line.product_id)
-                print(rec.child_id)
-                # line.product_id.student_id = [(6,0, rec.child_id.ids)]
-                # if line.product_id.student_id == rec.child_id.id:
-                #     raise UserError(_("Instructors/Trainers are same Please Choose Different Trainers"))
+                if line.product_id.balance_session > 0:
+                    raise UserError("This Session is already in Progress")
+                if rec.child_id and rec.child_id.id in line.product_id.student_id.ids:
+                    raise UserError("The Student is Alreay added in the session")
+            res = super(SaleOrder, self).action_confirm()
+            for line in rec.order_line:
                 line.product_id.student_id = [(4, rec.child_id.id)]
         return res
 
@@ -73,13 +70,3 @@ class SaleOrderLine(models.Model):
                 rec.trainer_id = rec.product_id.employee_id
                 rec.start_date = rec.product_id.date_start
                 rec.end_date = rec.product_id.date_end
-
-
-
-# Changed The tree name Quantity to Seat
-class SaleOrderLine(models.Model):
-    _inherit = 'account.move'
-
-
-
-
