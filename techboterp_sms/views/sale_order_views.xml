@@ -10,9 +10,9 @@
                     <attribute name="string">Seats</attribute>
                 </xpath>
                  <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="before">
-                    <field name="trainer_id" readonly="1" />
-                    <field name="start_date" readonly="1" />
-                    <field name="end_date" readonly="1" />
+                    <field name="trainer_id" readonly="1"  force_save="1"/>
+                    <field name="start_date" readonly="1" force_save="1"/>
+                    <field name="end_date" readonly="1" force_save="1"/>
 
                 </xpath>
 
@@ -37,10 +37,7 @@
                 <xpath expr="//form/sheet/notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="attributes">
                     <attribute name="string">Seats</attribute>
                 </xpath>
-<!--                <xpath expr="//field[@name='ref']" position="after">-->
-<!--                    <field name="has_due" invisible="1"/>-->
-<!--                    <field name="is_warning" invisible="1"/>-->
-<!--                </xpath>-->
+                
             </field>
         </record>
 

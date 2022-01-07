@@ -27,8 +27,7 @@ class ParentRelation(models.Model):
     _name = "parent.relation"
     _description = "Parent-child relation information"
 
-    name = fields.Char("Relation name : ", required=True,
-                       help='Parent relation with student')
+    name = fields.Char("Relation name : ", required=True, help='Parent relation with student')
 
 
 class ResPartner(models.Model):

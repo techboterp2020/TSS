@@ -43,9 +43,9 @@ class StudentDetails(models.Model):
     def _get_default_color(self):
         return randint(1, 11)
 
-    def draft(self):
-        self.ensure_one()
-        self.state = 'draft'
+    # def draft(self):
+    #     self.ensure_one()
+    #     self.state = 'draft'
 
     def confirm(self):
         self.ensure_one()
@@ -67,9 +67,8 @@ class StudentDetails(models.Model):
     street2 = fields.Char("Street2")
     zip = fields.Char('Zip', change_default=True, readonly=False, store=True)
     city = fields.Char('City', readonly=False, store=True)
-    state_id = fields.Many2one(
-        "res.country.state", string='State',
-        readonly=False, store=True, domain="[('country_id', '=?', country_id)]")
+    state_id = fields.Many2one("res.country.state", string='State', readonly=False, store=True,
+                               domain= "[('country_id', '=?', country_id)]")
     country_id = fields.Many2one('res.country', string='Country', readonly=False, store=True)
     mob = fields.Char('Mobile', compute='onchange_parent_id')
     mob1 = fields.Char('Phone', compute='onchange_parent_id')

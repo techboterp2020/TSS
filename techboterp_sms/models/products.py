@@ -18,7 +18,14 @@
 
 from odoo import models, fields, api, _
 from random import randint
+from odoo.exceptions import UserError, ValidationError
+from datetime import date
 
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+    
+    is_session = fields.Boolean(string='Session')
 
 class ProductProductVariants(models.Model):
     _inherit = "product.product"
@@ -31,8 +38,8 @@ class ProductProductVariants(models.Model):
     date_end = fields.Date('Date To')
     employee_id = fields.Many2one('hr.employee', 'Main Trainer')
     student_id = fields.Many2many('student.details', 'product_student_rel', 'child_id', 'product_id')
-    assistant_employee_id = fields.Many2many(
-        'hr.employee')  # 'employee_product_rel', 'hr_employee', "product_product_id"
+    assistant_employee_id = fields.Many2many('hr.employee', string='Assistant Trainer')
+    # 'employee_product_rel', 'hr_employee', "product_product_id"
     color = fields.Integer(string='Color', default=_get_default_color)
     no_of_class = fields.Integer(' Total Class  ', required=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
@@ -53,37 +60,26 @@ class ProductProductVariants(models.Model):
     sat_time = fields.Float(string='Time')
     sun = fields.Boolean(readonly=False)
     sun_time = fields.Float(string='Time')
+    # addional fields added
+    balance_session = fields.Integer('Balance Sessions',readonly=True)
 
+    # session adding function
+    def add_session(self):
+        for rec in self:
+            if not rec.employee_id or not rec.student_id:
+                raise ValidationError("Please fill Trainer and Students")
+            for i in range(0,rec.no_of_class):
+                self.env['employee.sports.session'].create({'name':rec.name+'-'+str(i+1),
+                                                            'employee_id':rec.employee_id and rec.employee_id.id or False,
+                                                            'student_ids':[(6,0,rec.student_id.ids)] or [],
+                                                            'assistant_employee_ids':[(6,0,rec.assistant_employee_id.ids)] or [],
+                                                            'product_id':rec.id,
+                                                            's_created_date':date.today()})
+            rec.balance_session = rec.no_of_class
+    
     def delete_students_button(self):
         """Method to delete M2M field details"""
         for rec in self:
             rec.student_id = [(5, 0, 0)]
-    #     self._check_emplou(vals)
-    #     return super(ProductProductVariants, self).create(vals)
 
 
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-
-
-
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
-
-    # def _compute_timeframes(self, company):
-    #     start_datetime = datetime.utcnow()
-    #     tz_name = company.resource_calendar_id.tz
-    #     if tz_name:
-    #         start_datetime = pytz.timezone(tz_name).localize(start_datetime)
-    #     return [
-    #         (_('Last 24 hours'), (
-    #             (start_datetime + relativedelta(days=-1), start_datetime),
-    #             (start_datetime + relativedelta(days=-2), start_datetime + relativedelta(days=-1)))
-    #         ), (_('Last 7 Days'), (
-    #             (start_datetime + relativedelta(weeks=-1), start_datetime),
-    #             (start_datetime + relativedelta(weeks=-2), start_datetime + relativedelta(weeks=-1)))
-    #         ), (_('Last 30 Days'), (
-    #             (start_datetime + relativedelta(months=-1), start_datetime),
-    #             (start_datetime + relativedelta(months=-2), start_datetime + relativedelta(months=-1)))
-    #         )
-    #     ]
