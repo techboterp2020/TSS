@@ -106,8 +106,8 @@
         <field name="arch" type="xml">
             <form string="Session Form">
                 <header>
-                    <button name="draft" string="Reset to Draft" groups="base.group_user"
-                            type="object" invisible="1"/>
+                    <!--                    <button name="draft" string="Reset to Draft" groups="base.group_user"-->
+                    <!--                            type="object" invisible="1"/>-->
                     <button name="start" string="Start" states="draft" type="object"
                             class="oe_highlight"
                             groups="base.group_user"/>
@@ -142,8 +142,7 @@
                         <group string="Students Details">
                             <field name="available_seat"/>
                             <field name="no_of_students"/>
-                            <field name="students_ids" widget="many2many_tags"/>
-
+                            <!--                            <field name="students_ids" widget="many2many_tags"/>-->
                         </group>
                     </group>
 

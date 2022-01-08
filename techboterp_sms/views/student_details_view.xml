@@ -6,40 +6,25 @@
         <field name="model">student.details</field>
         <field name="arch" type="xml">
             <form string="Student Information">
-
                 <header>
-                    <button string='Create Invoice' name="make_invoices" type="object" class="oe_highlight"
-                            icon="fa-arrow-right"
-                            context="{'default_partner_id': active_id}" states="draft"/>
+                    <!--                    <button string='Create Invoice' name="make_invoices" type="object" class="oe_highlight"-->
+                    <!--                            icon="fa-arrow-right"-->
+                    <!--                            context="{'default_partner_id': active_id}" states="draft"/>-->
 
-                    <button name="confirm" string="Confirm" states="invoice" type="object"
-                            class="oe_highlight"/>
+                    <!--                    <button name="confirm" string="Confirm" states="invoice" type="object"-->
+                    <!--                            class="oe_highlight"/>-->
 
                     <!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
                     <!--                            groups="hr.group_hr_user"/>-->
 
                     <!--                    <button name="draft" string="Reset to Draft" groups="base.group_user"-->
                     <!--                            type="object"/>-->
-                    <field name="state" widget="statusbar"/>
+                    <!--                    <field name="state" widget="statusbar"/>-->
                 </header>
 
                 <sheet name="student_info" string="Student Details">
 
                     <div name="button_box" class="oe_button_box">
-                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o"
-                                name="action_view_partner_invoices"
-                                context="{'default_partner_id': active_id}">
-                            <div class="o_form_field o_stat_info">
-                                <!--                                <span class="o_stat_value">-->
-                                <!--                                    <field name="currency_id" invisible="1" can_create="true" can_write="true"-->
-                                <!--                                           modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>-->
-                                <!--                                    <field name="total_invoiced" widget="monetary"-->
-                                <!--                                           options="{'currency_field': 'currency_id'}"-->
-                                <!--                                           modifiers="{&quot;readonly&quot;: true}"/>-->
-                                <!--                                </span>-->
-                                <span class="o_stat_text">Invoiced</span>
-                            </div>
-                        </button>
 
                     </div>
                     <!--  <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
@@ -114,41 +99,19 @@
                             </group>
                         </page>
 
-                        <!--                        <page string="Trainer Info" name="trainer">-->
-                        <!--                            <field name="trainer_id" mode="kanban"   />-->
-                        <!--&lt;!&ndash;                            force_save="1"&ndash;&gt;-->
-                        <!--                            <field name="trainer_id2" mode="kanban"/>-->
+<!--                        <page string="Class/Session Details " name="class_session">-->
+<!--&lt;!&ndash;                            <field name="session_ids"/>&ndash;&gt;-->
+<!--                            <group>-->
 
-                        <!--                        </page>-->
+<!--                            </group>-->
+<!--                            <newline/>-->
 
-                        <page string="Class/Session Details " name="Class">
-                            <group>
-                                <group>
-                                    <field name="class_id" widget="many2many_tags"/>
-                                    <!--                                widget="many2many_tags"    options="{'color_field': 'color', 'no_create_edit': True}"/>-->
-                                    <field name="gender" placeholder="Gender" required="1"/>
-                                    <field name="age"/>
-                                </group>
-                                <group></group>
-                                <newline/>
-                                <separator string="Trainer Info" colspan="4"/>
-                                <newline/>
-                                <group colspan="4" col="4">
-                                    <field name="trainer_id" mode="kanban" readonly="1" force_save="1"/>
-                                    <!--                                    -->
-                                    <!--                                    <field name="trainer_id2" mode="kanban" />-->
+<!--                            <group>-->
 
-                                </group>
-                                <newline/>
-                            </group>
-                            <newline/>
+<!--                                <field name="remark"/>-->
 
-                            <!--                            <separator string="Termination Reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}"/>-->
-                            <group>
-                                <field name="remark"/>
-                                <!--                                    <field name="terminate_reason" attrs="{'invisible':[('state','in',['draft','done','alumni'])]}" readonly="1"/>-->
-                            </group>
-                        </page>
+<!--                            </group>-->
+<!--                        </page>-->
 
                         <page string="Medical History" name="student_medi_history">
                             <group string="Health Concerns">
@@ -314,8 +277,8 @@
                 <!--            <field name="pid"/>-->
                 <field name="parent_id"/>
                 <field name="student_name"/>
-                <field name="trainer_id"/>
-                <field name="class_id"/>
+                <!--                <field name="trainer_id"/>-->
+                <!--                <field name="class_id"/>-->
                 <field name="gender"/>
                 <field name="email"/>
                 <field name="blood_group"/>
@@ -349,8 +312,8 @@
 
                 <separator/>
                 <group expand="0" name="group_by" string="Group By">
-                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>
-                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>
+                    <!--                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>-->
+                    <!--                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>-->
                     <filter name="parent" string="Parent" context="{'group_by': 'parent_id'}"/>
                     <filter name="gender" string="Gender" context="{'group_by': 'gender'}"/>
                     <!--                    <filter name="group_age" string="Age" context="{'group_by': 'age'}"/>-->
@@ -429,6 +392,23 @@
                     </t>
                 </templates>
             </kanban>
+        </field>
+    </record>
+
+    <!-- Action Of Form, Tree & Kanban Views Of Student Details -->
+    <record id="action_student_details_form_1" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.details</field>
+        <field name="view_id" ref=""/>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Contact in your address book
+            </p>
+            <p>
+                Odoo helps you track all activities related to your contacts.
+            </p>
+
         </field>
     </record>
 

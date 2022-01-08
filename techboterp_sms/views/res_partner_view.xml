@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--  Inherit Partner Form View to Modify it  -->
+        <record id="view_partner_info_form_inher" model="ir.ui.view">
+            <field name="name">res.partner</field>
+            <field name="model">res.partner</field>
+<!--            <field name="groups_id" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>-->
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object" name="get_child_details" icon="fa-child">
+                        <field string="Children" name="child_count" widget="statinfo"/>
+                    </button>
+                </div>
+
+            </field>
+        </record>
+    </data>
+</odoo>

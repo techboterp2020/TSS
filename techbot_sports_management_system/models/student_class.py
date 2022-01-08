@@ -40,7 +40,7 @@ class StudentClass(models.Model):
 
     name = fields.Char("Name", required=True,
                        help='Parent relation with student')
-    state = fields.Selection([('draft', 'Draft'),
+    state = fields.Selection([('draft', 'New'),
                               ('started', 'Start'),
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
@@ -51,9 +51,13 @@ class StudentClass(models.Model):
     location_id = fields.Many2one('sports.location')
     available_seat = fields.Integer(string="Available Seats", required=True)
     filled_seats = fields.Integer(string="Filled seats", compute='_taken_seats')
-    students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
-    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True, )
-    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True, )
+    # students_ids = fields.One2many('student.details', 'class_id', string="Students", readonly=True)
+    students_ids = fields.Many2many('student.details', 'class_id', string="Students")
+
+    main_trainer_id = fields.Many2one('hr.employee', string='Instructor', required=True, store=True)
+    assistant_trainer_id = fields.Many2one('hr.employee', string='Assistant Instructor', required=True, store=True)
+
+
 
     def draft(self):
         self.ensure_one()
@@ -96,7 +100,7 @@ class StudentClass(models.Model):
     # sat = fields.Boolean(readonly=False)
     # sun = fields.Boolean(readonly=False)
     no_of_class = fields.Integer(' Total Class  ', required=True)
-    session_ids = fields.One2many('sports.management.session', 'class_id')
+    session_ids = fields.One2many('sports.management.session', 'class_id') # Relation b/w session with class
     duration = fields.Float('Session Duration', store=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
 
@@ -120,26 +124,35 @@ class StudentClass(models.Model):
             raise UserError(_("Please enter proper value for Total Class"))
         if not self.filled_seats or self.filled_seats < 0:
             raise UserError(_("Please Add/ Assign Students into the Class"))
-        # if not self.session_id:
-        #     raise UserError(_("Please enter proper Session"))
+        if self.main_trainer_id == self.assistant_trainer_id :
+            raise UserError(_("Trainers are same Please Choose Different Trainers"))
         if self.session_based_on == 'month':
             if not self.no_of_class or self.no_of_class < 0:
                 raise UserError(_("Please enter proper value for Sessions"))
         self.compute()
+
+    @api.constrains('main_trainer_id', 'assistant_trainer_id')
+    def _same_trainer(self):
+        """Method to Check Same Trainers"""
+        if self.main_trainer_id == self.assistant_trainer_id:
+            raise UserError(_("Instructors/Trainers are same Please Choose Different Trainers"))
+        if self.available_seat == 0:
+            raise UserError(_("Available Seat should be greater than Zero"))
 
     def compute(self):
         """Method to Create a Session"""
         for rec in self:
             for i in range(1, self.no_of_class + 1):
                 if rec.session_based_on == 'month':
-                    next_date = relativedelta(weeks=4 * i) / rec.no_of_sessions
+                    next_date = rec.start_date + relativedelta(weeks=4 * i) / rec.no_of_sessions
                 else:
-                    next_date = relativedelta(days=7 * i) / rec.no_of_sessions
+                    next_date = rec.start_date+relativedelta(days=7 * i) / rec.no_of_sessions
                 self.session_ids = [
                     (0, 0, {
                         'name': self.name + ' ' + 'Session' + ' ' + str(i),
                         'duration': self.duration,
-                        'date_from': (rec.start_date + next_date),
+                        # 'date_from': (rec.start_date + next_date),
+                        'date_from': next_date,
                         'venue_id': self.location_id.id,
                         'available_seat': self.available_seat,
                         'no_of_students': len(self.students_ids.ids),
@@ -152,7 +165,7 @@ class Session(models.Model):
     _name = 'sports.management.session'
     _description = "Sports Management  Sessions"
 
-    venue_id = fields.Many2one('sports.location',readonly=True)
+    venue_id = fields.Many2one('sports.location', readonly=True)
     main_trainer_info_id = fields.Many2many('hr.employee', string='Responsible Trainer', readonly=True)
     class_id = fields.Many2one('student.class')
     attendance_ids = fields.One2many('session.attendance.line', 'session_id')
@@ -180,6 +193,13 @@ class Session(models.Model):
                               ('completed', 'Completed'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
     color = fields.Integer('Color Index', default=0)
+
+    def write(self, vals):
+        if vals.get('state') == 'started':
+            vals.update({'start_time': datetime.now()})
+        if vals.get('state') == 'completed':
+            vals.update({'end_time': datetime.now()})
+        return super(Session, self).write(vals)
 
     def draft(self):
         self.ensure_one()
