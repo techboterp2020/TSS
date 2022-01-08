@@ -11,13 +11,15 @@
             	<button name="add_session"  type='object' string="Add Session" attrs="{'invisible': [('balance_session', '!=', 0)]}"/>
                 <!-- <button name="delete_students_button"  type='object' string="Clear Student"/> -->
             </xpath>
+
+            <!-- ********** Invisible weights and codes  fields in Product Variant ************* -->
             <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="attributes">
                     <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[@name='codes']" position="attributes">
                     <attribute name="invisible">1</attribute>
             </xpath>
-
+            <!-- ************************************************************ -->
             <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="after">
                 <group>
                     <label for="date_start" string="Date"/>
