@@ -52,8 +52,8 @@ class StudentDetails(models.Model):
                               ('confirm', 'Confirmed'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled')], string="Status", required=True, default='draft')
+    # session_ids = fields.One2many("product.product", 'student_id', string='Sessions')
 
-    # invoice_id = fields.Many2one('account.move')
     color = fields.Integer(string='Color', default=_get_default_color)
     student_image = fields.Image('Image', compute_sudo=True)
     # name = fields.Char('Student Number', size=64, required=True, default=_('New'))
