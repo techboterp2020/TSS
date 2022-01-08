@@ -46,20 +46,21 @@ class ProductProductVariants(models.Model):
     session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
                                         required=True, default='weekly', readonly=False)
 
-    mon = fields.Boolean(readonly=False)
-    mon_time = fields.Float(string='Time')
-    tue = fields.Boolean(readonly=False)
-    tue_time = fields.Float(string='Time')
-    wed = fields.Boolean(readonly=False)
-    wed_time = fields.Float(string='Time')
-    thu = fields.Boolean(readonly=False)
-    thu_time = fields.Float(string='Time')
-    fri = fields.Boolean(readonly=False)
-    fri_time = fields.Float(string='Time')
-    sat = fields.Boolean(readonly=False)
-    sat_time = fields.Float(string='Time')
-    sun = fields.Boolean(readonly=False)
-    sun_time = fields.Float(string='Time')
+    # mon = fields.Boolean(readonly=False)
+    # mon_time = fields.Float(string='Time')
+    # tue = fields.Boolean(readonly=False)
+    # tue_time = fields.Float(string='Time')
+    # wed = fields.Boolean(readonly=False)
+    # wed_time = fields.Float(string='Time')
+    # thu = fields.Boolean(readonly=False)
+    # thu_time = fields.Float(string='Time')
+    # fri = fields.Boolean(readonly=False)
+    # fri_time = fields.Float(string='Time')
+    # sat = fields.Boolean(readonly=False)
+    # sat_time = fields.Float(string='Time')
+    # sun = fields.Boolean(readonly=False)
+    # sun_time = fields.Float(string='Time')
+
     # additional fields added
     balance_session = fields.Integer('Balance Sessions',readonly=True)
 
@@ -68,6 +69,8 @@ class ProductProductVariants(models.Model):
         for rec in self:
             if not rec.employee_id or not rec.student_id or not rec.no_of_class:
                 raise ValidationError("Please fill Trainers, Total Class and Students")
+            if rec.employee_id == rec.assistant_employee_id:
+                raise UserError("Instructors/ Assistant Trainers are same Please Choose Different Trainers")
             for i in range(0, rec.no_of_class):
                 self.env['employee.sports.session'].create({'name':rec.name+'-'+str(i+1),
                                                             'employee_id': rec.employee_id and rec.employee_id.id or False,
