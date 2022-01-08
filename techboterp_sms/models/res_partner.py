@@ -35,7 +35,7 @@ class ResPartner(models.Model):
 
     child_count = fields.Integer(compute='_compute_child_count', string='Child qty')
 
-    # Fetch Student Details model
+    # Fetch Student Details
     def get_child_details(self):
         """
         Return an action that display Student records related for the given partners.

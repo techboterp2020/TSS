@@ -22,9 +22,6 @@ from odoo.exceptions import UserError, ValidationError
 from random import randint
 from datetime import date, datetime, timedelta, time
 
-
-# _logger = logging.getLogger(__name__)
-
 class BloodGroup(models.Model):
     _name = 'blood.group'
     _description = 'Blood Group'
@@ -85,13 +82,13 @@ class StudentDetails(models.Model):
     student_height = fields.Float('Height', help="Height in C.M")
     student_weight = fields.Float('Weight', help="Weight in K.G")
     remark = fields.Text('Remark', help='Remark can be entered if any')
-
+    comments = fields.Char()
     # class_id = fields.Many2one('student.class')
     # class_id = fields.Many2many('student.class','student_class_rel','student_id','class_id')
     # trainer_id = fields.Many2many('hr.employee')
     # trainer_id2 = fields.Many2many('hr.employee', 'student_employee_rel', 'student_id', 'employee_id', 'Assistant Trainer')
     # session_student_id = fields.Many2one('sports.management.session')
-    comments = fields.Char()
+
     # currency_id = fields.Many2one('res.currency', string='Currency',
     #                               required=True, readonly=True,
     #                               states={'draft': [('readonly', False)]},
