@@ -16,7 +16,7 @@
 #
 ##############################################################################
 from odoo import models, fields, api, _
-from datetime import date,datetime
+from datetime import date, datetime
 
 class ResPartner(models.Model):
     _inherit = 'hr.employee'
@@ -32,10 +32,10 @@ class EmployeeSportsSession(models.Model):
     s_created_date = fields.Date('Created Date')
     stop_date = fields.Datetime('Completed Date')
     student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id')
-    product_id = fields.Many2one('product.product',string='Session')
+    product_id = fields.Many2one('product.product', string='Session')
     name = fields.Char(string='Name')
     employee_id = fields.Many2one('hr.employee', 'Main Trainer')
-    assistant_employee_ids = fields.Many2many('hr.employee', string='Assistant Trainer')
+    assistant_employee_ids = fields.Many2many('hr.employee', 'employee_product_rel', 'employee_id', 'product_id', string='Assistant Trainer')
     state = fields.Selection([('draft','Draft'),('started','Started'),('completed','Completed')],default='draft',string='State')
     attendance_ids = fields.Many2many('student.details', 'session_student_rel', 'student_id', 'session_id')
     
