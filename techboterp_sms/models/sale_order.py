@@ -21,9 +21,9 @@ from odoo.exceptions import UserError, ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    child_id = fields.Many2one('student.details' )
-    age = fields.Char(string='Age', readonly=True, store=True )
-    gender = fields.Char('Gender',readonly=True, store=True)
+    child_id = fields.Many2one('student.details', required=True, store=True)
+    age = fields.Char(string='Age', readonly=True, store=True)
+    gender = fields.Char('Gender', readonly=True, store=True)
 
     @api.onchange('child_id')
     def onchange_child_details(self):
@@ -59,15 +59,17 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     trainer_id = fields.Many2one('hr.employee', store=True)
-    start_date = fields.Datetime("Start Date" , store=True)
-    end_date = fields.Datetime("Start End", store=True)
+    #  Remove the start date and end Dare in Sale order Lines
+    # start_date = fields.Datetime("Start Date" , store=True)
+    # end_date = fields.Datetime("Start End", store=True)
 
     @api.onchange('product_id')
     def onchange_child_details(self):
         """Method to Change Trainer and Based on Products in Sale order Lines"""
         for rec in self:
-            rec.trainer_id = rec.start_date = rec.end_date = False
+            # rec.trainer_id = rec.start_date = rec.end_date = False
+            rec.trainer_id = False
             if rec.product_id:
                 rec.trainer_id = rec.product_id.employee_id
-                rec.start_date = rec.product_id.date_start
-                rec.end_date = rec.product_id.date_end
+                # rec.start_date = rec.product_id.date_start
+                # rec.end_date = rec.product_id.date_end

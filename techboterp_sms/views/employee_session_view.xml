@@ -28,11 +28,15 @@
 							<field name="attendance_ids" widget="many2many_tags" readonly="1"/>
                    		</group>
                    		<group>
-							<field name="date_start" attrs="{'readonly': [('state', '=', 'started')]}"/>
+							<field name="date_start" readonly="1" /><!--attrs="{'readonly': [('state', '=', 'started')]}"-->
 							<field name="stop_date" readonly="1"/>
+							<field name="working_time"  widget="timesheet_uom" attrs="{'invisible': [('stop_date', '=', False)]}"/>
 							<field name="assistant_employee_ids" widget="many2many_tags" readonly="1"/>
 							<field name="product_id" readonly="1"/>
-                   		</group>	
+                   		</group>
+                        <group>
+                            <field name="notes" attrs="{'readonly': [('state', '=', 'completed')]}"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
