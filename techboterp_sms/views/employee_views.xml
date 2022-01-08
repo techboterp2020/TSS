@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!--  Inherit Partner Form View to Modify it  -->
+    <!--  Inherit Employee Form View to Modify it  -->
     <record id="view_employee_form_inher" model="ir.ui.view">
         <field name="name">hr.employee.form.inher</field>
         <field name="model">hr.employee</field>

@@ -401,7 +401,7 @@
     </record>
 
     <!-- Action Of Form, Tree & Kanban Views Of Student Details -->
-    <record id="action_student_student_form_1" model="ir.actions.act_window">
+    <record id="action_student_details_form_1" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">student.details</field>
         <field name="view_id" ref=""/>
@@ -416,5 +416,6 @@
 
         </field>
     </record>
+
 
 </odoo>

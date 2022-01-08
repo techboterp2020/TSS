@@ -44,11 +44,12 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         for rec in self:
+            """Method to Add Children into Product Variant based on Sale order Confirmation"""
             for line in rec.order_line:
                 if line.product_id.balance_session > 0:
                     raise UserError("This Session is already in Progress")
                 if rec.child_id and rec.child_id.id in line.product_id.student_id.ids:
-                    raise UserError("The Student is Alreay added in the session")
+                    raise UserError("The Student is Already added in the session")
             res = super(SaleOrder, self).action_confirm()
             for line in rec.order_line:
                 line.product_id.student_id = [(4, rec.child_id.id)]
@@ -63,7 +64,7 @@ class SaleOrderLine(models.Model):
 
     @api.onchange('product_id')
     def onchange_child_details(self):
-        """Method to Change Trainer and Based on Products"""
+        """Method to Change Trainer and Based on Products in Sale order Lines"""
         for rec in self:
             rec.trainer_id = rec.start_date = rec.end_date = False
             if rec.product_id:

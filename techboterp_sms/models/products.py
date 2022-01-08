@@ -60,21 +60,21 @@ class ProductProductVariants(models.Model):
     sat_time = fields.Float(string='Time')
     sun = fields.Boolean(readonly=False)
     sun_time = fields.Float(string='Time')
-    # addional fields added
+    # additional fields added
     balance_session = fields.Integer('Balance Sessions',readonly=True)
 
     # session adding function
     def add_session(self):
         for rec in self:
-            if not rec.employee_id or not rec.student_id:
-                raise ValidationError("Please fill Trainer and Students")
-            for i in range(0,rec.no_of_class):
+            if not rec.employee_id or not rec.student_id or not rec.no_of_class:
+                raise ValidationError("Please fill Trainers, Total Class and Students")
+            for i in range(0, rec.no_of_class):
                 self.env['employee.sports.session'].create({'name':rec.name+'-'+str(i+1),
-                                                            'employee_id':rec.employee_id and rec.employee_id.id or False,
-                                                            'student_ids':[(6,0,rec.student_id.ids)] or [],
-                                                            'assistant_employee_ids':[(6,0,rec.assistant_employee_id.ids)] or [],
-                                                            'product_id':rec.id,
-                                                            's_created_date':date.today()})
+                                                            'employee_id': rec.employee_id and rec.employee_id.id or False,
+                                                            'student_ids': [(6, 0, rec.student_id.ids)] or [],
+                                                            'assistant_employee_ids': [(6, 0, rec.assistant_employee_id.ids)] or [],
+                                                            'product_id': rec.id,
+                                                            's_created_date': date.today()})
             rec.balance_session = rec.no_of_class
     
     def delete_students_button(self):
