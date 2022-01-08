@@ -16,6 +16,7 @@
     'data': [
         'security/ir.model.access.csv',
         'wizard/attendance_marking_wiz.xml',
+        'views/crm_lead_views.xml',
         'views/employee_views.xml',
         'views/product_views.xml',
         'views/sale_order_views.xml',

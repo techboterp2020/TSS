@@ -99,19 +99,19 @@
                             </group>
                         </page>
 
-                        <page string="Class/Session Details " name="class_session">
-<!--                            <field name="session_ids"/>-->
-                            <group>
+<!--                        <page string="Class/Session Details " name="class_session">-->
+<!--&lt;!&ndash;                            <field name="session_ids"/>&ndash;&gt;-->
+<!--                            <group>-->
 
-                            </group>
-                            <newline/>
+<!--                            </group>-->
+<!--                            <newline/>-->
 
-                            <group>
+<!--                            <group>-->
 
-                                <field name="remark"/>
+<!--                                <field name="remark"/>-->
 
-                            </group>
-                        </page>
+<!--                            </group>-->
+<!--                        </page>-->
 
                         <page string="Medical History" name="student_medi_history">
                             <group string="Health Concerns">
