@@ -41,7 +41,7 @@ class ProductProductVariants(models.Model):
     assistant_employee_id = fields.Many2many('hr.employee', string='Assistant Trainer')
     # 'employee_product_rel', 'hr_employee', "product_product_id"
     color = fields.Integer(string='Color', default=_get_default_color)
-    no_of_class = fields.Integer(' Total Class  ', required=True)
+    no_of_class = fields.Integer(' Total Sessions  ', required=True)
     no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
     session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
                                         required=True, default='weekly', readonly=False)
