@@ -8,23 +8,24 @@
         <field name="arch" type="xml">
 
             <xpath expr="//form/header" position="inside">
-            	<button name="add_session"  type='object' string="Add Session" attrs="{'invisible': [('balance_session', '!=', 0)]}"/>
+                <button name="add_session" type='object' string="Add Session"
+                        attrs="{'invisible': [('balance_session', '!=', 0)]}"/>
                 <!-- <button name="delete_students_button"  type='object' string="Clear Student"/> -->
             </xpath>
 
             <!-- ********** Invisible weights and codes  fields in Product Variant ************* -->
             <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="attributes">
-                    <attribute name="invisible">1</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[@name='codes']" position="attributes">
-                    <attribute name="invisible">1</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
             <!-- ************************************************************ -->
             <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="after">
                 <group>
                     <label for="date_start" string="Date"/>
                     <div class="o_row">
-                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline" 
+                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline"
                                options="{'related_end_date': 'date_end'}"/>
                         <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
                         <field name="date_end" widget="daterange" nolabel="1" class="oe_inline"
@@ -98,23 +99,26 @@
             </xpath>
         </field>
     </record>
-    
+
     <record id="view_product_template_inherit" model="ir.ui.view">
         <field name="name">product.template.form.inherit.tech.sms</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-        
+
             <xpath expr="//div[@name='options']" position="inside">
-                 <div>
+                <div>
                     <field name="is_session"/>
                     <label for="is_session"/>
-                 </div>
+                </div>
             </xpath>
-            
+
+            <xpath expr="//sheet/notebook/page[@name='general_information']/group/group[2]/field[@name='taxes_id']" position="before">
+                <field name="product_location"/>
+            </xpath>
         </field>
     </record>
-    
+
 </odoo>
 
 

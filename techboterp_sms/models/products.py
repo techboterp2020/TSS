@@ -21,11 +21,17 @@ from random import randint
 from odoo.exceptions import UserError, ValidationError
 from datetime import date
 
+class ProductLocation(models.Model):
+    _name = "product.location"
+    _description = "Product Location"
+
+    name = fields.Char(string="Location Name", required=True)
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
     is_session = fields.Boolean(string='Session')
+    product_location = fields.Many2one('product.location', required=True)
 
 class ProductProductVariants(models.Model):
     _inherit = "product.product"

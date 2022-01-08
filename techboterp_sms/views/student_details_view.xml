@@ -99,24 +99,19 @@
                             </group>
                         </page>
 
-                        <page string="Class/Session Details " name="Class">
-                            <group>
-                                <group>
-                         
-                                </group>
-                                <group></group>
-                                <newline/>
-                 
-                                <newline/>
-                            </group>
-                            <newline/>
-                           
-                            <group>
-                                
-                                <field name="remark"/>
-                                
-                            </group>
-                        </page>
+<!--                        <page string="Class/Session Details " name="class_session">-->
+<!--&lt;!&ndash;                            <field name="session_ids"/>&ndash;&gt;-->
+<!--                            <group>-->
+
+<!--                            </group>-->
+<!--                            <newline/>-->
+
+<!--                            <group>-->
+
+<!--                                <field name="remark"/>-->
+
+<!--                            </group>-->
+<!--                        </page>-->
 
                         <page string="Medical History" name="student_medi_history">
                             <group string="Health Concerns">
@@ -282,8 +277,8 @@
                 <!--            <field name="pid"/>-->
                 <field name="parent_id"/>
                 <field name="student_name"/>
-<!--                <field name="trainer_id"/>-->
-<!--                <field name="class_id"/>-->
+                <!--                <field name="trainer_id"/>-->
+                <!--                <field name="class_id"/>-->
                 <field name="gender"/>
                 <field name="email"/>
                 <field name="blood_group"/>
@@ -317,8 +312,8 @@
 
                 <separator/>
                 <group expand="0" name="group_by" string="Group By">
-<!--                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>-->
-<!--                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>-->
+                    <!--                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>-->
+                    <!--                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>-->
                     <filter name="parent" string="Parent" context="{'group_by': 'parent_id'}"/>
                     <filter name="gender" string="Gender" context="{'group_by': 'gender'}"/>
                     <!--                    <filter name="group_age" string="Age" context="{'group_by': 'age'}"/>-->

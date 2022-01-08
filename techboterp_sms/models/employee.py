@@ -28,20 +28,23 @@ class EmployeeSportsSession(models.Model):
     _name = 'employee.sports.session'
     _description = "Sports Management  Sessions"
 
-    date_start = fields.Date('Start Date')
+    # date_start = fields.Date('Start Date')
+    date_start = fields.Datetime('Start Date')
     s_created_date = fields.Date('Created Date')
     stop_date = fields.Datetime('Completed Date')
+    working_time = fields.Char('Total Time', compute='_compute_working_time', readonly=True)
     student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id')
-    product_id = fields.Many2one('product.product', string='Session')
+    product_id = fields.Many2one('product.product', string='Session', readonly=True)
     name = fields.Char(string='Name')
     employee_id = fields.Many2one('hr.employee', 'Main Trainer')
     assistant_employee_ids = fields.Many2many('hr.employee', 'employee_product_rel', 'employee_id', 'product_id', string='Assistant Trainer')
     state = fields.Selection([('draft','Draft'),('started','Started'),('completed','Completed')],default='draft',string='State')
     attendance_ids = fields.Many2many('student.details', 'session_student_rel', 'student_id', 'session_id')
-    
+    notes = fields.Char('Internal Note')
+
     def session_start(self):
         for rec in self:
-            rec.date_start = date.today()
+            rec.date_start = datetime.now()
             rec.state = 'started'
             
     def session_completed(self):
@@ -50,8 +53,10 @@ class EmployeeSportsSession(models.Model):
             rec.state = 'completed'
             if rec.product_id:
                 rec.product_id.balance_session -= 1
-            
-            
-            
-    
 
+    @api.depends('date_start', 'stop_date')
+    def _compute_working_time(self):
+        for rec in self:
+            rec.working_time = False
+            if rec.date_start and self.stop_date:
+                rec.working_time = rec.stop_date - rec.date_start
