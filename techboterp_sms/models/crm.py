@@ -23,7 +23,7 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
     _description = ''
 
-    child_id = fields.Many2one('student.details', required=True, store=True)
+    child_id = fields.Many2one('student.details', store=True)
 
     @api.onchange('partner_id')
     def onchange_parent_id(self):
