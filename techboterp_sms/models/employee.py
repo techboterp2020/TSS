@@ -53,6 +53,11 @@ class EmployeeSportsSession(models.Model):
             rec.state = 'completed'
             if rec.product_id:
                 rec.product_id.balance_session -= 1
+            if rec.product_id.balance_session == 0:
+                rec.product_id.student_id = rec.product_id.employee_id = rec.product_id.assistant_employee_id = rec.product_id.no_of_class = False
+
+
+
 
     @api.depends('date_start', 'stop_date')
     def _compute_working_time(self):
