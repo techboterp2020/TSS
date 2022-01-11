@@ -31,7 +31,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
     is_session = fields.Boolean(string='Session')
-    product_location = fields.Many2one('product.location', required=True)
+    product_location = fields.Many2one('product.location')
 
 class ProductProductVariants(models.Model):
     _inherit = "product.product"
@@ -48,9 +48,11 @@ class ProductProductVariants(models.Model):
     # 'employee_product_rel', 'hr_employee', "product_product_id"
     color = fields.Integer(string='Color', default=_get_default_color)
     no_of_class = fields.Integer(' Total Sessions  ', required=True)
-    no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
-    session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
-                                        required=True, default='weekly', readonly=False)
+
+    #  New changes(11-01-2022) to remove no.of session and session based on in Product Variant
+    # no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
+    # session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
+    #                                     required=True, default='weekly', readonly=False)
 
     # mon = fields.Boolean(readonly=False)
     # mon_time = fields.Float(string='Time')
