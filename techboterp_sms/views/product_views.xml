@@ -88,7 +88,7 @@
         <field name="inherit_id" ref="stock.view_stock_product_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='qty_available']" position="attributes">
-                <attribute name="string">Seat Available</attribute>
+                <attribute name="string">Slots Available</attribute>
             </xpath>
         </field>
     </record>
@@ -101,11 +101,11 @@
         <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='quantity']" position="attributes">
-                <attribute name="string">Seat Available</attribute>
+                <attribute name="string">Slots Available</attribute>
             </xpath>
 
             <xpath expr="//tree/field[@name='inventory_quantity']" position="attributes">
-                <attribute name="string">Assign Seats</attribute>
+                <attribute name="string">Assign Slots</attribute>
             </xpath>
         </field>
     </record>
