@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='opportunity_info']" position="after">
                 <separator string="Child Details" attrs="{'invisible': [('type', '=', 'lead')]}"/>
-                <group>
+                <group attrs="{'invisible': [('partner_id', '=', False)]}" >
                     <field name="child_id" string="Child Name" attrs="{'invisible': [('type', '=', 'lead')]}"/>
                 </group>
             </xpath>
