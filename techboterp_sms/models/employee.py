@@ -39,7 +39,6 @@ class EmployeeSportsSession(models.Model):
     stop_date = fields.Datetime('Completed Date')
     working_time = fields.Float('Total Time', compute='_compute_working_time', readonly=True)
     # working_time = fields.Char('Total Time', compute='_compute_working_time', readonly=True)
-
     student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id')
     product_id = fields.Many2one('product.product', string='Session', readonly=True)
     name = fields.Char(string='Name')
@@ -63,9 +62,6 @@ class EmployeeSportsSession(models.Model):
             if rec.product_id.balance_session == 0:
                 rec.product_id.student_id = rec.product_id.employee_id = rec.product_id.assistant_employee_id = rec.product_id.no_of_class = False
 
-
-
-
     @api.depends('date_start', 'stop_date')
     def _compute_working_time(self):
         for rec in self:
@@ -82,6 +78,3 @@ class EmployeeSportsSession(models.Model):
                 time_hour =(24*difference.days)+difference.hours+(difference.minutes/60)+(difference.seconds/3600)
                 rec.working_time = time_hour
                 # print(time_hour)
-
-
-
