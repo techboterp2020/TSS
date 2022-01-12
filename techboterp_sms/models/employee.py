@@ -17,6 +17,7 @@
 ##############################################################################
 import dateutil.relativedelta
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import date_utils
 from dateutil.relativedelta import relativedelta
 import time
@@ -37,9 +38,9 @@ class EmployeeSportsSession(models.Model):
     date_start = fields.Datetime('Start Date')
     s_created_date = fields.Date('Created Date')
     stop_date = fields.Datetime('Completed Date')
-    working_time = fields.Float('Total Time', compute='_compute_working_time', readonly=True)
+    working_time = fields.Float('Total Time', compute='_compute_working_time', readonly=True, tracking=4)
     # working_time = fields.Char('Total Time', compute='_compute_working_time', readonly=True)
-    student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id')
+    student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id', string="Students")
     product_id = fields.Many2one('product.product', string='Session', readonly=True)
     name = fields.Char(string='Name')
     employee_id = fields.Many2one('hr.employee', 'Main Trainer')
@@ -56,6 +57,8 @@ class EmployeeSportsSession(models.Model):
     def session_completed(self):
         for rec in self:
             rec.stop_date = datetime.now()
+            if not self.attendance_ids:
+                raise ValidationError("Please Mark The Students Attendance ")
             rec.state = 'completed'
             if rec.product_id:
                 rec.product_id.balance_session -= 1
