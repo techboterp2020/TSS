@@ -53,6 +53,7 @@
                 <field name="product_id"/>
                 <field name="employee_id"/>
                 <field name="student_ids" widget="many2many_tags"/>
+                <field name="attendance_ids" widget="many2many_tags"  string="Attendance Details" optional="hide"/>
                 <field name="date_start"/>
                 <field name="stop_date"/>
                 <field name="working_time" sum="Total Working Time" widget="float_time" decoration-bf="1" optional="show" modifiers="{&quot;readonly&quot;: true}"/>
