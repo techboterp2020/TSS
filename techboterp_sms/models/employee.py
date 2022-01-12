@@ -15,8 +15,13 @@
 #    If not, see <https://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import dateutil.relativedelta
 from odoo import models, fields, api, _
-from datetime import date, datetime
+from odoo.tools import date_utils
+from dateutil.relativedelta import relativedelta
+import time
+import pytz
+from datetime import datetime
 
 class ResPartner(models.Model):
     _inherit = 'hr.employee'
@@ -32,7 +37,8 @@ class EmployeeSportsSession(models.Model):
     date_start = fields.Datetime('Start Date')
     s_created_date = fields.Date('Created Date')
     stop_date = fields.Datetime('Completed Date')
-    working_time = fields.Char('Total Time', compute='_compute_working_time', readonly=True)
+    working_time = fields.Float('Total Time', compute='_compute_working_time', readonly=True)
+    # working_time = fields.Char('Total Time', compute='_compute_working_time', readonly=True)
     student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id')
     product_id = fields.Many2one('product.product', string='Session', readonly=True)
     name = fields.Char(string='Name')
@@ -53,10 +59,22 @@ class EmployeeSportsSession(models.Model):
             rec.state = 'completed'
             if rec.product_id:
                 rec.product_id.balance_session -= 1
+            if rec.product_id.balance_session == 0:
+                rec.product_id.student_id = rec.product_id.employee_id = rec.product_id.assistant_employee_id = rec.product_id.no_of_class = False
 
     @api.depends('date_start', 'stop_date')
     def _compute_working_time(self):
         for rec in self:
             rec.working_time = False
-            if rec.date_start and self.stop_date:
-                rec.working_time = rec.stop_date - rec.date_start
+            # rec.working_time = fields.Datetime.from_string(rec.stop_date) - fields.Datetime.from_string(rec.date_start)
+            if rec.date_start and rec.stop_date:
+                # rec.working_time = rec.stop_date - rec.date_start
+                # new = (rec.stop_date - rec.date_start)
+                start_dt = fields.Datetime.from_string(rec.date_start)
+                finish_dt = fields.Datetime.from_string(rec.stop_date)
+                # difference = relativedelta(finish_dt, start_dt)
+                difference = dateutil.relativedelta.relativedelta(finish_dt, start_dt)
+                """ Method to find total Hour """
+                time_hour =(24*difference.days)+difference.hours+(difference.minutes/60)+(difference.seconds/3600)
+                rec.working_time = time_hour
+                # print(time_hour)

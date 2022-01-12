@@ -9,7 +9,7 @@
     'company': 'TechbotErp',
     'license': 'LGPL-3',
     'complexity': 'easy',
-    'sequence': '-100',
+    'sequence': '100',
     'images': [],
     # 'static/description/EMS.jpg'
     'depends': ['base', 'hr', 'account', 'crm', 'sale_management', 'account_accountant'],

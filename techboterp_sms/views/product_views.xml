@@ -22,22 +22,23 @@
             </xpath>
             <!-- ************************************************************ -->
             <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="after">
-                <group>
-                    <label for="date_start" string="Date"/>
-                    <div class="o_row">
-                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline"
-                               options="{'related_end_date': 'date_end'}"/>
-                        <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
-                        <field name="date_end" widget="daterange" nolabel="1" class="oe_inline"
-                               options="{'related_start_date': 'date_start'}"/>
-                    </div>
-                    <field name="student_id" widget="many2many_tags"/>
-
-                </group>
                 <group name='trainer_info' string="Trainer Details">
                     <field name="employee_id"/>
                     <field name="assistant_employee_id" widget="many2many_tags"/>
                 </group>
+                <group>
+                    <!--                    <label for="date_start" string="Date"/>-->
+                    <!--                    <div class="o_row">-->
+                    <!--                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline"-->
+                    <!--                               options="{'related_end_date': 'date_end'}"/>-->
+                    <!--                        <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>-->
+                    <!--                        <field name="date_end" widget="daterange" nolabel="1" class="oe_inline"-->
+                    <!--                               options="{'related_start_date': 'date_start'}"/>-->
+                    <!--                    </div>-->
+                    <field name="student_id" string="Student Details" widget="many2many_tags" readonly="1"/>
+
+                </group>
+
             </xpath>
 
             <xpath expr="//form/sheet/group[2]" position="after">
@@ -45,12 +46,14 @@
                     <group>
                         <field name="no_of_class"/>
                         <field name="balance_session"/>
-                        <label for="no_of_sessions" string="Sessions"/>
-                        <div class="o_row">
-                            <field name="no_of_sessions"/>
-                            <span>Per</span>
-                            <field name="session_based_on"/>
-                        </div>
+                        <!-- New changes(11-01-2022) to remove no.of session and session based on in Product Variant
+                        -->
+                        <!--                        <label for="no_of_sessions" string="Sessions"/>-->
+                        <!--                        <div class="o_row">-->
+                        <!--                            <field name="no_of_sessions"/>-->
+                        <!--                            <span>Per</span>-->
+                        <!--                            <field name="session_based_on"/>-->
+                        <!--                        </div>-->
                     </group>
                 </group>
 
@@ -58,16 +61,23 @@
         </field>
     </record>
 
+
     <!--Inherit Product tree view and add new filed like start date and End Date-->
+
     <record id="product_product_tree_view_inher" model="ir.ui.view">
         <field name="name">product.view.form.easy.edit.view.form.inher</field>
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_product_tree_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree/field[@name='price']" position="after">
-                <field name="date_start"/>
-                <field name="date_end"/>
+            <xpath expr="//tree/field[@name='name']" position="after">
+                <field name="employee_id"/>
             </xpath>
+
+            <!--    New UPDATE(11-01-2022) To Remove Date from and Date to field in Tree Views-->
+            <!--                <xpath expr="//tree/field[@name='price']" position="after">-->
+            <!--                <field name="date_start"/>-->
+            <!--                <field name="date_end"/>-->
+            <!--                </xpath>-->
         </field>
     </record>
 
@@ -78,7 +88,7 @@
         <field name="inherit_id" ref="stock.view_stock_product_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='qty_available']" position="attributes">
-                <attribute name="string">Seat Available</attribute>
+                <attribute name="string">Slots Available</attribute>
             </xpath>
         </field>
     </record>
@@ -91,11 +101,11 @@
         <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='quantity']" position="attributes">
-                <attribute name="string">Seat Available</attribute>
+                <attribute name="string">Slots Available</attribute>
             </xpath>
 
             <xpath expr="//tree/field[@name='inventory_quantity']" position="attributes">
-                <attribute name="string">Assign Seats</attribute>
+                <attribute name="string">Assign Slots</attribute>
             </xpath>
         </field>
     </record>
@@ -113,7 +123,8 @@
                 </div>
             </xpath>
 
-            <xpath expr="//sheet/notebook/page[@name='general_information']/group/group[2]/field[@name='taxes_id']" position="before">
+            <xpath expr="//sheet/notebook/page[@name='general_information']/group/group[2]/field[@name='taxes_id']"
+                   position="before">
                 <field name="product_location"/>
             </xpath>
         </field>

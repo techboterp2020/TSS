@@ -19,8 +19,8 @@
         </record>
 
         <!-- In Employee Menus -->
-        <menuitem id="hr_employee_session_parent" parent="hr.menu_hr_root" name="Class" sequence="4"/>
-        <menuitem id="hr_employee_class_menu" parent="techboterp_sms.hr_employee_session_parent" name="Class"
+        <menuitem id="hr_employee_session_parent" parent="hr.menu_hr_root" name="Programs" sequence="4"/>
+        <menuitem id="hr_employee_class_menu" parent="techboterp_sms.hr_employee_session_parent" name="Programs"
                   action="techboterp_sms.product_class_for_trainer" sequence="1"/>
         <menuitem id="hr_employee_session_menu" parent="techboterp_sms.hr_employee_session_parent" name="Session"
                   action="techboterp_sms.employee_session_list_action" sequence="2"/>

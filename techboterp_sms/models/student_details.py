@@ -82,7 +82,7 @@ class StudentDetails(models.Model):
     student_height = fields.Float('Height', help="Height in C.M")
     student_weight = fields.Float('Weight', help="Weight in K.G")
     remark = fields.Text('Remark', help='Remark can be entered if any')
-    comments = fields.Char()
+
     # class_id = fields.Many2one('student.class')
     # class_id = fields.Many2many('student.class','student_class_rel','student_id','class_id')
     # trainer_id = fields.Many2many('hr.employee')
@@ -220,45 +220,61 @@ class StudentDetails(models.Model):
         [('yes', 'Yes'), ('no', 'No')],
         default='no', required=True,
         help="Does the Student Have any Allergy or Sensitivity to the medication/foods..etc, Please mention it if any.")
+    comments_allergy = fields.Char()
     cardiac_disease = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                        default='no', required=True,
                                        help="Does the Student Suffer from any Cardiac Problem,Please mention it if any.")
+    comments_cardiac_disease = fields.Char()
+
     diabetic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                 default='no', required=True,
                                 help=" Is the Student Diabetic ,Please mention it if any")
+    comments_diabetic = fields.Char()
     hyper_tension = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                      default='no', required=True,
                                      help=" Does the Student any Hypertension ,Please mention it if any")
+    comments_hyper_tension = fields.Char()
 
     asthmatic = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                  default='no', required=True,
                                  help=" Is the Student Asthmatic ,Please mention it if any")
+    comments_asthmatic = fields.Char()
     renal_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                      default='no', required=True,
                                      help=" Does the Student Suffer from any renal problem,Please mention it if any")
+    comments_renal_problem = fields.Char()
     urinary_infection = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                          default='no', required=True,
                                          help=" Did the Student Suffer previously from urinary tract infection")
+    comments_urinary_infection = fields.Char()
 
     epilepsy = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                 default='no', required=True,
                                 help=" Does the Student Suffer from epilepsy/seizures ,Please mention it if any")
+    comments_epilepsy = fields.Char()
     g6pd = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                             default='no', required=True,
                             help=" Is the Student Suffering from G6PD deficiency,Please mention it if any")
+    comments_g6pd = fields.Char()
 
     chronic_blood = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                      default='no', required=True,
                                      help=" Does the Student have any chronic blood disease (like Thalassemia,Anemia,Hemophilia..etc, Please mention it if any")
+
+    comments_chronic_blood = fields.Char()
     epistaxis = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                  default='no', required=True,
                                  help=" Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding) ")
+    comments_epistaxis = fields.Char()
     skin_problem = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                     default='no', required=True,
                                     help=" Does the Student have any skin problems, Please mention it if any")
+    comments_skin_problem = fields.Char()
     eye = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                            default='no', required=True,
                            help=" Does the Student have any eye(opthalmology)problems (Visual Disturbances), Please mention it if any")
+    comments_eye = fields.Char()
     previous_surgical = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                          default='no', required=True,
                                          help=" Have any Surgical Procedure done, Please mention it if any")
+    comments_previous_surgical = fields.Char()

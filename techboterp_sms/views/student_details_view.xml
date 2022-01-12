@@ -85,7 +85,7 @@
                                 </group>
 
                                 <newline/>
-                                <separator string="Emergency Contact Details" colspan="4"/>
+                                <separator string="Student/Child Contact Details" colspan="4"/>
                                 <newline/>
                                 <group colspan="4" col="4">
                                     <field name="contact_phone" placeholder="Phone Number"/>
@@ -133,7 +133,7 @@
                                                 <field name="allergy"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_allergy"/>
                                             </td>
                                         </tr>
 
@@ -143,7 +143,7 @@
                                                 <field name="cardiac_disease"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_cardiac_disease"/>
                                             </td>
                                         </tr>
 
@@ -153,7 +153,7 @@
                                                 <field name="diabetic"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_diabetic"/>
                                             </td>
                                         </tr>
 
@@ -163,7 +163,7 @@
                                                 <field name="hyper_tension"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_hyper_tension"/>
                                             </td>
                                         </tr>
 
@@ -173,7 +173,7 @@
                                                 <field name="asthmatic"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_asthmatic"/>
                                             </td>
                                         </tr>
 
@@ -183,7 +183,7 @@
                                                 <field name="renal_problem"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_renal_problem"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -192,7 +192,7 @@
                                                 <field name="urinary_infection"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_urinary_infection"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -201,7 +201,7 @@
                                                 <field name="epilepsy"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_epilepsy"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -210,7 +210,7 @@
                                                 <field name="g6pd"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_g6pd"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -221,7 +221,7 @@
                                                 <field name="chronic_blood"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_chronic_blood"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -230,7 +230,7 @@
                                                 <field name="epistaxis"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_epistaxis"/>
                                             </td>
                                         </tr>
 
@@ -242,7 +242,7 @@
                                                 <field name="eye"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_eye"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -251,7 +251,7 @@
                                                 <field name="previous_surgical"/>
                                             </td>
                                             <td>
-                                                <field name="comments"/>
+                                                <field name="comments_previous_surgical"/>
                                             </td>
                                         </tr>
                                     </tbody>
