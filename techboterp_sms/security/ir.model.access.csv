@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_parent_relation,parent.relation,model_parent_relation,base.group_user,1,1,1,1
+access_student_details,student.details,model_student_details,base.group_user,1,1,1,1
+access_blood_group,blood.group,model_blood_group,base.group_user,1,1,1,1
+access_employee_sports_session,employee.sports.session,model_employee_sports_session,base.group_user,1,1,1,1
+access_attendance_wiz,access_attendance_wiz,model_attendance_marking_wizard,base.group_user,1,1,1,1
+access_product_location,access_product.location,model_product_location,base.group_user,1,1,1,1

@@ -1,0 +1,60 @@
+<!-- <?xml version="1.0" encoding="utf-8" ?> -->
+<odoo>
+    <!-- Inherit CRM Opportunity and Lead Form View-->
+    <record id="crm_lead_view_form_inhert" model="ir.ui.view">
+        <field name="name">crm.lead.view.form.inherit.crm</field>
+        <field name="model">crm.lead</field>
+        <!--        <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>-->
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='opportunity_info']" position="after">
+                <separator string="Child Details" attrs="{'invisible': [('type', '=', 'lead')]}"/>
+                <group attrs="{'invisible': [('partner_id', '=', False)]}" >
+                    <field name="child_id" string="Child Name" attrs="{'invisible': [('type', '=', 'lead')]}"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//form/sheet/group/group[4]/field[@name='tag_ids']" position="attributes">
+                <attribute name="string">Program Interested In</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group/group[@name='lead_priority']/field[@name='tag_ids']" position="attributes">
+                <attribute name="string">Program Interested In</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group/group[@name='lead_partner']/field[@name='partner_name']" position="attributes">
+                <attribute name="string">Parent Name</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[@name='lead']/group/group[1]/field[@name='partner_name']" position="attributes">
+                <attribute name="string">Parent Name</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--CRM Lead Tree View-->
+    <!--    <record id="crm_case_tree_view_leads_inhert" model="ir.ui.view">-->
+    <!--        <field name="name">crm.lead.tree.lead</field>-->
+    <!--        <field name="model">crm.lead</field>-->
+    <!--        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//tree/field[@name='email_from']" position="before">-->
+    <!--                <field name="child_id" string="Child Name"/>-->
+
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+    <!-- CRM Opportunity Tree View-->
+    <record id="crm_lead_tree_opportunity_inhert" model="ir.ui.view">
+        <field name="name">crm.lead.tree.opportunity</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='email_from']" position="before">
+                <field name="child_id" string="Child Name"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+

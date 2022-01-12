@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  Form View 1 Of Student's Profiles  -->
+    <record id="view_children_info_form_view" model="ir.ui.view">
+        <field name="name">student.details.form</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <form string="Student Information">
+                <header>
+                    <!--                    <button string='Create Invoice' name="make_invoices" type="object" class="oe_highlight"-->
+                    <!--                            icon="fa-arrow-right"-->
+                    <!--                            context="{'default_partner_id': active_id}" states="draft"/>-->
+
+                    <!--                    <button name="confirm" string="Confirm" states="invoice" type="object"-->
+                    <!--                            class="oe_highlight"/>-->
+
+                    <!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
+                    <!--                            groups="hr.group_hr_user"/>-->
+
+                    <!--                    <button name="draft" string="Reset to Draft" groups="base.group_user"-->
+                    <!--                            type="object"/>-->
+                    <!--                    <field name="state" widget="statusbar"/>-->
+                </header>
+
+                <sheet name="student_info" string="Student Details">
+
+                    <div name="button_box" class="oe_button_box">
+
+                    </div>
+                    <!--  <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
+                    <field name="student_image" widget="image" class="oe_avatar"/>
+
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field id="individual" name="student_name" class="o_text_overflow" default_focus="1"
+                                   placeholder="e.g. Brandom Freeman"/>
+                        </h1>
+                        <newline/>
+                        <div class="o_row">
+                            <span>Guardian Name :</span>
+                            <h2>
+                                <field name="parent_id" placeholder="Parent Name" widget="res_partner_many2one"/>
+                            </h2>
+                        </div>
+                        <div>
+                            <span>Parent Relation :</span>
+                            <field name="relationship" placeholder="Father"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" class="o_address_street" placeholder="Street"/>
+                                <field name="street2" class="o_address_street" placeholder="Street2"/>
+                                <field name="city" class="o_address_city" placeholder="City"/>
+                                <field name="state_id" class="o_address_state" placeholder="State"/>
+                                <field name="zip" class="o_address_zip" placeholder="Zip"/>
+                                <field name="country_id" class="o_address_country,oe_no_button" placeholder="Country"/>
+                            </div>
+                        </group>
+
+                        <group>
+                            <field name="email"/>
+                            <field name="mob"/>
+                            <field name="mob1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="General Info" name="general_info" autofocus="autofocus">
+                            <group string="General Information">
+                                <group>
+                                    <field name="gender" placeholder="Gender" required="1"/>
+                                    <field name="nationality_id"/>
+                                    <field name="blood_group"/>
+                                </group>
+
+                                <group>
+                                    <field name="dob" widget="date" placeholder="Birthdate"/>
+                                    <field name="age"/>
+                                    <field name="student_height"/>
+                                    <field name="student_weight"/>
+                                </group>
+
+                                <newline/>
+                                <separator string="Student/Child Contact Details" colspan="4"/>
+                                <newline/>
+                                <group colspan="4" col="4">
+                                    <field name="contact_phone" placeholder="Phone Number"/>
+                                    <field name="contact_mobile" placeholder="Mobile Number"/>
+                                </group>
+                            </group>
+
+                            <newline/>
+                            <group>
+                                <field name="remark"/>
+                            </group>
+                        </page>
+
+<!--                        <page string="Class/Session Details " name="class_session">-->
+<!--&lt;!&ndash;                            <field name="session_ids"/>&ndash;&gt;-->
+<!--                            <group>-->
+
+<!--                            </group>-->
+<!--                            <newline/>-->
+
+<!--                            <group>-->
+
+<!--                                <field name="remark"/>-->
+
+<!--                            </group>-->
+<!--                        </page>-->
+
+                        <page string="Medical History" name="student_medi_history">
+                            <group string="Health Concerns">
+                                <table style="margin-top:20px;" width="100%" class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Health Concern</th>
+                                            <th>Status</th>
+                                            <th>Comments</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>Does the Student Have any Allergy or Sensitivity to the
+                                                medication/foods...etc
+                                            </td>
+                                            <td>
+                                                <field name="allergy"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_allergy"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Does the Student Suffer from any Cardiac Problem</td>
+                                            <td>
+                                                <field name="cardiac_disease"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_cardiac_disease"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Is the Student Diabetic</td>
+                                            <td>
+                                                <field name="diabetic"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_diabetic"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Does the Student any Hypertension</td>
+                                            <td>
+                                                <field name="hyper_tension"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_hyper_tension"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Is the Student Asthmatic</td>
+                                            <td>
+                                                <field name="asthmatic"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_asthmatic"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Does the Student Suffer from any Renal problem</td>
+                                            <td>
+                                                <field name="renal_problem"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_renal_problem"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Did the Student Suffer previously from urinary tract infection</td>
+                                            <td>
+                                                <field name="urinary_infection"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_urinary_infection"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Does the Student Suffer from epilepsy/seizures</td>
+                                            <td>
+                                                <field name="epilepsy"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_epilepsy"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Is the Student Suffering from G6PD deficiency</td>
+                                            <td>
+                                                <field name="g6pd"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_g6pd"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Does the Student have any chronic blood disease ( like
+                                                Thalassemia, Anemia, Hemophilia...etc)
+                                            </td>
+                                            <td>
+                                                <field name="chronic_blood"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_chronic_blood"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Does the Student Suffer from Recurrent Epistaxis (Nasal bleeding)</td>
+                                            <td>
+                                                <field name="epistaxis"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_epistaxis"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Does the Student have any eye(opthalmology)problems (Visual
+                                                Disturbances)
+                                            </td>
+                                            <td>
+                                                <field name="eye"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_eye"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Have any Surgical Procedure done</td>
+                                            <td>
+                                                <field name="previous_surgical"/>
+                                            </td>
+                                            <td>
+                                                <field name="comments_previous_surgical"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </group>
+                            <newline/>
+                            <group>
+                                <field name="remark"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View 1 Of Student's Profiles -->
+    <record id="view_student_student_tree_1" model="ir.ui.view">
+        <field name="name">student.details.tree.1</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <tree string="Student Information" multi_edit="1" sample="1">
+                <!--            <field name="pid"/>-->
+                <field name="parent_id"/>
+                <field name="student_name"/>
+                <!--                <field name="trainer_id"/>-->
+                <!--                <field name="class_id"/>-->
+                <field name="gender"/>
+                <field name="email"/>
+                <field name="blood_group"/>
+                <field name="age"/>
+                <field name="mob1"/>
+                <field name="mob"/>
+                <field name="street" invisible="1"/>
+                <field name="street2" invisible="1"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View 1 Of Student's Profiles -->
+    <record id="view_student_student_search_1" model="ir.ui.view">
+        <field name="name">student.student.search.1</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <search string="Student Information">
+                <field name="student_name"/>
+                <filter name="mob"/>
+                <separator/>
+                <!--                <filter name="class_id" string="Class" domain="[('class_id', '=', 'class_id'}]" help="class"/>-->
+                <filter string="Gender" name="gender" domain="[('gender', '=', 'male')]"/>
+
+                <separator/>
+
+                <separator/>
+                <group expand="0" name="group_by" string="Group By">
+                    <!--                    <filter name="class" string="Class" context="{'group_by' : 'class_id'}"/>-->
+                    <!--                    <filter name="trainer" string="Trainers" context="{'group_by' : 'trainer_id'}"/>-->
+                    <filter name="parent" string="Parent" context="{'group_by': 'parent_id'}"/>
+                    <filter name="gender" string="Gender" context="{'group_by': 'gender'}"/>
+                    <!--                    <filter name="group_age" string="Age" context="{'group_by': 'age'}"/>-->
+                    <filter name="group_country" string="Country" context="{'group_by': 'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Kanban View Of Student's Profiles -->
+    <record id="student_student_kanban_view" model="ir.ui.view">
+        <field name="name">Student KANBAN</field>
+        <field name="model">student.details</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban" sample="1">
+                <field name="id"/>
+                <field name="color"/>
+                <field name="student_name"/>
+                <field name="gender"/>
+                <field name="email"/>
+                <field name="parent_id"/>
+                <field name="age"/>
+                <field name="mob"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="mob1"/>
+                <field name="state_id"/>
+                <field name="student_image"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                            <t>
+                                <div class="o_kanban_image_fill_left o_kanban_image_full"
+                                     t-attf-style="background-image: url(#{kanban_image('student.details', 'student_image', record.id.raw_value)})"
+                                     role="img"/>
+                            </t>
+                            <div class="oe_kanban_details d-flex flex-column">
+                                <strong class="o_kanban_record_title oe_partner_heading">
+                                    <field name="student_name"/>
+                                </strong>
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <ul>
+                                    <li>
+                                        <field name="parent_id"/>
+                                    </li>
+
+                                    <li t-if="record.city.raw_value or record.country_id.raw_value">
+                                        <t t-if="record.city.raw_value">
+                                            <field name="city"/>
+                                            <t t-if="record.country_id.raw_value">,</t>
+                                        </t>
+                                        <t t-if="record.country_id.raw_value">
+                                            <field name="country_id"/>
+                                        </t>
+                                    </li>
+                                    <li t-if="record.email.raw_value" class="o_text_overflow">
+                                        <field name="email"/>
+                                    </li>
+
+                                    <li t-if="record.mob.raw_value" class="o_text_overflow"><field name="mob"/>,
+                                        <t t-if="record.mob1.raw_value">
+                                            <field name="mob1"/>
+                                        </t>
+                                    </li>
+                                </ul>
+                                <div class="o_row">
+                                    <span class="oe_kanban_partner_links"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action Of Form, Tree & Kanban Views Of Student Details -->
+    <record id="action_student_details_form_1" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.details</field>
+        <field name="view_id" ref=""/>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Contact in your address book
+            </p>
+            <p>
+                Odoo helps you track all activities related to your contacts.
+            </p>
+
+        </field>
+    </record>
+
+
+</odoo>

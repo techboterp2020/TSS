@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!--  ports Management Group Category -->
+    <record id="module_category_sports" model="ir.module.category">
+        <field name="name">Sports Management</field>
+        <field name="description"/>
+        <field name="sequence">22</field>
+    </record>
+
+    <!--  Group For Trainers -->
+<!--    <record id="group_sports_trainers" model="res.groups">-->
+<!--        <field name="name">Trainers</field>-->
+<!--        <field name="category_id" ref="module_category_sports"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash;  Group For Administrator &ndash;&gt;-->
+<!--    <record id="group_sports_administration" model="res.groups">-->
+<!--        <field name="name">Administrator</field>-->
+<!--        <field name="category_id" ref="module_category_sports"/>-->
+<!--        <field name="implied_ids" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>-->
+<!--    </record>-->
+
+
+    <data noupdate="1">
+
+        <!--  Rule For Administrator -->
+<!--        <record id="rule_sports_admin" model="ir.rule">-->
+<!--            <field name="name">To view All Activities in Sports Management</field>-->
+<!--            <field name="model_id" ref="model_sports_management_session"/>-->
+<!--            <field name="global" eval="True"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('techbot_sports_management_system.group_sports_administration'))]"/>-->
+
+<!--        </record>-->
+
+    </data>
+</odoo>

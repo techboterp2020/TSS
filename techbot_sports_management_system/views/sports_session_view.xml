@@ -6,43 +6,48 @@
         <field name="model">sports.management.session</field>
         <field name="arch" type="xml">
             <!--<tree string="Session Tree">-->
-            <tree string="Session Tree" decoration-bf="duration&lt;5" decoration-it="duration&gt;15">
+            <tree string="Session Tree" class="dropdown-item-studio" decoration-bf="duration&lt;5"
+                  decoration-it="duration&gt;15">
                 <field name="name"/>
                 <!--                <field name="activity_id"/>-->
                 <field name="duration"/>
-                <field name="start_date"/>
-                <field name="class_id"/>
+                <field name="available_seat" optional="hide"/>
+                <field name="no_of_students" optional="hide"/>
+                <field name="date_from"/>
+                <field name="venue_id"/>
+                <field name="end_time" optional="hide"/>
+                <field name="students_ids"/>
                 <field name="attendance_ids"/>
-                <!--                <field name="taken_seats"  widget="progressbar" />-->
+                <field name="state"/>
+                <!--                <field name="location_id"/>-->
+                <field name="main_trainer_info_id" optional="hide"/>
             </tree>
         </field>
     </record>
-
-
-    <!-- calendar view -->
-    <!--    <record model="ir.ui.view" id="session_calendar_view">-->
-    <!--        <field name="name">session.calendar</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date"-->
-    <!--                      scales="day,week,month" mode="month">-->
-    <!--                <field name="name"/>-->
-    <!--            </calendar>-->
-    <!--        </field>-->
-    <!--    </record>-->
+    <!--     calendar view-->
+    <record model="ir.ui.view" id="session_calendar_view">
+        <field name="name">session.calendar</field>
+        <field name="model">sports.management.session</field>
+        <field name="arch" type="xml">
+            <calendar string="Session Calendar" date_start="name" color="main_trainer_info_id"
+                      scales="day,week,month" mode="month">
+                <field name="name"/>
+            </calendar>
+        </field>
+    </record>
 
     <!-- gantt view -->
-    <!--    <record model="ir.ui.view" id="session_gantt_view">-->
-    <!--        <field name="name">session.gantt</field>-->
-    <!--        <field name="model">sports.management.session</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <gantt string="Session Gantt"-->
-    <!--                   date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"-->
-    <!--                   plan="false" offset="1" progress="taken_seats"-->
-    <!--                   default_group_by='trainer_id'>-->
-    <!--            </gantt>-->
-    <!--        </field>-->
-    <!--    </record>-->
+    <!--        <record model="ir.ui.view" id="session_gantt_view">-->
+    <!--            <field name="name">session.gantt</field>-->
+    <!--            <field name="model">sports.management.session</field>-->
+    <!--            <field name="arch" type="xml">-->
+    <!--                <gantt string="Session Gantt"-->
+    <!--                       date_start="start_date" date_stop="end_date" color="trainer_id" create="false" edit="false"-->
+    <!--                       plan="false" offset="1" progress="taken_seats"-->
+    <!--                       default_group_by='trainer_id'>-->
+    <!--                </gantt>-->
+    <!--            </field>-->
+    <!--        </record>-->
 
     <!-- graph view -->
     <!--    <record model="ir.ui.view" id="sms_session_graph_view">-->
@@ -56,12 +61,62 @@
     <!--        </field>-->
     <!--    </record>-->
 
+    <record id="view_sports_session_filter" model="ir.ui.view">
+        <field name="name">session.filter</field>
+        <field name="model">sports.management.session</field>
+        <field name="arch" type="xml">
+            <search string="Search Sessions">
+                <!--                <field name="name"/>-->
+                <separator/>
+                <!--                <filter name="filter_approve" domain="[('state','=','draft')]" string="To Start"/>-->
+                <!--                <filter domain="[('state','=','approve')]" string="Approved" name="approved"/>-->
+                <!--                <separator/>-->
+                <!--                <filter string="Today" name="filter_today"-->
+                <!--                        domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
+                <filter string="Today" name="filter_today"
+                        context="{'group_by':'current_date'}"/>
+                <filter string="My Sessions" name="my_sessions" domain="[('main_trainer_info_id.user_id','=', uid)]"
+                        help="My Sessions"/>
+                <!--                <separator/>-->
+                <!--                <filter string="My Department Loans" name="filter_my_departments_loan" help="My Department Loans" domain="[('department_id.manager_id.user_id','=',uid)]"/>-->
+                <!--                <field name="employee_id"/>-->
+                <!--                <field name="department_id"/>-->
+                <group expand="0" string="Group By...">
+                    <!--                    <filter name="group_name" string="Class" context="{'group_by':'name'}"/>-->
+                    <filter name="group_name" string="Class" context="{'group_by':'class_id'}"/>
+                    <filter name="group_request" string="Responsible Trainer"
+                            context="{'group_by':'main_trainer_info_id'}"/>
+                    <filter name="group_venue" string="Location" context="{'group_by':'venue_id'}"/>
+
+
+                    <!--                            domain="['|',  ('current_date', '=', datetime.date.today())]"/>-->
+                    <!--                    <filter name="group_department" string="Department"-->
+                    <!--                            context="{'group_by':'department_id','set_visible':True}"/>-->
+                    <!--                    <filter name="group_status" string="Status" context="{'group_by':'state'}"/>-->
+                </group>
+            </search>
+        </field>
+    </record>
+
+
     <!--******************** Session Type Form view *******************-->
     <record id="sessions_form_view" model="ir.ui.view">
         <field name="name">sports.management.session.form</field>
         <field name="model">sports.management.session</field>
         <field name="arch" type="xml">
             <form string="Session Form">
+                <header>
+                    <!--                    <button name="draft" string="Reset to Draft" groups="base.group_user"-->
+                    <!--                            type="object" invisible="1"/>-->
+                    <button name="start" string="Start" states="draft" type="object"
+                            class="oe_highlight"
+                            groups="base.group_user"/>
+                    <button name="done" string="Completed" states="started" type="object"
+                            class="oe_highlight"/>
+                    <!--                    <button name="cancel" string="Cancel" states="draft" type="object"-->
+                    <!--                            groups="hr.group_hr_user"/>-->
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <sheet>
 
                     <div class="oe_title">
@@ -70,22 +125,24 @@
                             <field name="name" placeholder="Eg , Session 9-10 Am"/>
                         </h1>
                     </div>
-                    <group string="Time Schedule">
-                        <group>
+                    <group>
+                        <group string="Time Schedule">
                             <!--                        <field name="name" placeholder="Session Name"/>-->
                             <!--                            <field name="activity_id"/>-->
                             <!--                            <field name="trainer_id"/>-->
-                            <!--                            <field name="active"/>-->
-
-                            <field name="start_date"/>
+                            <field name="date_from"/>
                             <label for="duration"/>
                             <div>
-                                <field name="duration" widget="float_time" string="Duration" class="oe_inline"/>
+                                <field name="duration" readonly="1" widget="float_time" string="Duration"
+                                       class="oe_inline"/>
                                 <span>hours</span>
-
                             </div>
-
-                            <field name="end_date"/>
+                            <field name="venue_id" readonly="1"/>
+                        </group>
+                        <group string="Students Details">
+                            <field name="available_seat"/>
+                            <field name="no_of_students"/>
+                            <!--                            <field name="students_ids" widget="many2many_tags"/>-->
                         </group>
                     </group>
 
@@ -99,7 +156,111 @@
                     <!--                    <label for="attendee_ids"/>-->
                     <!--                    <field name="attendee_ids" widget="many2many_tags"/>-->
                 </sheet>
+                <sheet>
+                    <group string="Trainer Info">
+                        <field name="main_trainer_info_id" widget="many2many_tags"/>
+                        <!--                        <field name="assi_trainer_info_id" widget="many2many_tags"/>-->
+
+                    </group>
+                    <!--   Hide Trainer Work Details From Employee/ Trainers  -->
+                    <group string="Trainer Work Time"
+                           groups="techbot_sports_management_system.group_sports_administration">
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                        <field name="working_time"/>
+
+                    </group>
+                </sheet>
             </form>
+        </field>
+    </record>
+
+    <!--******************** Session Type KANBAN view *******************-->
+    <record id="session_kanban_view" model="ir.ui.view">
+        <field name="name">sports.management.session.kanban.view</field>
+        <field name="model">sports.management.session</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column o_opportunity_kanban" multi_edit="1"
+                    sample="1">
+                <field name="state"
+                       options="{&quot;group_by_tooltip&quot;: {&quot;date_from&quot;: &quot;name&quot;}}"/>
+
+                <field name="state"/>
+                <field name="color"/>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="duration"/>
+                <field name="no_of_students"/>
+
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown"
+                                   data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content flex-grow-1">
+                                <div class="o_kanban_record_title oe_kanban_details">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <ul>
+                                    <li>
+                                        <span class="float-left">Start Date :
+                                            <field name="date_from"/>
+                                        </span>
+                                    </li>
+                                    <br></br>
+                                    <newline/>
+                                    <li>
+                                        <span class="float-left">Duration in Hours :
+                                            <field name="duration" string="Duration "/>
+                                        </span>
+                                    </li>
+
+                                    <li t-if="record.no_of_students.raw_value" class="o_text_overflow">
+                                        <span class="float-left">Total Student :
+                                            <field name="no_of_students"/>
+                                        </span>
+                                    </li>
+                                    <li t-if="record.venue_id.raw_value" class="o_text_overflow">
+                                        <span class="float-left">Venue :
+                                            <strong>
+                                                <field name="venue_id"/>
+                                            </strong>
+                                        </span>
+                                    </li>
+
+
+                                </ul>
+
+                                <div class="col-6">
+                                    <span class="float-right">
+                                        <field name="state" widget="label_selection"
+                                               options="{'classes': {'draft': 'started', 'started': 'completed'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 </odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="salepersoninsaleoprder22" model="ir.ui.view">
+            <field name="name">sale person in sale order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']"
+                       position="attributes">
+                    <attribute name="string">Slots</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']"
+                       position="before">
+                    <field name="trainer_id" readonly="1" force_save="1"/>
+                    <!--                    <field name="start_date" readonly="1" force_save="1"/>-->
+                    <!--                    <field name="end_date" readonly="1" force_save="1"/>-->
+                </xpath>
+                <xpath expr="//form/sheet/group[@name='sale_header']" position="after">
+                    <group name="child_details" string="Children Details">
+                        <group>
+                            <field name="child_id" widget="res_partner_many2one"/>
+                            <field name="age" force_save="1" attrs="{'invisible': [('child_id', '=', False)]}"/>
+                            <field name="gender" force_save="1" attrs="{'invisible': [('child_id', '=', False)]}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_move_form_inherited_sale_create_invoice" model="ir.ui.view">
+            <field name="name">Account Move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='quantity']"
+                       position="attributes">
+                    <attribute name="string">Slots</attribute>
+                </xpath>
+
+<!--                <xpath expr="//form/sheet/notebook/page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='product_id']"-->
+<!--                       position="attributes">-->
+<!--                <attribute name="options">{'always_reload': True, 'no_open': True, 'no_create': True, 'no_edit': True}</attribute>-->
+<!--                     <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+
+    </data>
+</odoo>

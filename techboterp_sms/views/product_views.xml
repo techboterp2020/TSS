@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--  Inherit Product variant  Form View to Modify it  -->
+    <record id="product_variant_easy_edit_view_form_inher" model="ir.ui.view">
+        <field name="name">product.view.form.easy.edit.view.form.inher</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_product_view_form_easy_inherit_stock"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/header" position="inside">
+                <button name="add_session" type='object' string="Add Session"
+                        attrs="{'invisible': [('balance_session', '!=', 0)]}"/>
+                <!-- <button name="delete_students_button"  type='object' string="Clear Student"/> -->
+            </xpath>
+
+            <!-- ********** Invisible weights and codes  fields in Product Variant ************* -->
+            <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[@name='codes']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- ************************************************************ -->
+            <xpath expr="//form/sheet/group[2]/group[@name='weight']" position="after">
+                <group name='trainer_info' string="Trainer Details">
+                    <field name="employee_id"/>
+                    <field name="assistant_employee_id" widget="many2many_tags"/>
+                </group>
+                <group>
+                    <!--                    <label for="date_start" string="Date"/>-->
+                    <!--                    <div class="o_row">-->
+                    <!--                        <field name="date_start" widget="daterange" nolabel="1" class="oe_inline"-->
+                    <!--                               options="{'related_end_date': 'date_end'}"/>-->
+                    <!--                        <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>-->
+                    <!--                        <field name="date_end" widget="daterange" nolabel="1" class="oe_inline"-->
+                    <!--                               options="{'related_start_date': 'date_start'}"/>-->
+                    <!--                    </div>-->
+                    <field name="student_id" string="Student Details" widget="many2many_tags" readonly="1"/>
+
+                </group>
+
+            </xpath>
+
+            <xpath expr="//form/sheet/group[2]" position="after">
+                <group name="session_details">
+                    <group>
+                        <field name="no_of_class"/>
+                        <field name="balance_session"/>
+                        <!-- New changes(11-01-2022) to remove no.of session and session based on in Product Variant
+                        -->
+                        <!--                        <label for="no_of_sessions" string="Sessions"/>-->
+                        <!--                        <div class="o_row">-->
+                        <!--                            <field name="no_of_sessions"/>-->
+                        <!--                            <span>Per</span>-->
+                        <!--                            <field name="session_based_on"/>-->
+                        <!--                        </div>-->
+                    </group>
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+
+
+    <!--Inherit Product tree view and add new filed like start date and End Date-->
+
+    <record id="product_product_tree_view_inher" model="ir.ui.view">
+        <field name="name">product.view.form.easy.edit.view.form.inher</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='name']" position="after">
+                <field name="employee_id"/>
+            </xpath>
+
+            <!--    New UPDATE(11-01-2022) To Remove Date from and Date to field in Tree Views-->
+            <!--                <xpath expr="//tree/field[@name='price']" position="after">-->
+            <!--                <field name="date_start"/>-->
+            <!--                <field name="date_end"/>-->
+            <!--                </xpath>-->
+        </field>
+    </record>
+
+    <record id="view_stock_product_tree_inher" model="ir.ui.view">
+        <field name="name">product.view.form.easy.edit.view.form.inher</field>
+        <field name="model">product.product</field>
+        <!--            <field name="groups_id" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>-->
+        <field name="inherit_id" ref="stock.view_stock_product_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='qty_available']" position="attributes">
+                <attribute name="string">Slots Available</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_stock_quant_tree_inventory_editable_inher" model="ir.ui.view">
+        <field name="name">view.stock.quant.tree.inventory.editable.inher</field>
+        <field name="model">stock.quant</field>
+        <!--            <field name="groups_id" eval="[(4, ref('techbot_sports_management_system.group_sports_trainers'))]"/>-->
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='quantity']" position="attributes">
+                <attribute name="string">Slots Available</attribute>
+            </xpath>
+
+            <xpath expr="//tree/field[@name='inventory_quantity']" position="attributes">
+                <attribute name="string">Assign Slots</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_template_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.tech.sms</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='options']" position="inside">
+                <div>
+                    <field name="is_session"/>
+                    <label for="is_session"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//sheet/notebook/page[@name='general_information']/group/group[2]/field[@name='taxes_id']"
+                   position="before">
+                <field name="product_location"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+
