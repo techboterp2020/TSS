@@ -38,7 +38,7 @@
         'views/view.xml',
         'wizard/wizard.xml',
     ],
-    'images': ['static/description/banner.png'],
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': False,
     'auto_install': False,
