@@ -45,29 +45,8 @@ class ProductProductVariants(models.Model):
     employee_id = fields.Many2one('hr.employee', 'Main Trainer')
     student_id = fields.Many2many('student.details', 'product_student_rel', 'child_id', 'product_id')
     assistant_employee_id = fields.Many2many('hr.employee', string='Assistant Trainer')
-    # 'employee_product_rel', 'hr_employee', "product_product_id"
     color = fields.Integer(string='Color', default=_get_default_color)
     no_of_class = fields.Integer(' Total Sessions  ', required=True)
-
-    #  New changes(11-01-2022) to remove no.of session and session based on in Product Variant
-    # no_of_sessions = fields.Integer(' Sessions ', default=1, required=True)
-    # session_based_on = fields.Selection([('weekly', 'Weekly'), ('month', 'Month')], string='Session Type',
-    #                                     required=True, default='weekly', readonly=False)
-
-    # mon = fields.Boolean(readonly=False)
-    # mon_time = fields.Float(string='Time')
-    # tue = fields.Boolean(readonly=False)
-    # tue_time = fields.Float(string='Time')
-    # wed = fields.Boolean(readonly=False)
-    # wed_time = fields.Float(string='Time')
-    # thu = fields.Boolean(readonly=False)
-    # thu_time = fields.Float(string='Time')
-    # fri = fields.Boolean(readonly=False)
-    # fri_time = fields.Float(string='Time')
-    # sat = fields.Boolean(readonly=False)
-    # sat_time = fields.Float(string='Time')
-    # sun = fields.Boolean(readonly=False)
-    # sun_time = fields.Float(string='Time')
 
     # additional fields added
     balance_session = fields.Integer('Balance Sessions',readonly=True)

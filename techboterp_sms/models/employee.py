@@ -34,7 +34,6 @@ class EmployeeSportsSession(models.Model):
     _name = 'employee.sports.session'
     _description = "Sports Management  Sessions"
 
-    # date_start = fields.Date('Start Date')
     date_start = fields.Datetime('Start Date')
     s_created_date = fields.Date('Created Date')
     stop_date = fields.Datetime('Completed Date')
@@ -68,15 +67,11 @@ class EmployeeSportsSession(models.Model):
     def _compute_working_time(self):
         for rec in self:
             rec.working_time = False
-            # rec.working_time = fields.Datetime.from_string(rec.stop_date) - fields.Datetime.from_string(rec.date_start)
             if rec.date_start and rec.stop_date:
-                # rec.working_time = rec.stop_date - rec.date_start
-                # new = (rec.stop_date - rec.date_start)
                 start_dt = fields.Datetime.from_string(rec.date_start)
                 finish_dt = fields.Datetime.from_string(rec.stop_date)
-                # difference = relativedelta(finish_dt, start_dt)
                 difference = dateutil.relativedelta.relativedelta(finish_dt, start_dt)
                 """ Method to find total Hour """
                 time_hour =(24*difference.days)+difference.hours+(difference.minutes/60)+(difference.seconds/3600)
                 rec.working_time = time_hour
-                # print(time_hour)
+
