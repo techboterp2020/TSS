@@ -39,7 +39,6 @@ class EmployeeSportsSession(models.Model):
     s_created_date = fields.Date('Created Date')
     stop_date = fields.Datetime('Completed Date')
     working_time = fields.Float('Total Hours',  store=True,compute='_compute_working_time', readonly=True, tracking=4)
-    # working_time = fields.Char('Total Time', compute='_compute_working_time', readonly=True)
     student_ids = fields.Many2many('student.details', 'employee_student_rel', 'child_id', 'employee_id', string="Students")
     product_id = fields.Many2one('product.product', string='Session', readonly=True)
     name = fields.Char(string='Name')
