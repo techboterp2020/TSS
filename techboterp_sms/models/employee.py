@@ -74,4 +74,3 @@ class EmployeeSportsSession(models.Model):
                 """ Method to find total Hour """
                 time_hour =(24*difference.days)+difference.hours+(difference.minutes/60)+(difference.seconds/3600)
                 rec.working_time = time_hour
-

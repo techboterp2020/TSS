@@ -62,10 +62,3 @@ class ResPartner(models.Model):
         for partner in self:
             partner.child_count = child_obj.search_count([('parent_id', '=', partner.id)])
             _logger.info("partner.child_count %s", partner.child_count)
-
-
-
-
-
-
-
