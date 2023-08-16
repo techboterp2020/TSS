@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Menu Item Of SMS -->
+        <menuitem id="menu_tsms" name="Sports Management" sequence="1"/>
+        <!--    web_icon="school,static/description/ems.png"-->
+
+        <!-- TO DO: Customer Menu in Sports Management System-->
+        <menuitem id="menu_sports_management_customer_registration_inher" name="Customer Details"
+                  action="base.action_partner_form"
+                  groups="group_sports_administration"
+                  parent="techbot_sports_management_system.menu_tsms" sequence="1"/>
+        <!--       Menu Item -->
+        <menuitem id="menu_sports_management_student_info" name="Students Details"
+                  groups="group_sports_administration"
+                  action="techbot_sports_management_system.action_student_student_form_1"
+                  parent="techbot_sports_management_system.menu_tsms" sequence="2"/>
+
+        <menuitem id="menu_student_class" name="Class" groups="group_sports_administration"
+                  parent="techbot_sports_management_system.menu_tsms" action="student_class_list_action" sequence="3"/>
+
+        <menuitem id="menu_hr_employee_trainers" name="Trainers Details" groups="group_sports_administration"
+                  parent="techbot_sports_management_system.menu_tsms" action="hr.open_view_employee_list_my"
+                  sequence="4"/>
+
+        <menuitem id="sub_menu_sports_session" name="Sessions " parent="techbot_sports_management_system.menu_tsms"
+                  action="session_list_action" sequence="5"/>
+
+        <menuitem id="menu_sports_management_configuration" name="Configuration"
+                  action="techbot_sports_management_system.action_student_student_form_1"
+                  groups="group_sports_administration" parent="techbot_sports_management_system.menu_tsms"
+                  sequence="6"/>
+
+        <!--      SUB MENUE ITEMS-->
+        <menuitem id="menu_faculty_facility" name="Faculty and Facility "
+                  parent="techbot_sports_management_system.menu_sports_management_configuration"
+                  action="sports_activity_type_action"/>
+
+        <menuitem id="sub_menu_sports_activity" name="Sports Activity " parent="menu_faculty_facility"
+                  action="sports_activity_type_action"/>
+
+        <menuitem id="sub_menu_sports_location" name="Sports Locations " parent="menu_faculty_facility"
+                  action="sports_location_type_action"/>
+
+    </data>
+</odoo>
